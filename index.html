@@ -1,812 +1,284 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WinChanger Hub</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>WinChanger Hub</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap');
+:root{
+  --ink:#05060c; --panel:rgba(20,22,42,.55); --panel-2:rgba(30,32,60,.7);
+  --line:rgba(255,255,255,.07); --pink:#ff2e63; --pink-2:#ff6b93; --violet:#6d4aff;
+  --text:#f3f5fb; --muted:#8089a8; --r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;-webkit-tap-highlight-color:transparent}
+html{background:var(--ink)}
+body{color:var(--text);min-height:100vh;display:flex;justify-content:center;
+  padding:calc(14px + env(safe-area-inset-top)) 14px calc(28px + env(safe-area-inset-bottom));
+  letter-spacing:-.01em;overflow-x:hidden;position:relative}
+/* aurora background */
+.aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(120% 70% at 50% 0%,#150f33 0%,#080913 55%,#05060c 100%)}
+.aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
+.aurora i:nth-child(1){width:320px;height:320px;background:var(--violet);top:-110px;left:-90px;animation:drift 18s ease-in-out infinite alternate}
+.aurora i:nth-child(2){width:300px;height:300px;background:var(--pink);top:120px;right:-130px;opacity:.32;animation:drift 22s ease-in-out infinite alternate-reverse}
+.aurora i:nth-child(3){width:260px;height:260px;background:#2a7bff;bottom:-120px;left:10%;opacity:.2;animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(40px,60px) scale(1.15)}}
+.aurora::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:36px 36px;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 70%)}
 
-        :root {
-            --bg-base: #06080f;
-            --bg-gradient: radial-gradient(ellipse at 50% -10%, #1c1245 0%, #0a0d1a 45%, #06080f 100%);
-            --card-bg: rgba(18, 22, 40, 0.6);
-            --card-border: rgba(255, 46, 99, 0.12);
-            --card-hover: rgba(26, 32, 58, 0.8);
-            --accent-pink: #ff2e63;
-            --accent-glow: rgba(255, 46, 99, 0.3);
-            --text-main: #f1f5f9;
-            --text-muted: #7c8ba1;
-        }
+.app{width:100%;max-width:440px;display:flex;flex-direction:column;gap:14px}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+/* navbar */
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:10px 10px 10px 18px;
+  background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.05)}
+.logo{font-family:'Unbounded',sans-serif;font-weight:800;font-size:15px;letter-spacing:.02em;display:flex;gap:6px}
+.logo span{font-family:inherit;background:linear-gradient(135deg,var(--pink),var(--pink-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(255,46,99,.55))}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.lang-btn{width:42px;height:36px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);font-size:12px;font-weight:800;cursor:pointer;transition:.25s}
+.lang-btn:active{transform:scale(.94);background:rgba(255,46,99,.15)}
+.web-link{height:36px;padding:0 16px;display:flex;align-items:center;border-radius:12px;color:#fff;text-decoration:none;font-size:12px;font-weight:700;white-space:nowrap;
+  background:linear-gradient(135deg,var(--pink),#ff5c8a);box-shadow:0 6px 22px rgba(255,46,99,.4),inset 0 1px 0 rgba(255,255,255,.3);transition:.25s}
+.web-link:active{transform:scale(.95)}
 
-        body {
-            background-color: var(--bg-base);
-            background-image: var(--bg-gradient);
-            color: var(--text-main);
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            letter-spacing: -0.01em;
-        }
+/* hero */
+.hero{position:relative;overflow:hidden;border-radius:26px;padding:34px 22px 30px;text-align:center;
+  background:linear-gradient(160deg,rgba(255,46,99,.14) 0%,rgba(109,74,255,.1) 45%,rgba(20,22,42,.6) 100%);
+  border:1px solid transparent;
+  background-clip:padding-box;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.hero::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:linear-gradient(150deg,rgba(255,46,99,.7),rgba(255,255,255,.05) 40%,rgba(109,74,255,.5));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.hero::after{content:'';position:absolute;left:50%;top:-70px;width:220px;height:140px;transform:translateX(-50%);background:var(--pink);filter:blur(70px);opacity:.35;pointer-events:none}
+.hero h1{position:relative;z-index:1;font-family:'Unbounded',sans-serif;font-weight:800;font-size:25px;line-height:1.15;letter-spacing:-.02em;margin-bottom:10px;
+  background:linear-gradient(180deg,#fff 20%,#b9a9ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
+.hero p{position:relative;z-index:1;font-size:13px;color:#a9b2cf;font-weight:500;animation:rise .8s .12s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 
-        .app-container {
-            width: 100%;
-            max-width: 440px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            padding-bottom: 40px;
-        }
+/* tabs */
+.tabs{position:relative;display:grid;grid-template-columns:repeat(3,1fr);padding:4px;border-radius:18px;background:rgba(10,12,24,.75);border:1px solid var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/3);border-radius:14px;background:linear-gradient(135deg,var(--pink),#ff5c8a);
+  box-shadow:0 6px 24px rgba(255,46,99,.45),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .38s cubic-bezier(.5,1.4,.5,1)}
+.tab{position:relative;z-index:1;padding:11px 6px;font-size:12.5px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .3s}
+.tab.active{color:#fff}
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            gap: 8px;
-        }
+/* sections & cards */
+.section{display:none;flex-direction:column;gap:9px}
+.section.active{display:flex}
+.card{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 14px 16px 18px;border-radius:var(--r);cursor:pointer;
+  background:var(--panel);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.28);transition:transform .2s,background .25s,border-color .25s}
+.card::before{content:'';position:absolute;left:0;top:18%;bottom:18%;width:3px;border-radius:0 4px 4px 0;background:linear-gradient(180deg,var(--pink),var(--violet));opacity:.55;transition:.25s}
+.card:active{transform:scale(.985);background:var(--panel-2);border-color:rgba(255,46,99,.4)}
+.card:active::before{opacity:1;top:8%;bottom:8%}
+@media (hover:hover){.card:hover{background:var(--panel-2);border-color:rgba(255,46,99,.35)}.card:hover::before{opacity:1;top:8%;bottom:8%}.card:hover .arrow{background:var(--pink);border-color:var(--pink)}}
+.static{cursor:default}
+.card-info{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+.card h3{font-size:14px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.card p{font-size:12px;color:var(--muted);font-weight:500;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card p.wrap{white-space:normal}
+.arrow{flex-shrink:0;width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--line);position:relative;transition:.25s}
+.arrow::after{content:'';position:absolute;left:10px;top:11px;width:7px;height:7px;border-top:2px solid #fff;border-right:2px solid #fff;transform:rotate(45deg) translate(-1px,1px);opacity:.85}
+.dot{width:9px;height:9px;border-radius:50%;background:#ef4444;position:relative;flex-shrink:0;box-shadow:0 0 14px rgba(239,68,68,.7)}
+.dot::after{content:'';position:absolute;inset:0;border-radius:50%;background:#ef4444;animation:ping 2s ease-out infinite}
+@keyframes ping{to{transform:scale(3);opacity:0}}
+.dev-name{color:#fff;margin-top:4px;font-size:15px;white-space:normal}
+.dev-name b{color:#fff;font-weight:800}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 800;
-            font-size: 17px;
-            letter-spacing: -0.6px;
-        }
-
-        .logo span {
-            color: var(--accent-pink);
-            text-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .lang-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            padding: 8px 12px;
-            border-radius: 11px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            letter-spacing: 0.03em;
-        }
-
-        .lang-btn:hover,
-        .lang-btn:active {
-            background: rgba(255, 46, 99, 0.15);
-            border-color: rgba(255, 46, 99, 0.35);
-            transform: scale(1.05);
-        }
-
-        .web-link {
-            background: linear-gradient(135deg, #ff2e63 0%, #ff5c8a 100%);
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 11px;
-            font-size: 12px;
-            font-weight: 700;
-            box-shadow: 0 4px 18px rgba(255, 46, 99, 0.35);
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
-            letter-spacing: 0.01em;
-            white-space: nowrap;
-        }
-
-        .web-link:hover,
-        .web-link:active {
-            transform: scale(1.05);
-            box-shadow: 0 6px 24px rgba(255, 46, 99, 0.55);
-        }
-
-        .hero {
-            background: linear-gradient(145deg, rgba(255, 46, 99, 0.06) 0%, rgba(18, 22, 40, 0.7) 100%);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 26px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 200px;
-            background: var(--accent-pink);
-            filter: blur(80px);
-            opacity: 0.2;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .hero h1 {
-            font-size: 23px;
-            font-weight: 800;
-            margin-bottom: 5px;
-            position: relative;
-            z-index: 1;
-            letter-spacing: -0.6px;
-            background: linear-gradient(135deg, #ffffff 0%, #c4cbe0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 12.5px;
-            color: var(--text-muted);
-            position: relative;
-            z-index: 1;
-            font-weight: 500;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 5px;
-            background: rgba(12, 16, 30, 0.85);
-            padding: 4px;
-            border-radius: 15px;
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .tab {
-            flex: 1;
-            padding: 10px 6px;
-            text-align: center;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: var(--text-muted);
-            background: transparent;
-            border: none;
-            border-radius: 11px;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: 0.01em;
-        }
-
-        .tab:hover {
-            color: #d0d8e8;
-        }
-
-        .tab.active {
-            background: linear-gradient(135deg, #ff2e63 0%, #ff5c8a 100%);
-            color: white;
-            box-shadow: 0 4px 18px rgba(255, 46, 99, 0.35);
-            transform: scale(1.02);
-        }
-
-        .section {
-            display: none;
-            flex-direction: column;
-            gap: 8px;
-            animation: fadeSlide 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .section.active {
-            display: flex;
-        }
-
-        @keyframes fadeSlide {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 15px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, #ff2e63, #ff5c8a);
-            border-radius: 0 3px 3px 0;
-            opacity: 0;
-            transition: opacity 0.25s ease;
-        }
-
-        .card:hover::before,
-        .card:active::before {
-            opacity: 1;
-        }
-
-        .card:hover,
-        .card:active {
-            transform: translateX(4px);
-            background-color: var(--card-hover);
-            border-color: rgba(255, 46, 99, 0.3);
-            box-shadow: 0 8px 28px rgba(255, 46, 99, 0.12);
-        }
-
-        .card-info {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            max-width: 78%;
-        }
-
-        .card h3 {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: #f1f5f9;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            letter-spacing: -0.2px;
-        }
-
-        .card p {
-            font-size: 11.5px;
-            color: var(--text-muted);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-
-        .arrow-icon {
-            color: var(--accent-pink);
-            font-size: 18px;
-            font-weight: 800;
-            opacity: 0.6;
-            transition: transform 0.25s ease, opacity 0.25s ease;
-            flex-shrink: 0;
-        }
-
-        .card:hover .arrow-icon {
-            transform: translateX(4px);
-            opacity: 1;
-        }
-
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            display: inline-block;
-            flex-shrink: 0;
-        }
-
-        .status-dot.red {
-            background-color: #ef4444;
-            box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(6, 8, 15, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            z-index: 100;
-            padding: 20px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: #10152a;
-            border: 1px solid rgba(255, 46, 99, 0.25);
-            border-radius: 22px;
-            width: 100%;
-            max-width: 400px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
-            animation: scaleUp 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes scaleUp {
-            from {
-                transform: scale(0.88);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal-title {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--accent-pink);
-            letter-spacing: -0.3px;
-        }
-
-        .modal-body {
-            font-size: 13px;
-            color: #b8c4d9;
-            line-height: 1.7;
-            font-weight: 500;
-        }
-
-        .modal-close {
-            background: rgba(255, 255, 255, 0.04);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 12px;
-            border-radius: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s ease;
-            font-size: 13.5px;
-            letter-spacing: 0.01em;
-        }
-
-        .modal-close:hover,
-        .modal-close:active {
-            background: rgba(255, 46, 99, 0.15);
-            border-color: rgba(255, 46, 99, 0.35);
-            transform: scale(1.02);
-        }
-
-        a.link {
-            color: var(--accent-pink);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        a.link:hover {
-            text-decoration: underline;
-        }
-
-        code {
-            background: rgba(255, 46, 99, 0.1);
-            padding: 2px 6px;
-            border-radius: 5px;
-            font-size: 12px;
-            color: #ff7a9e;
-            font-family: 'Plus Jakarta Sans', monospace;
-        }
-    </style>
+/* modal bottom sheet */
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(4,5,10,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.modal.open{display:flex;animation:fade .25s both}
+@keyframes fade{from{opacity:0}}
+.sheet{width:100%;max-width:440px;position:relative;border-radius:28px;padding:24px 22px 22px;display:flex;flex-direction:column;gap:14px;
+  background:linear-gradient(180deg,#171a35 0%,#0e1124 100%);border:1px solid rgba(255,46,99,.25);box-shadow:0 0 70px rgba(255,46,99,.14),0 30px 80px rgba(0,0,0,.7);animation:sheet .35s cubic-bezier(.2,1.1,.3,1)}
+@keyframes sheet{from{transform:scale(.9);opacity:0}}
+.modal-title{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:700;line-height:1.3;letter-spacing:-.02em;background:linear-gradient(135deg,var(--pink),var(--pink-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.modal-body{font-size:13.5px;color:#c3cbe2;line-height:1.7;font-weight:500;max-height:50vh;overflow-y:auto}
+.modal-body b{color:#fff}
+.modal-close{padding:14px;border-radius:15px;border:none;cursor:pointer;color:#fff;font-size:14px;font-weight:700;background:linear-gradient(135deg,var(--pink),#ff5c8a);box-shadow:0 8px 28px rgba(255,46,99,.4),inset 0 1px 0 rgba(255,255,255,.3);transition:.2s}
+.modal-close:active{transform:scale(.97)}
+a.link{color:var(--pink-2);font-weight:700;text-decoration:underline;text-decoration-color:rgba(255,107,147,.4);text-underline-offset:3px;word-break:break-word}
+code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:2px 7px;border-radius:7px;font-size:12px;color:#ff8fae;font-family:ui-monospace,Menlo,monospace}
+:focus-visible{outline:2px solid var(--pink-2);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
+<div class="aurora"><i></i><i></i><i></i></div>
 
-    <div class="app-container">
-        <div class="navbar">
-            <div class="logo">GTR <span>WIN</span></div>
-            <div class="nav-actions">
-                <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
-                <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="haptic()" id="siteLink">Сайт ↗</a>
-            </div>
-        </div>
-
-        <div class="hero">
-            <h1 id="heroTitle">GTR WIN - HELP</h1>
-            <p id="heroSubtitle">Помощь с сч/приваткой</p>
-        </div>
-
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('faq', this)" id="tabFaq">Помощь</button>
-            <button class="tab" onclick="switchTab('status', this)" id="tabStatus">Статус</button>
-            <button class="tab" onclick="switchTab('dev', this)" id="tabDev">Автор</button>
-        </div>
-
-        <div id="faq" class="section active">
-            <div class="card" onclick="openModal('skins')">
-                <div class="card-info">
-                    <h3 id="faq1Title">Скины не появляются</h3>
-                    <p id="faq1Desc">Если в СЧ применилось, но в инвентаре пусто</p>
-                </div>
-                <div class="arrow-icon">›</div>
-            </div>
-
-            <div class="card" onclick="openModal('freeze')">
-                <div class="card-info">
-                    <h3 id="faq2Title">Зависание на 10-100%</h3>
-                    <p id="faq2Desc">Проблемы с эмулятором или защитником Windows</p>
-                </div>
-                <div class="arrow-icon">›</div>
-            </div>
-
-            <div class="card" onclick="openModal('injection')">
-                <div class="card-info">
-                    <h3 id="faq3Title">Injection failed</h3>
-                    <p id="faq3Desc">Failed to prepare the cheat payload</p>
-                </div>
-                <div class="arrow-icon">›</div>
-            </div>
-
-            <div class="card" onclick="openModal('hwid')">
-                <div class="card-info">
-                    <h3 id="faq4Title">HWID doesn’t match</h3>
-                    <p id="faq4Desc">Ошибка привязки оборудования</p>
-                </div>
-                <div class="arrow-icon">›</div>
-            </div>
-
-            <div class="card" onclick="openModal('err1002')">
-                <div class="card-info">
-                    <h3 id="faq5Title">Ошибка 1002</h3>
-                    <p id="faq5Desc">Неподдерживаемая версия эмулятора</p>
-                </div>
-                <div class="arrow-icon">›</div>
-            </div>
-
-            <div class="card" onclick="openModal('err1003')">
-                <div class="card-info">
-                    <h3 id="faq6Title">Ошибка 1003</h3>
-                    <p id="faq6Desc">Запуск вне главного меню игры</p>
-                </div>
-                <div class="arrow-icon">›</div>
-            </div>
-
-            <div class="card" onclick="openModal('err1004')">
-                <div class="card-info">
-                    <h3 id="faq7Title">Ошибка 1004</h3>
-                    <p id="faq7Desc">Требуется включить ADB в эмуляторе</p>
-                </div>
-                <div class="arrow-icon">›</div>
-            </div>
-
-            <div class="card" onclick="openModal('err1006')">
-                <div class="card-info">
-                    <h3 id="faq8Title">Ошибка 1006</h3>
-                    <p id="faq8Desc">Устаревшая версия лоадера</p>
-                </div>
-                <div class="arrow-icon">›</div>
-            </div>
-
-            <div class="card" onclick="openModal('err1007')">
-                <div class="card-info">
-                    <h3 id="faq9Title">Ошибка 1007</h3>
-                    <p id="faq9Desc">Блокировка антивирусом Windows Defender</p>
-                </div>
-                <div class="arrow-icon">›</div>
-            </div>
-
-            <div class="card" onclick="openModal('err2007')">
-                <div class="card-info">
-                    <h3 id="faq10Title">Ошибка 2007</h3>
-                    <p id="faq10Desc">Ошибка соединения или запуска</p>
-                </div>
-                <div class="arrow-icon">›</div>
-            </div>
-        </div>
-
-        <div id="status" class="section">
-            <div class="card">
-                <div class="card-info" style="max-width: 100%;">
-                    <h3 style="display: flex; align-items: center; gap: 8px;">
-                        <span class="status-dot red"></span> Win Alien Pro
-                    </h3>
-                    <p style="white-space: normal;" id="statusSoon1">Скоро</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-info" style="max-width: 100%;">
-                    <h3 style="display: flex; align-items: center; gap: 8px;">
-                        <span class="status-dot red"></span> Skinchanger
-                    </h3>
-                    <p style="white-space: normal;" id="statusSoon2">Скоро</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="dev" class="section">
-            <div class="card">
-                <div class="card-info" style="max-width: 100%;">
-                    <h3 id="devTitle">Разработчик сайта:</h3>
-                    <p style="white-space: normal; color: #fff; margin-top: 4px;"> <b>@morty_rick_1</b></p>
-                </div>
-            </div>
-        </div>
+<div class="app">
+  <div class="navbar">
+    <div class="logo">GTR <span>WIN</span></div>
+    <div class="nav-actions">
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+      <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="haptic()" id="siteLink">Сайт ↗</a>
     </div>
+  </div>
 
-    <div id="modal" class="modal" onclick="closeModal(event)">
-        <div class="modal-content">
-            <div id="modalTitle" class="modal-title">Заголовок</div>
-            <div id="modalBody" class="modal-body">Текст...</div>
-            <button class="modal-close" onclick="closeModalBtn()" id="modalCloseBtn">Понятно</button>
-        </div>
+  <div class="hero">
+    <h1 id="heroTitle">GTR WIN - HELP</h1>
+    <p id="heroSubtitle">Помощь с сч/приваткой</p>
+  </div>
+
+  <div class="tabs">
+    <div class="pill" id="pill"></div>
+    <button class="tab active" onclick="switchTab('faq',this,0)" id="tabFaq">Помощь</button>
+    <button class="tab" onclick="switchTab('status',this,1)" id="tabStatus">Статус</button>
+    <button class="tab" onclick="switchTab('dev',this,2)" id="tabDev">Автор</button>
+  </div>
+
+  <div id="faq" class="section active"></div>
+
+  <div id="status" class="section">
+    <div class="card static">
+      <div class="card-info">
+        <h3><span class="dot"></span> Win Alien Pro</h3>
+        <p class="wrap" id="statusSoon1">Скоро</p>
+      </div>
     </div>
+    <div class="card static">
+      <div class="card-info">
+        <h3><span class="dot"></span> Skinchanger</h3>
+        <p class="wrap" id="statusSoon2">Скоро</p>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
+  <div id="dev" class="section">
+    <div class="card static">
+      <div class="card-info">
+        <h3 id="devTitle">Разработчик сайта:</h3>
+        <p class="wrap dev-name"><b>@Morty_rick_137</b></p>
+        <p class="wrap dev-name"><b>@SkyGodBless</b></p>
+      </div>
+    </div>
+  </div>
+</div>
 
-        const translations = {
-            ru: {
-                siteLink: 'Сайт ↗',
-                heroTitle: 'GTR WIN - HELP',
-                heroSubtitle: 'Помощь с сч/приваткой',
-                tabFaq: 'Помощь',
-                tabStatus: 'Статус',
-                tabDev: 'Автор',
-                faq1Title: 'Скины не появляются',
-                faq1Desc: 'Если в СЧ применилось, но в инвентаре пусто',
-                faq2Title: 'Зависание на 10-100%',
-                faq2Desc: 'Проблемы с эмулятором или защитником Windows',
-                faq3Title: 'Injection failed',
-                faq3Desc: 'Failed to prepare the cheat payload',
-                faq4Title: 'HWID doesn’t match',
-                faq4Desc: 'Ошибка привязки оборудования',
-                faq5Title: 'Ошибка 1002',
-                faq5Desc: 'Неподдерживаемая версия эмулятора',
-                faq6Title: 'Ошибка 1003',
-                faq6Desc: 'Запуск вне главного меню игры',
-                faq7Title: 'Ошибка 1004',
-                faq7Desc: 'Требуется включить ADB в эмуляторе',
-                faq8Title: 'Ошибка 1006',
-                faq8Desc: 'Устаревшая версия лоадера',
-                faq9Title: 'Ошибка 1007',
-                faq9Desc: 'Блокировка антивирусом Windows Defender',
-                faq10Title: 'Ошибка 2007',
-                faq10Desc: 'Ошибка соединения или запуска',
-                statusSoon1: 'Скоро',
-                statusSoon2: 'Скоро',
-                devTitle: 'Разработчик сайта:',
-                modalCloseBtn: 'Понятно',
-                modals: {
-                    skins: {
-                        title: 'Скины не появляются',
-                        body: '<b>1. Зайдите в тренировку, выйдите из нее - и все скины успешно появятся.</b>'
-                    },
-                    freeze: {
-                        title: 'Зависание на 10-100%',
-                        body: '<b>1 способ.</b> Кастомные сборки BlueStacks/MSI не подходят. Скачайте версию из ошибки 1002.<br><br><b>2 способ.</b> Очистите папку <code>%TEMP%</code> (Win + R) и добавьте лоадер в исключения антивируса.'
-                    },
-                    injection: {
-                        title: 'Injection failed',
-                        body: '<b>Способ 1.</b> Очистите временные файлы через <code>%TEMP%</code> и перезапустите лоадер.<br><br><b>Способ 2.</b> Переустановите поддерживаемую версию эмулятора.'
-                    },
-                    hwid: {
-                        title: 'HWID doesn’t match',
-                        body: 'Зайдите в официальный бот проекта, найдите кнопку сброса HWID или напишите в закрепленном топике ключей.'
-                    },
-                    err1002: {
-                        title: 'Ошибка 1002',
-                        body: 'Скачайте <a class=\'link\' href=\'https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file\'>Bluestacks 5</a> или <a class=\'link\' href=\'https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file\'>MSI APP Player</a> со старой поддержкой ADB.'
-                    },
-                    err1003: {
-                        title: 'Ошибка 1003',
-                        body: 'Данная ошибка происходит потому что вы запускаете платку/сч не в главном меню игры.'
-                    },
-                    err1004: {
-                        title: 'Ошибка 1004',
-                        body: 'Включите ADB в настройках эмулятора:<br><b>Настройки ➜ Дополнительно ➜ ADB</b>'
-                    },
-                    err1006: {
-                        title: 'Ошибка 1006',
-                        body: 'У вас установлена старая версия лоадера. Скачайте свежую версию из телеграм-канала или на сайте.'
-                    },
-                    err1007: {
-                        title: 'Ошибка 1007',
-                        body: 'Нужно временно отключить Защиту в реальном времени в Параметрах безопасности Windows.'
-                    },
-                    err2007: {
-                        title: 'Ошибка 2007',
-                        body: '<b>Способ 1.</b> Перезапустите лоадер от имени администратора и проверьте интернет.<br><br><b>Способ 2.</b> Проверьте статус сервисов во вкладке Статус.'
-                    }
-                }
-            },
-            en: {
-                siteLink: 'Site ↗',
-                heroTitle: 'GTR WIN - HELP',
-                heroSubtitle: 'Help with SC/Private',
-                tabFaq: 'Help',
-                tabStatus: 'Status',
-                tabDev: 'Author',
-                faq1Title: 'Skins not appearing',
-                faq1Desc: 'If applied in SC but inventory is empty',
-                faq2Title: 'Stuck at 10-100%',
-                faq2Desc: 'Emulator or Windows Defender issues',
-                faq3Title: 'Injection failed',
-                faq3Desc: 'Failed to prepare the cheat payload',
-                faq4Title: 'HWID doesn’t match',
-                faq4Desc: 'Hardware binding error',
-                faq5Title: 'Error 1002',
-                faq5Desc: 'Unsupported emulator version',
-                faq6Title: 'Error 1003',
-                faq6Desc: 'Launch outside the game main menu',
-                faq7Title: 'Error 1004',
-                faq7Desc: 'ADB must be enabled in the emulator',
-                faq8Title: 'Error 1006',
-                faq8Desc: 'Outdated loader version',
-                faq9Title: 'Error 1007',
-                faq9Desc: 'Blocked by Windows Defender',
-                faq10Title: 'Error 2007',
-                faq10Desc: 'Connection or launch error',
-                statusSoon1: 'Soon',
-                statusSoon2: 'Soon',
-                devTitle: 'Website developer:',
-                modalCloseBtn: 'Got it',
-                modals: {
-                    skins: {
-                        title: 'Skins not appearing',
-                        body: '<b>1. Enter training, then exit - all skins will appear successfully.</b>'
-                    },
-                    freeze: {
-                        title: 'Stuck at 10-100%',
-                        body: '<b>Method 1.</b> Custom BlueStacks/MSI builds are not supported. Download the version from error 1002.<br><br><b>Method 2.</b> Clear the <code>%TEMP%</code> folder (Win + R) and add the loader to your antivirus exclusions.'
-                    },
-                    injection: {
-                        title: 'Injection failed',
-                        body: '<b>Method 1.</b> Clear temp files via <code>%TEMP%</code> and restart the loader.<br><br><b>Method 2.</b> Reinstall a supported emulator version.'
-                    },
-                    hwid: {
-                        title: 'HWID doesn’t match',
-                        body: 'Go to the official project bot, find the HWID reset button, or write in the pinned keys topic.'
-                    },
-                    err1002: {
-                        title: 'Error 1002',
-                        body: 'Download <a class=\'link\' href=\'https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file\'>BlueStacks 5</a> or <a class=\'link\' href=\'https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file\'>MSI APP Player</a> with legacy ADB support.'
-                    },
-                    err1003: {
-                        title: 'Error 1003',
-                        body: 'This error occurs because you are launching the cheat/SC outside the game main menu.'
-                    },
-                    err1004: {
-                        title: 'Error 1004',
-                        body: 'Enable ADB in emulator settings:<br><b>Settings ➜ Advanced ➜ ADB</b>'
-                    },
-                    err1006: {
-                        title: 'Error 1006',
-                        body: 'You have an outdated loader version. Download the latest version from the Telegram channel or website.'
-                    },
-                    err1007: {
-                        title: 'Error 1007',
-                        body: 'You need to temporarily disable Real-time Protection in Windows Security settings.'
-                    },
-                    err2007: {
-                        title: 'Error 2007',
-                        body: '<b>Method 1.</b> Restart the loader as administrator and check your internet.<br><br><b>Method 2.</b> Check service status in the Status tab.'
-                    }
-                }
-            }
-        };
+<div id="modal" class="modal" onclick="closeModal(event)">
+  <div class="sheet">
+    <div id="modalTitle" class="modal-title">Заголовок</div>
+    <div id="modalBody" class="modal-body">Текст...</div>
+    <button class="modal-close" onclick="closeModalBtn()" id="modalCloseBtn">Понятно</button>
+  </div>
+</div>
 
-        let currentLang = 'ru';
+<script>
+let tg = window.Telegram && window.Telegram.WebApp;
+if (tg) { tg.expand(); try { tg.setHeaderColor('#05060c'); tg.setBackgroundColor('#05060c'); } catch (e) {} }
 
-        function applyLang(lang) {
-            currentLang = lang;
-            const t = translations[lang];
+const translations = {
+  ru: {
+    siteLink:'Сайт ↗', heroTitle:'GTR WIN - HELP', heroSubtitle:'Помощь с сч/приваткой',
+    tabFaq:'Помощь', tabStatus:'Статус', tabDev:'Автор',
+    faq1Title:'Скины не появляются', faq1Desc:'Если в СЧ применилось, но в инвентаре пусто',
+    faq2Title:'Зависание на 10-100%', faq2Desc:'Проблемы с эмулятором или защитником Windows',
+    faq3Title:'Injection failed', faq3Desc:'Failed to prepare the cheat payload',
+    faq4Title:'HWID doesn’t match', faq4Desc:'Ошибка привязки оборудования',
+    faq5Title:'Ошибка 1002', faq5Desc:'Неподдерживаемая версия эмулятора',
+    faq6Title:'Ошибка 1003', faq6Desc:'Запуск вне главного меню игры',
+    faq7Title:'Ошибка 1004', faq7Desc:'Требуется включить ADB в эмуляторе',
+    faq8Title:'Ошибка 1006', faq8Desc:'Устаревшая версия лоадера',
+    faq9Title:'Ошибка 1007', faq9Desc:'Блокировка антивирусом Windows Defender',
+    faq10Title:'Ошибка 2007', faq10Desc:'Ошибка соединения или запуска',
+    statusSoon1:'Скоро', statusSoon2:'Скоро', devTitle:'Разработчик сайта:', modalCloseBtn:'Понятно',
+    modals:{
+      skins:{title:'Скины не появляются',body:'<b>1. Зайдите в тренировку, выйдите из нее - и все скины успешно появятся.</b>'},
+      freeze:{title:'Зависание на 10-100%',body:'<b>1 способ.</b> Кастомные сборки BlueStacks/MSI не подходят. Скачайте версию из ошибки 1002.<br><br><b>2 способ.</b> Очистите папку <code>%TEMP%</code> (Win + R) и добавьте лоадер в исключения антивируса.'},
+      injection:{title:'Injection failed',body:'<b>Способ 1.</b> Очистите временные файлы через <code>%TEMP%</code> и перезапустите лоадер.<br><br><b>Способ 2.</b> Переустановите поддерживаемую версию эмулятора.'},
+      hwid:{title:'HWID doesn’t match',body:'Зайдите в официальный бот проекта, найдите кнопку сброса HWID или напишите в закрепленном топике ключей.'},
+      err1002:{title:'Ошибка 1002',body:'Скачайте <a class=\'link\' href=\'https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file\'>Bluestacks 5</a> или <a class=\'link\' href=\'https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file\'>MSI APP Player</a> со старой поддержкой ADB.'},
+      err1003:{title:'Ошибка 1003',body:'Данная ошибка происходит потому что вы запускаете платку/сч не в главном меню игры.'},
+      err1004:{title:'Ошибка 1004',body:'Включите ADB в настройках эмулятора:<br><b>Настройки ➜ Дополнительно ➜ ADB</b>'},
+      err1006:{title:'Ошибка 1006',body:'У вас установлена старая версия лоадера. Скачайте свежую версию из телеграм-канала или на сайте.'},
+      err1007:{title:'Ошибка 1007',body:'Нужно временно отключить Защиту в реальном времени в Параметрах безопасности Windows.'},
+      err2007:{title:'Ошибка 2007',body:'<b>Способ 1.</b> Перезапустите лоадер от имени администратора и проверьте интернет.<br><br><b>Способ 2.</b> Проверьте статус сервисов во вкладке Статус.'}
+    }
+  },
+  en: {
+    siteLink:'Site ↗', heroTitle:'GTR WIN - HELP', heroSubtitle:'Help with Skinchanger/Private',
+    tabFaq:'Help', tabStatus:'Status', tabDev:'Author',
+    faq1Title:'Skins not appearing', faq1Desc:'If applied in SC but inventory is empty',
+    faq2Title:'Stuck at 10-100%', faq2Desc:'Emulator or Windows Defender issues',
+    faq3Title:'Injection failed', faq3Desc:'Failed to prepare the cheat payload',
+    faq4Title:'HWID doesn’t match', faq4Desc:'Hardware binding error',
+    faq5Title:'Error 1002', faq5Desc:'Unsupported emulator version',
+    faq6Title:'Error 1003', faq6Desc:'Launch outside the game main menu',
+    faq7Title:'Error 1004', faq7Desc:'ADB must be enabled in the emulator',
+    faq8Title:'Error 1006', faq8Desc:'Outdated loader version',
+    faq9Title:'Error 1007', faq9Desc:'Blocked by Windows Defender',
+    faq10Title:'Error 2007', faq10Desc:'Connection or launch error',
+    statusSoon1:'Soon', statusSoon2:'Soon', devTitle:'Website developer:', modalCloseBtn:'Got it',
+    modals:{
+      skins:{title:'Skins not appearing',body:'<b>1. Enter training, then exit - all skins will appear successfully.</b>'},
+      freeze:{title:'Stuck at 10-100%',body:'<b>Method 1.</b> Custom BlueStacks/MSI builds are not supported. Download the version from error 1002.<br><br><b>Method 2.</b> Clear the <code>%TEMP%</code> folder (Win + R) and add the loader to your antivirus exclusions.'},
+      injection:{title:'Injection failed',body:'<b>Method 1.</b> Clear temp files via <code>%TEMP%</code> and restart the loader.<br><br><b>Method 2.</b> Reinstall a supported emulator version.'},
+      hwid:{title:'HWID doesn’t match',body:'Go to the official project bot, find the HWID reset button, or write in the pinned keys topic.'},
+      err1002:{title:'Error 1002',body:'Download <a class=\'link\' href=\'https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file\'>BlueStacks 5</a> or <a class=\'link\' href=\'https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file\'>MSI APP Player</a> with legacy ADB support.'},
+      err1003:{title:'Error 1003',body:'This error occurs because you are launching the cheat/SC outside the game main menu.'},
+      err1004:{title:'Error 1004',body:'Enable ADB in emulator settings:<br><b>Settings ➜ Advanced ➜ ADB</b>'},
+      err1006:{title:'Error 1006',body:'You have an outdated loader version. Download the latest version from the Telegram channel or website.'},
+      err1007:{title:'Error 1007',body:'You need to temporarily disable Real-time Protection in Windows Security settings.'},
+      err2007:{title:'Error 2007',body:'<b>Method 1.</b> Restart the loader as administrator and check your internet.<br><br><b>Method 2.</b> Check service status in the Status tab.'}
+    }
+  }
+};
 
-            document.getElementById('langBtn').innerText = lang === 'ru' ? 'EN' : 'RU';
-            document.getElementById('siteLink').innerText = t.siteLink;
-            document.getElementById('heroTitle').innerText = t.heroTitle;
-            document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
-            document.getElementById('tabFaq').innerText = t.tabFaq;
-            document.getElementById('tabStatus').innerText = t.tabStatus;
-            document.getElementById('tabDev').innerText = t.tabDev;
+const keys = ['skins','freeze','injection','hwid','err1002','err1003','err1004','err1006','err1007','err2007'];
+const faq = document.getElementById('faq');
+keys.forEach((k, i) => {
+  const n = i + 1;
+  const c = document.createElement('div');
+  c.className = 'card';
+  c.setAttribute('role', 'button');
+  c.tabIndex = 0;
+  c.onclick = () => openModal(k);
+  c.onkeydown = e => { if (e.key === 'Enter') openModal(k); };
+  c.innerHTML = '<div class="card-info"><h3 id="faq' + n + 'Title"></h3><p id="faq' + n + 'Desc"></p></div><div class="arrow"></div>';
+  faq.appendChild(c);
+});
 
-            document.getElementById('faq1Title').innerText = t.faq1Title;
-            document.getElementById('faq1Desc').innerText = t.faq1Desc;
-            document.getElementById('faq2Title').innerText = t.faq2Title;
-            document.getElementById('faq2Desc').innerText = t.faq2Desc;
-            document.getElementById('faq3Title').innerText = t.faq3Title;
-            document.getElementById('faq3Desc').innerText = t.faq3Desc;
-            document.getElementById('faq4Title').innerText = t.faq4Title;
-            document.getElementById('faq4Desc').innerText = t.faq4Desc;
-            document.getElementById('faq5Title').innerText = t.faq5Title;
-            document.getElementById('faq5Desc').innerText = t.faq5Desc;
-            document.getElementById('faq6Title').innerText = t.faq6Title;
-            document.getElementById('faq6Desc').innerText = t.faq6Desc;
-            document.getElementById('faq7Title').innerText = t.faq7Title;
-            document.getElementById('faq7Desc').innerText = t.faq7Desc;
-            document.getElementById('faq8Title').innerText = t.faq8Title;
-            document.getElementById('faq8Desc').innerText = t.faq8Desc;
-            document.getElementById('faq9Title').innerText = t.faq9Title;
-            document.getElementById('faq9Desc').innerText = t.faq9Desc;
-            document.getElementById('faq10Title').innerText = t.faq10Title;
-            document.getElementById('faq10Desc').innerText = t.faq10Desc;
+const ids = ['siteLink','heroTitle','heroSubtitle','tabFaq','tabStatus','tabDev','statusSoon1','statusSoon2','devTitle','modalCloseBtn'];
+for (let n = 1; n <= 10; n++) ids.push('faq' + n + 'Title', 'faq' + n + 'Desc');
 
-            document.getElementById('statusSoon1').innerText = t.statusSoon1;
-            document.getElementById('statusSoon2').innerText = t.statusSoon2;
-            document.getElementById('devTitle').innerText = t.devTitle;
-            document.getElementById('modalCloseBtn').innerText = t.modalCloseBtn;
+let currentLang = 'ru';
 
-            document.documentElement.lang = lang;
-            localStorage.setItem('gtr_lang', lang);
-        }
+function applyLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+  document.getElementById('langBtn').innerText = lang === 'ru' ? 'EN' : 'RU';
+  ids.forEach(id => { document.getElementById(id).innerText = t[id]; });
+  document.documentElement.lang = lang;
+  try { localStorage.setItem('gtr_lang', lang); } catch (e) {}
+}
 
-        function toggleLang() {
-            haptic();
-            applyLang(currentLang === 'ru' ? 'en' : 'ru');
-        }
+function toggleLang() { haptic(); applyLang(currentLang === 'ru' ? 'en' : 'ru'); }
 
-        function haptic() {
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('medium');
-            }
-        }
+function haptic() { if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium'); }
 
-        function switchTab(tabId, element) {
-            haptic();
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+function switchTab(tabId, element, index) {
+  haptic();
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  element.classList.add('active');
+  document.getElementById('pill').style.transform = 'translateX(' + (index * 100) + '%)';
+}
 
-            document.getElementById(tabId).classList.add('active');
-            element.classList.add('active');
-        }
+function openModal(key) {
+  haptic();
+  const t = translations[currentLang].modals[key];
+  document.getElementById('modalTitle').innerText = t.title;
+  document.getElementById('modalBody').innerHTML = t.body;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModalBtn() { haptic(); document.getElementById('modal').classList.remove('open'); }
+function closeModal(e) { if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open'); }
 
-        function openModal(key) {
-            haptic();
-            const t = translations[currentLang].modals[key];
-            document.getElementById('modalTitle').innerText = t.title;
-            document.getElementById('modalBody').innerHTML = t.body;
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        function closeModalBtn() {
-            haptic();
-            document.getElementById('modal').style.display = 'none';
-        }
-
-        function closeModal(e) {
-            if (e.target.id === 'modal') {
-                document.getElementById('modal').style.display = 'none';
-            }
-        }
-
-        const savedLang = localStorage.getItem('gtr_lang');
-        if (savedLang && translations[savedLang]) {
-            applyLang(savedLang);
-        } else {
-            applyLang('ru');
-        }
-    </script>
+let savedLang = null;
+try { savedLang = localStorage.getItem('gtr_lang'); } catch (e) {}
+applyLang(savedLang && translations[savedLang] ? savedLang : 'ru');
+</script>
 </body>
 </html>
