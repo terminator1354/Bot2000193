@@ -112,6 +112,15 @@ a.card{text-decoration:none;color:inherit}
 a.link{color:var(--pink-2);font-weight:700;text-decoration:underline;text-decoration-color:rgba(255,107,147,.4);text-underline-offset:3px;word-break:break-word}
 code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:2px 7px;border-radius:7px;font-size:12px;color:#ff8fae;font-family:ui-monospace,Menlo,monospace}
 :focus-visible{outline:2px solid var(--pink-2);outline-offset:2px}
+
+/* lang selection modal */
+.lang-list{display:flex;flex-direction:column;gap:8px}
+.lang-option{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-radius:15px;
+  background:rgba(255,255,255,.04);border:1px solid var(--line);cursor:pointer;transition:.2s;color:var(--text);font-size:14px;font-weight:600}
+.lang-option:hover,.lang-option:active{background:rgba(255,46,99,.1);border-color:rgba(255,46,99,.3);transform:scale(.98)}
+.lang-option .check{color:var(--pink);font-weight:800;font-size:16px;display:none}
+.lang-option.active .check{display:block}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -122,7 +131,7 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
   <div class="navbar">
     <div class="logo">GTR <span>WIN</span></div>
     <div class="nav-actions">
-      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+      <button class="lang-btn" id="langBtn" onclick="openLangModal()">RU</button>
       <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="haptic()" id="siteLink">Сайт ↗</a>
     </div>
   </div>
@@ -132,7 +141,6 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     <p id="heroSubtitle">Помощь с сч/приваткой</p>
   </div>
 
-  <!-- Изменено на 5 колонок -->
   <div class="tabs">
     <div class="pill" id="pill"></div>
     <button class="tab active" onclick="switchTab('faq',this,0)" id="tabFaq">Помощь</button>
@@ -170,7 +178,7 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     </div>
   </div>
 
-  <!-- NEW SC Section -->
+  <!-- SC Section -->
   <div id="sc" class="section">
     <div class="sec-label" id="scVideoLabel">Видео-туториал</div>
     <div class="video-card">
@@ -182,7 +190,7 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     <div class="sec-label" id="scFilesLabel">Файлы</div>
     <div class="card" role="button" tabindex="0" onclick="downloadFile(FILES.scApp)">
       <div class="card-info">
-        <h3>WinChanger.apk <span class="tag">Скачать</span></h3>
+        <h3>WinChanger.apk <span class="tag">15.2 MB</span></h3>
         <p class="wrap" id="scFile1Desc">Бесплатный скинченджер для STANDOFF 2</p>
       </div>
       <div class="arrow dl"></div>
@@ -215,6 +223,7 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
   </div>
 </div>
 
+<!-- Main FAQ Modal -->
 <div id="modal" class="modal" onclick="closeModal(event)">
   <div class="sheet">
     <div id="modalTitle" class="modal-title">Заголовок</div>
@@ -223,22 +232,40 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
   </div>
 </div>
 
+<!-- Language Selection Modal -->
+<div id="langModal" class="modal" onclick="closeLangModal(event)">
+  <div class="sheet">
+    <div class="modal-title" id="langModalTitle">Выберите язык</div>
+    <div class="lang-list">
+      <div class="lang-option" data-lang="ru" onclick="selectLang('ru')">
+        <span>Русский</span>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-option" data-lang="en" onclick="selectLang('en')">
+        <span>English</span>
+        <span class="check">✓</span>
+      </div>
+      <div class="lang-option" data-lang="ua" onclick="selectLang('ua')">
+        <span>Українська</span>
+        <span class="check">✓</span>
+      </div>
+    </div>
+    <button class="modal-close" onclick="closeLangModalBtn()" id="langModalCloseBtn">Отмена</button>
+  </div>
+</div>
+
 <script>
-/* ===== ПУТИ К ФАЙЛАМ =====
-   Файлы лежат в корне репозитория (рядом с index.html). */
 const FILES = {
   rootApp:  'root-my-android.apk',
   kernelsu: 'KernelSU.apk',
   rootVideo: 'VID_20261016_204713_559.mp4',
-  // Новые файлы для СЧ
-  scApp: 'WinChanger.apk', // Замените на реальное имя файла, если оно другое
+  scApp: 'WinChanger.apk',
   scVideo: '⚡Бесплатный скинченджер для STANDOFF 2 🔥 Установка и обзор WinChanger 🧠 (1).mp4'
 };
 function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return u; } }
 function downloadFile(u){
   haptic();
   const url = abs(u);
-  // В Telegram WebView атрибут download не работает - открываем во внешнем браузере
   if (tg && tg.openLink) { try { tg.openLink(url, {try_instant_view:false}); return; } catch(e){ try { tg.openLink(url); return; } catch(e2){} } }
   window.open(url, '_blank');
 }
@@ -247,15 +274,15 @@ if (tg) { tg.expand(); try { tg.setHeaderColor('#05060c'); tg.setBackgroundColor
 
 const translations = {
   ru: {
-    siteLink:'Сайт', heroTitle:'GTR WIN - HELP', heroSubtitle:'Помощь с сч/приваткой',
+    siteLink:'Сайт ↗', heroTitle:'GTR WIN - HELP', heroSubtitle:'Помощь с сч/приваткой',
     tabFaq:'Помощь', tabRoot:'Рут', tabSc:'СЧ', tabStatus:'Статус', tabDev:'Автор',
     rootVideoLabel:'Туториал', rootVideoTitle:'Как получить рут-права:', rootFilesLabel:'Файлы',
     scVideoLabel:'Туториал', scVideoTitle:'Установка и обзор:', scFilesLabel:'Файлы',
-    scFile1Desc:'Бесплатный скинченджер для STANDOFF 2',
+    scFile1Desc:'PC',
     rootFile1Desc:'Приложение для получения рут-прав', rootFile2Desc:'Менеджер рут-прав KernelSU',
     faq1Title:'Скины не появляются', faq1Desc:'Если в СЧ применилось, но в инвентаре пусто',
     faq2Title:'Зависание на 10-100%', faq2Desc:'Проблемы с эмулятором или защитником Windows',
-    faq3Title:'Injection failed', faq3Desc:'Failed to prepare the cheat payload',
+    faq3Title:'Injection failed', faq3Desc:'Не удалось подготовить чит-пейлоад',
     faq4Title:'HWID doesn’t match', faq4Desc:'Ошибка привязки оборудования',
     faq5Title:'Ошибка 1002', faq5Desc:'Неподдерживаемая версия эмулятора',
     faq6Title:'Ошибка 1003', faq6Desc:'Запуск вне главного меню игры',
@@ -264,6 +291,7 @@ const translations = {
     faq9Title:'Ошибка 1007', faq9Desc:'Блокировка антивирусом Windows Defender',
     faq10Title:'Ошибка 2007', faq10Desc:'Ошибка соединения или запуска',
     statusSoon1:'Скоро', statusSoon2:'Скоро', devTitle:'Разработчик сайта:', modalCloseBtn:'Понятно',
+    langModalTitle:'Выберите язык', langModalCloseBtn:'Отмена',
     modals:{
       skins:{title:'Скины не появляются',body:'<b>1. Зайдите в тренировку, выйдите из нее - и все скины успешно появятся.</b>'},
       freeze:{title:'Зависание на 10-100%',body:'<b>1 способ.</b> Кастомные сборки BlueStacks/MSI не подходят. Скачайте версию из ошибки 1002.<br><br><b>2 способ.</b> Очистите папку <code>%TEMP%</code> (Win + R) и добавьте лоадер в исключения антивируса.'},
@@ -278,11 +306,11 @@ const translations = {
     }
   },
   en: {
-    siteLink:'Site', heroTitle:'GTR WIN - HELP', heroSubtitle:'Help with Skinchanger/Private',
+    siteLink:'Site ↗', heroTitle:'GTR WIN - HELP', heroSubtitle:'Help with Skinchanger/Private',
     tabFaq:'Help', tabRoot:'Root', tabSc:'SC', tabStatus:'Status', tabDev:'Author',
     rootVideoLabel:'Tutorial', rootVideoTitle:'How to get root access:', rootFilesLabel:'Files',
-    scVideoLabel:'Tutorial', scVideoTitle:'Installation & Review:', scFilesLabel:'Files',
-    scFile1Desc:'Free skinchanger for STANDOFF 2',
+    scVideoLabel:'Tutorial', scVideoTitle:'Installation and review:', scFilesLabel:'Files',
+    scFile1Desc:'PC',
     rootFile1Desc:'App for getting root access', rootFile2Desc:'KernelSU root manager',
     faq1Title:'Skins not appearing', faq1Desc:'If applied in SC but inventory is empty',
     faq2Title:'Stuck at 10-100%', faq2Desc:'Emulator or Windows Defender issues',
@@ -295,6 +323,7 @@ const translations = {
     faq9Title:'Error 1007', faq9Desc:'Blocked by Windows Defender',
     faq10Title:'Error 2007', faq10Desc:'Connection or launch error',
     statusSoon1:'Soon', statusSoon2:'Soon', devTitle:'Website developer:', modalCloseBtn:'Got it',
+    langModalTitle:'Select Language', langModalCloseBtn:'Cancel',
     modals:{
       skins:{title:'Skins not appearing',body:'<b>1. Enter training, then exit - all skins will appear successfully.</b>'},
       freeze:{title:'Stuck at 10-100%',body:'<b>Method 1.</b> Custom BlueStacks/MSI builds are not supported. Download the version from error 1002.<br><br><b>Method 2.</b> Clear the <code>%TEMP%</code> folder (Win + R) and add the loader to your antivirus exclusions.'},
@@ -309,15 +338,15 @@ const translations = {
     }
   },
   ua: {
-    siteLink:'Сайт', heroTitle:'GTR WIN - HELP', heroSubtitle:'Допомога зі скінченджером/приваткою',
+    siteLink:'Сайт ↗', heroTitle:'GTR WIN - HELP', heroSubtitle:'Допомога зі скінченджером/приваткою',
     tabFaq:'Допомога', tabRoot:'Рут', tabSc:'СЧ', tabStatus:'Статус', tabDev:'Автор',
     rootVideoLabel:'Туторіал', rootVideoTitle:'Як отримати рут-права:', rootFilesLabel:'Файли',
     scVideoLabel:'Туторіал', scVideoTitle:'Встановлення та огляд:', scFilesLabel:'Файли',
-    scFile1Desc:'Безкоштовний скінченджер для STANDOFF 2',
+    scFile1Desc:'PC',
     rootFile1Desc:'Додаток для отримання рут-прав', rootFile2Desc:'Менеджер рут-прав KernelSU',
     faq1Title:'Скіни не з\'являються', faq1Desc:'Якщо в СЧ застосувалося, але в інвентарі порожньо',
     faq2Title:'Зависання на 10-100%', faq2Desc:'Проблеми з емулятором або захисником Windows',
-    faq3Title:'Injection failed', faq3Desc:'Failed to prepare the cheat payload',
+    faq3Title:'Injection failed', faq3Desc:'Не вдалося підготувати чит-пейлоад',
     faq4Title:'HWID doesn’t match', faq4Desc:'Помилка прив\'язки обладнання',
     faq5Title:'Помилка 1002', faq5Desc:'Непідтримувана версія емулятора',
     faq6Title:'Помилка 1003', faq6Desc:'Запуск поза головним меню гри',
@@ -326,6 +355,7 @@ const translations = {
     faq9Title:'Помилка 1007', faq9Desc:'Блокування антивірусом Windows Defender',
     faq10Title:'Помилка 2007', faq10Desc:'Помилка з\'єднання або запуску',
     statusSoon1:'Скоро', statusSoon2:'Скоро', devTitle:'Розробник сайту:', modalCloseBtn:'Зрозуміло',
+    langModalTitle:'Оберіть мову', langModalCloseBtn:'Скасувати',
     modals:{
       skins:{title:'Скіни не з\'являються',body:'<b>1. Зайдіть у тренування, вийдіть з нього - і всі скіни успішно з\'являться.</b>'},
       freeze:{title:'Зависання на 10-100%',body:'<b>1 спосіб.</b> Кастомні збірки BlueStacks/MSI не підходять. Завантажте версію з помилки 1002.<br><br><b>2 спосіб.</b> Очистіть папку <code>%TEMP%</code> (Win + R) і додайте лоадер у виключення антивірусу.'},
@@ -355,52 +385,72 @@ keys.forEach((k, i) => {
   faq.appendChild(c);
 });
 
-const ids = ['siteLink','heroTitle','heroSubtitle','tabFaq','tabRoot','tabSc','tabStatus','tabDev',
+const ids = [
+  'siteLink','heroTitle','heroSubtitle',
+  'tabFaq','tabRoot','tabSc','tabStatus','tabDev',
   'rootVideoLabel','rootVideoTitle','rootFilesLabel','rootFile1Desc','rootFile2Desc',
   'scVideoLabel','scVideoTitle','scFilesLabel','scFile1Desc',
-  'statusSoon1','statusSoon2','devTitle','modalCloseBtn'];
+  'statusSoon1','statusSoon2','devTitle','modalCloseBtn',
+  'langModalTitle','langModalCloseBtn'
+];
 for (let n = 1; n <= 10; n++) ids.push('faq' + n + 'Title', 'faq' + n + 'Desc');
 
 let currentLang = 'ru';
 
 function applyLang(lang) {
+  if (!translations[lang]) return;
   currentLang = lang;
   const t = translations[lang];
   
-  // Обновляем кнопку переключения языка
+  // Обновляем кнопку языка
   const langBtn = document.getElementById('langBtn');
-  if (lang === 'ru') langBtn.innerText = 'EN';
-  else if (lang === 'en') langBtn.innerText = 'UA';
-  else if (lang === 'ua') langBtn.innerText = 'RU';
+  if (lang === 'ru') langBtn.innerText = 'RU';
+  else if (lang === 'en') langBtn.innerText = 'EN';
+  else if (lang === 'ua') langBtn.innerText = 'UA';
   
   ids.forEach(id => { 
     const el = document.getElementById(id);
-    if (el) el.innerText = t[id]; 
+    if (el && t[id]) el.innerHTML = t[id];
+  });
+  
+  // Подсветка активного языка в модальном окне
+  document.querySelectorAll('.lang-option').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.lang === lang);
   });
   
   document.documentElement.lang = lang;
   try { localStorage.setItem('gtr_lang', lang); } catch (e) {}
 }
 
-function toggleLang() { 
-  haptic(); 
-  if (currentLang === 'ru') applyLang('en');
-  else if (currentLang === 'en') applyLang('ua');
-  else applyLang('ru');
+function openLangModal() {
+  haptic();
+  document.getElementById('langModal').classList.add('open');
+}
+function closeLangModal(e) {
+  if (e && e.target.id === 'langModal') {
+    document.getElementById('langModal').classList.remove('open');
+  }
+}
+function closeLangModalBtn() {
+  haptic();
+  document.getElementById('langModal').classList.remove('open');
+}
+function selectLang(lang) {
+  haptic();
+  applyLang(lang);
+  document.getElementById('langModal').classList.remove('open');
 }
 
 function haptic() { if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium'); }
 
 function switchTab(tabId, element, index) {
   haptic();
-  // pause all videos when switching tabs
   document.querySelectorAll('video').forEach(v => v.pause());
   
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
   element.classList.add('active');
-  // 5 вкладок, поэтому умножаем на 100%
   document.getElementById('pill').style.transform = 'translateX(' + (index * 100) + '%)';
 }
 
