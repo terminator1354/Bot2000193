@@ -60,6 +60,7 @@
             border: 1px solid var(--card-border);
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            gap: 8px;
         }
 
         .logo {
@@ -76,6 +77,32 @@
             text-shadow: 0 0 20px var(--accent-glow);
         }
 
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: 11px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.03em;
+        }
+
+        .lang-btn:hover,
+        .lang-btn:active {
+            background: rgba(255, 46, 99, 0.15);
+            border-color: rgba(255, 46, 99, 0.35);
+            transform: scale(1.05);
+        }
+
         .web-link {
             background: linear-gradient(135deg, #ff2e63 0%, #ff5c8a 100%);
             color: white;
@@ -87,6 +114,7 @@
             box-shadow: 0 4px 18px rgba(255, 46, 99, 0.35);
             transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
             letter-spacing: 0.01em;
+            white-space: nowrap;
         }
 
         .web-link:hover,
@@ -399,97 +427,100 @@
     <div class="app-container">
         <div class="navbar">
             <div class="logo">GTR <span>WIN</span></div>
-            <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="haptic()">Сайт ↗</a>
+            <div class="nav-actions">
+                <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+                <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="haptic()" id="siteLink">Сайт ↗</a>
+            </div>
         </div>
 
         <div class="hero">
-            <h1>GTR WIN - HELP</h1>
-            <p>Помощь с сч/приваткой</p>
+            <h1 id="heroTitle">GTR WIN - HELP</h1>
+            <p id="heroSubtitle">Помощь с сч/приваткой</p>
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('faq', this)">Помощь</button>
-            <button class="tab" onclick="switchTab('status', this)">Статус</button>
-            <button class="tab" onclick="switchTab('dev', this)">Автор</button>
+            <button class="tab active" onclick="switchTab('faq', this)" id="tabFaq">Помощь</button>
+            <button class="tab" onclick="switchTab('status', this)" id="tabStatus">Статус</button>
+            <button class="tab" onclick="switchTab('dev', this)" id="tabDev">Автор</button>
         </div>
 
         <div id="faq" class="section active">
-            <div class="card" onclick="openModal('Скины не появляются', '<b>1. Зайдите в тренировку, выйдите из нее - и все скины успешно появятся.</b>')">
+            <div class="card" onclick="openModal('skins')">
                 <div class="card-info">
-                    <h3>Скины не появляются</h3>
-                    <p>Если в СЧ применилось, но в инвентаре пусто</p>
+                    <h3 id="faq1Title">Скины не появляются</h3>
+                    <p id="faq1Desc">Если в СЧ применилось, но в инвентаре пусто</p>
                 </div>
                 <div class="arrow-icon">›</div>
             </div>
 
-            <div class="card" onclick="openModal('Зависание на 10-100%', '<b>1 способ.</b> Кастомные сборки BlueStacks/MSI не подходят. Скачайте версию из ошибки 1002.<br><br><b>2 способ.</b> Очистите папку <code>%TEMP%</code> (Win + R) и добавьте лоадер в исключения антивируса.')">
+            <div class="card" onclick="openModal('freeze')">
                 <div class="card-info">
-                    <h3>Зависание на 10-100%</h3>
-                    <p>Проблемы с эмулятором или защитником Windows</p>
+                    <h3 id="faq2Title">Зависание на 10-100%</h3>
+                    <p id="faq2Desc">Проблемы с эмулятором или защитником Windows</p>
                 </div>
                 <div class="arrow-icon">›</div>
             </div>
 
-            <div class="card" onclick="openModal('Injection failed', '<b>Способ 1.</b> Очистите временные файлы через <code>%TEMP%</code> и перезапустите лоадер.<br><br><b>Способ 2.</b> Переустановите поддерживаемую версию эмулятора.')">
+            <div class="card" onclick="openModal('injection')">
                 <div class="card-info">
-                    <h3>Injection failed</h3>
-                    <p>Failed to prepare the cheat payload</p>
+                    <h3 id="faq3Title">Injection failed</h3>
+                    <p id="faq3Desc">Failed to prepare the cheat payload</p>
                 </div>
                 <div class="arrow-icon">›</div>
             </div>
 
-            <div class="card" onclick="openModal('HWID doesn’t match', 'Зайдите в официальный бот проекта, найдите кнопку сброса HWID или напишите в закрепленном топике ключей.')">
+            <div class="card" onclick="openModal('hwid')">
                 <div class="card-info">
-                    <h3>HWID doesn’t match</h3>
-                    <p>Ошибка привязки оборудования</p>
+                    <h3 id="faq4Title">HWID doesn’t match</h3>
+                    <p id="faq4Desc">Ошибка привязки оборудования</p>
                 </div>
                 <div class="arrow-icon">›</div>
             </div>
 
-            <div class="card" onclick="openModal('Ошибка 1002', 'Скачайте <a class=\'link\' href=\'https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file\'>Bluestacks 5</a> или <a class=\'link\' href=\'https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file\'>MSI APP Player</a> со старой поддержкой ADB.')">
+            <div class="card" onclick="openModal('err1002')">
                 <div class="card-info">
-                    <h3>Ошибка 1002</h3>
-                    <p>Неподдерживаемая версия эмулятора</p>
+                    <h3 id="faq5Title">Ошибка 1002</h3>
+                    <p id="faq5Desc">Неподдерживаемая версия эмулятора</p>
                 </div>
                 <div class="arrow-icon">›</div>
             </div>
 
-            <div class="card" onclick="openModal('Ошибка 1003', 'Данная ошибка происходит потому что вы запускаете платку/сч не в главном меню игры.')">
+            <div class="card" onclick="openModal('err1003')">
                 <div class="card-info">
-                    <h3>Ошибка 1003</h3>
-                    <p>Запуск вне главного меню игры</p>
+                    <h3 id="faq6Title">Ошибка 1003</h3>
+                    <p id="faq6Desc">Запуск вне главного меню игры</p>
                 </div>
                 <div class="arrow-icon">›</div>
             </div>
 
-            <div class="card" onclick="openModal('Ошибка 1004', 'Включите ADB в настройках эмулятора:<br><b>Настройки ➜ Дополнительно ➜ ADB</b>')">
+            <div class="card" onclick="openModal('err1004')">
                 <div class="card-info">
-                    <h3>Ошибка 1004</h3>
-                    <p>Требуется включить ADB в эмуляторе</p>
+                    <h3 id="faq7Title">Ошибка 1004</h3>
+                    <p id="faq7Desc">Требуется включить ADB в эмуляторе</p>
                 </div>
                 <div class="arrow-icon">›</div>
             </div>
 
-            <div class="card" onclick="openModal('Ошибка 1006', 'У вас установлена старая версия лоадера. Скачайте свежую версию из телеграм-канала или на сайте.')">
+            <div class="card" onclick="openModal('err1006')">
                 <div class="card-info">
-                    <h3>Ошибка 1006</h3>
-                    <p>Устаревшая версия лоадера</p>
+                    <h3 id="faq8Title">Ошибка 1006</h3>
+                    <p id="faq8Desc">Устаревшая версия лоадера</p>
                 </div>
                 <div class="arrow-icon">›</div>
             </div>
 
-            <div class="card" onclick="openModal('Ошибка 1007', 'Нужно временно отключить Защиту в реальном времени в Параметрах безопасности Windows.')">
+            <div class="card" onclick="openModal('err1007')">
                 <div class="card-info">
-                    <h3>Ошибка 1007</h3>
-                    <p>Блокировка антивирусом Windows Defender</p>
+                    <h3 id="faq9Title">Ошибка 1007</h3>
+                    <p id="faq9Desc">Блокировка антивирусом Windows Defender</p>
                 </div>
                 <div class="arrow-icon">›</div>
             </div>
 
-            <div class="card" onclick="openModal('Ошибка 2007', '<b>Способ 1.</b> Перезапустите лоадер от имени администратора и проверьте интернет.<br><br><b>Способ 2.</b> Проверьте статус сервисов во вкладке Статус.')">
+            <div class="card" onclick="openModal('err2007')">
                 <div class="card-info">
-                    <h3>Ошибка 2007</h3>
-                    <p>Ошибка соединения или запуска</p>
+                    <h3 id="faq10Title">Ошибка 2007</h3>
+                    <p id="faq10Desc">Ошибка соединения или запуска</p>
                 </div>
                 <div class="arrow-icon">›</div>
             </div>
@@ -501,7 +532,7 @@
                     <h3 style="display: flex; align-items: center; gap: 8px;">
                         <span class="status-dot red"></span> Win Alien Pro
                     </h3>
-                    <p style="white-space: normal;">Скоро</p>
+                    <p style="white-space: normal;" id="statusSoon1">Скоро</p>
                 </div>
             </div>
             <div class="card">
@@ -509,7 +540,7 @@
                     <h3 style="display: flex; align-items: center; gap: 8px;">
                         <span class="status-dot red"></span> Skinchanger
                     </h3>
-                    <p style="white-space: normal;">Скоро</p>
+                    <p style="white-space: normal;" id="statusSoon2">Скоро</p>
                 </div>
             </div>
         </div>
@@ -517,7 +548,7 @@
         <div id="dev" class="section">
             <div class="card">
                 <div class="card-info" style="max-width: 100%;">
-                    <h3>Разработчик сайта:</h3>
+                    <h3 id="devTitle">Разработчик сайта:</h3>
                     <p style="white-space: normal; color: #fff; margin-top: 4px;"> <b>@morty_rick_1</b></p>
                 </div>
             </div>
@@ -528,13 +559,213 @@
         <div class="modal-content">
             <div id="modalTitle" class="modal-title">Заголовок</div>
             <div id="modalBody" class="modal-body">Текст...</div>
-            <button class="modal-close" onclick="closeModalBtn()">Понятно</button>
+            <button class="modal-close" onclick="closeModalBtn()" id="modalCloseBtn">Понятно</button>
         </div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
+
+        const translations = {
+            ru: {
+                siteLink: 'Сайт ↗',
+                heroTitle: 'GTR WIN - HELP',
+                heroSubtitle: 'Помощь с сч/приваткой',
+                tabFaq: 'Помощь',
+                tabStatus: 'Статус',
+                tabDev: 'Автор',
+                faq1Title: 'Скины не появляются',
+                faq1Desc: 'Если в СЧ применилось, но в инвентаре пусто',
+                faq2Title: 'Зависание на 10-100%',
+                faq2Desc: 'Проблемы с эмулятором или защитником Windows',
+                faq3Title: 'Injection failed',
+                faq3Desc: 'Failed to prepare the cheat payload',
+                faq4Title: 'HWID doesn’t match',
+                faq4Desc: 'Ошибка привязки оборудования',
+                faq5Title: 'Ошибка 1002',
+                faq5Desc: 'Неподдерживаемая версия эмулятора',
+                faq6Title: 'Ошибка 1003',
+                faq6Desc: 'Запуск вне главного меню игры',
+                faq7Title: 'Ошибка 1004',
+                faq7Desc: 'Требуется включить ADB в эмуляторе',
+                faq8Title: 'Ошибка 1006',
+                faq8Desc: 'Устаревшая версия лоадера',
+                faq9Title: 'Ошибка 1007',
+                faq9Desc: 'Блокировка антивирусом Windows Defender',
+                faq10Title: 'Ошибка 2007',
+                faq10Desc: 'Ошибка соединения или запуска',
+                statusSoon1: 'Скоро',
+                statusSoon2: 'Скоро',
+                devTitle: 'Разработчик сайта:',
+                modalCloseBtn: 'Понятно',
+                modals: {
+                    skins: {
+                        title: 'Скины не появляются',
+                        body: '<b>1. Зайдите в тренировку, выйдите из нее - и все скины успешно появятся.</b>'
+                    },
+                    freeze: {
+                        title: 'Зависание на 10-100%',
+                        body: '<b>1 способ.</b> Кастомные сборки BlueStacks/MSI не подходят. Скачайте версию из ошибки 1002.<br><br><b>2 способ.</b> Очистите папку <code>%TEMP%</code> (Win + R) и добавьте лоадер в исключения антивируса.'
+                    },
+                    injection: {
+                        title: 'Injection failed',
+                        body: '<b>Способ 1.</b> Очистите временные файлы через <code>%TEMP%</code> и перезапустите лоадер.<br><br><b>Способ 2.</b> Переустановите поддерживаемую версию эмулятора.'
+                    },
+                    hwid: {
+                        title: 'HWID doesn’t match',
+                        body: 'Зайдите в официальный бот проекта, найдите кнопку сброса HWID или напишите в закрепленном топике ключей.'
+                    },
+                    err1002: {
+                        title: 'Ошибка 1002',
+                        body: 'Скачайте <a class=\'link\' href=\'https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file\'>Bluestacks 5</a> или <a class=\'link\' href=\'https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file\'>MSI APP Player</a> со старой поддержкой ADB.'
+                    },
+                    err1003: {
+                        title: 'Ошибка 1003',
+                        body: 'Данная ошибка происходит потому что вы запускаете платку/сч не в главном меню игры.'
+                    },
+                    err1004: {
+                        title: 'Ошибка 1004',
+                        body: 'Включите ADB в настройках эмулятора:<br><b>Настройки ➜ Дополнительно ➜ ADB</b>'
+                    },
+                    err1006: {
+                        title: 'Ошибка 1006',
+                        body: 'У вас установлена старая версия лоадера. Скачайте свежую версию из телеграм-канала или на сайте.'
+                    },
+                    err1007: {
+                        title: 'Ошибка 1007',
+                        body: 'Нужно временно отключить Защиту в реальном времени в Параметрах безопасности Windows.'
+                    },
+                    err2007: {
+                        title: 'Ошибка 2007',
+                        body: '<b>Способ 1.</b> Перезапустите лоадер от имени администратора и проверьте интернет.<br><br><b>Способ 2.</b> Проверьте статус сервисов во вкладке Статус.'
+                    }
+                }
+            },
+            en: {
+                siteLink: 'Site ↗',
+                heroTitle: 'GTR WIN - HELP',
+                heroSubtitle: 'Help with SC/Private',
+                tabFaq: 'Help',
+                tabStatus: 'Status',
+                tabDev: 'Author',
+                faq1Title: 'Skins not appearing',
+                faq1Desc: 'If applied in SC but inventory is empty',
+                faq2Title: 'Stuck at 10-100%',
+                faq2Desc: 'Emulator or Windows Defender issues',
+                faq3Title: 'Injection failed',
+                faq3Desc: 'Failed to prepare the cheat payload',
+                faq4Title: 'HWID doesn’t match',
+                faq4Desc: 'Hardware binding error',
+                faq5Title: 'Error 1002',
+                faq5Desc: 'Unsupported emulator version',
+                faq6Title: 'Error 1003',
+                faq6Desc: 'Launch outside the game main menu',
+                faq7Title: 'Error 1004',
+                faq7Desc: 'ADB must be enabled in the emulator',
+                faq8Title: 'Error 1006',
+                faq8Desc: 'Outdated loader version',
+                faq9Title: 'Error 1007',
+                faq9Desc: 'Blocked by Windows Defender',
+                faq10Title: 'Error 2007',
+                faq10Desc: 'Connection or launch error',
+                statusSoon1: 'Soon',
+                statusSoon2: 'Soon',
+                devTitle: 'Website developer:',
+                modalCloseBtn: 'Got it',
+                modals: {
+                    skins: {
+                        title: 'Skins not appearing',
+                        body: '<b>1. Enter training, then exit - all skins will appear successfully.</b>'
+                    },
+                    freeze: {
+                        title: 'Stuck at 10-100%',
+                        body: '<b>Method 1.</b> Custom BlueStacks/MSI builds are not supported. Download the version from error 1002.<br><br><b>Method 2.</b> Clear the <code>%TEMP%</code> folder (Win + R) and add the loader to your antivirus exclusions.'
+                    },
+                    injection: {
+                        title: 'Injection failed',
+                        body: '<b>Method 1.</b> Clear temp files via <code>%TEMP%</code> and restart the loader.<br><br><b>Method 2.</b> Reinstall a supported emulator version.'
+                    },
+                    hwid: {
+                        title: 'HWID doesn’t match',
+                        body: 'Go to the official project bot, find the HWID reset button, or write in the pinned keys topic.'
+                    },
+                    err1002: {
+                        title: 'Error 1002',
+                        body: 'Download <a class=\'link\' href=\'https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file\'>BlueStacks 5</a> or <a class=\'link\' href=\'https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file\'>MSI APP Player</a> with legacy ADB support.'
+                    },
+                    err1003: {
+                        title: 'Error 1003',
+                        body: 'This error occurs because you are launching the cheat/SC outside the game main menu.'
+                    },
+                    err1004: {
+                        title: 'Error 1004',
+                        body: 'Enable ADB in emulator settings:<br><b>Settings ➜ Advanced ➜ ADB</b>'
+                    },
+                    err1006: {
+                        title: 'Error 1006',
+                        body: 'You have an outdated loader version. Download the latest version from the Telegram channel or website.'
+                    },
+                    err1007: {
+                        title: 'Error 1007',
+                        body: 'You need to temporarily disable Real-time Protection in Windows Security settings.'
+                    },
+                    err2007: {
+                        title: 'Error 2007',
+                        body: '<b>Method 1.</b> Restart the loader as administrator and check your internet.<br><br><b>Method 2.</b> Check service status in the Status tab.'
+                    }
+                }
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function applyLang(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            document.getElementById('langBtn').innerText = lang === 'ru' ? 'EN' : 'RU';
+            document.getElementById('siteLink').innerText = t.siteLink;
+            document.getElementById('heroTitle').innerText = t.heroTitle;
+            document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
+            document.getElementById('tabFaq').innerText = t.tabFaq;
+            document.getElementById('tabStatus').innerText = t.tabStatus;
+            document.getElementById('tabDev').innerText = t.tabDev;
+
+            document.getElementById('faq1Title').innerText = t.faq1Title;
+            document.getElementById('faq1Desc').innerText = t.faq1Desc;
+            document.getElementById('faq2Title').innerText = t.faq2Title;
+            document.getElementById('faq2Desc').innerText = t.faq2Desc;
+            document.getElementById('faq3Title').innerText = t.faq3Title;
+            document.getElementById('faq3Desc').innerText = t.faq3Desc;
+            document.getElementById('faq4Title').innerText = t.faq4Title;
+            document.getElementById('faq4Desc').innerText = t.faq4Desc;
+            document.getElementById('faq5Title').innerText = t.faq5Title;
+            document.getElementById('faq5Desc').innerText = t.faq5Desc;
+            document.getElementById('faq6Title').innerText = t.faq6Title;
+            document.getElementById('faq6Desc').innerText = t.faq6Desc;
+            document.getElementById('faq7Title').innerText = t.faq7Title;
+            document.getElementById('faq7Desc').innerText = t.faq7Desc;
+            document.getElementById('faq8Title').innerText = t.faq8Title;
+            document.getElementById('faq8Desc').innerText = t.faq8Desc;
+            document.getElementById('faq9Title').innerText = t.faq9Title;
+            document.getElementById('faq9Desc').innerText = t.faq9Desc;
+            document.getElementById('faq10Title').innerText = t.faq10Title;
+            document.getElementById('faq10Desc').innerText = t.faq10Desc;
+
+            document.getElementById('statusSoon1').innerText = t.statusSoon1;
+            document.getElementById('statusSoon2').innerText = t.statusSoon2;
+            document.getElementById('devTitle').innerText = t.devTitle;
+            document.getElementById('modalCloseBtn').innerText = t.modalCloseBtn;
+
+            document.documentElement.lang = lang;
+            localStorage.setItem('gtr_lang', lang);
+        }
+
+        function toggleLang() {
+            haptic();
+            applyLang(currentLang === 'ru' ? 'en' : 'ru');
+        }
 
         function haptic() {
             if (tg.HapticFeedback) {
@@ -551,10 +782,11 @@
             element.classList.add('active');
         }
 
-        function openModal(title, text) {
+        function openModal(key) {
             haptic();
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalBody').innerHTML = text;
+            const t = translations[currentLang].modals[key];
+            document.getElementById('modalTitle').innerText = t.title;
+            document.getElementById('modalBody').innerHTML = t.body;
             document.getElementById('modal').style.display = 'flex';
         }
 
@@ -567,6 +799,13 @@
             if (e.target.id === 'modal') {
                 document.getElementById('modal').style.display = 'none';
             }
+        }
+
+        const savedLang = localStorage.getItem('gtr_lang');
+        if (savedLang && translations[savedLang]) {
+            applyLang(savedLang);
+        } else {
+            applyLang('ru');
         }
     </script>
 </body>
