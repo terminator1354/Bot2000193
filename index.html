@@ -36,7 +36,7 @@ body{color:var(--text);min-height:100vh;display:flex;justify-content:center;
 .logo{font-family:'Unbounded',sans-serif;font-weight:800;font-size:15px;letter-spacing:.02em;display:flex;gap:6px}
 .logo span{font-family:inherit;background:linear-gradient(135deg,var(--pink),var(--pink-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(255,46,99,.55))}
 .nav-actions{display:flex;gap:8px;align-items:center}
-.lang-btn{width:42px;height:36px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);font-size:12px;font-weight:800;cursor:pointer;transition:.25s}
+.lang-btn{width:42px;height:36px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);font-size:12px;font-weight:800;cursor:pointer;transition:.25s;font-family:'Unbounded',sans-serif;}
 .lang-btn:active{transform:scale(.94);background:rgba(255,46,99,.15)}
 .web-link{height:36px;padding:0 16px;display:flex;align-items:center;border-radius:12px;color:#fff;text-decoration:none;font-size:12px;font-weight:700;white-space:nowrap;
   background:linear-gradient(135deg,var(--pink),#ff5c8a);box-shadow:0 6px 22px rgba(255,46,99,.4),inset 0 1px 0 rgba(255,255,255,.3);transition:.25s}
@@ -58,10 +58,10 @@ body{color:var(--text);min-height:100vh;display:flex;justify-content:center;
 @keyframes rise{from{opacity:0;transform:translateY(14px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 
 /* tabs */
-.tabs{position:relative;display:grid;grid-template-columns:repeat(4,1fr);padding:4px;border-radius:18px;background:rgba(10,12,24,.75);border:1px solid var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/4);border-radius:14px;background:linear-gradient(135deg,var(--pink),#ff5c8a);
+.tabs{position:relative;display:grid;grid-template-columns:repeat(5,1fr);padding:4px;border-radius:18px;background:rgba(10,12,24,.75);border:1px solid var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/5);border-radius:14px;background:linear-gradient(135deg,var(--pink),#ff5c8a);
   box-shadow:0 6px 24px rgba(255,46,99,.45),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .38s cubic-bezier(.5,1.4,.5,1)}
-.tab{position:relative;z-index:1;padding:11px 4px;font-size:12px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .3s;white-space:nowrap}
+.tab{position:relative;z-index:1;padding:11px 2px;font-size:11px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .3s;white-space:nowrap;text-align:center}
 .tab.active{color:#fff}
 
 /* sections & cards */
@@ -132,21 +132,24 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     <p id="heroSubtitle">Помощь с сч/приваткой</p>
   </div>
 
+  <!-- Изменено на 5 колонок -->
   <div class="tabs">
     <div class="pill" id="pill"></div>
     <button class="tab active" onclick="switchTab('faq',this,0)" id="tabFaq">Помощь</button>
     <button class="tab" onclick="switchTab('root',this,1)" id="tabRoot">Рут</button>
-    <button class="tab" onclick="switchTab('status',this,2)" id="tabStatus">Статус</button>
-    <button class="tab" onclick="switchTab('dev',this,3)" id="tabDev">Автор</button>
+    <button class="tab" onclick="switchTab('sc',this,2)" id="tabSc">СЧ</button>
+    <button class="tab" onclick="switchTab('status',this,3)" id="tabStatus">Статус</button>
+    <button class="tab" onclick="switchTab('dev',this,4)" id="tabDev">Автор</button>
   </div>
 
   <div id="faq" class="section active"></div>
 
+  <!-- Root Section -->
   <div id="root" class="section">
     <div class="sec-label" id="rootVideoLabel">Видео-туториал</div>
     <div class="video-card">
       <video id="rootVideo" controls playsinline preload="metadata"></video>
-      <div class="card" id="videoFallback" style="display:none" role="button" tabindex="0" onclick="downloadFile(FILES.video)"><div class="card-info"><h3>Открыть видео в браузере</h3></div><div class="arrow"></div></div>
+      <div class="card" id="rootVideoFallback" style="display:none" role="button" tabindex="0" onclick="downloadFile(FILES.rootVideo)"><div class="card-info"><h3>Открыть видео в браузере</h3></div><div class="arrow"></div></div>
       <div class="video-title" id="rootVideoTitle">Как получить рут-права:</div>
     </div>
 
@@ -162,6 +165,25 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
       <div class="card-info">
         <h3>KernelSU.apk <span class="tag">12.8 MB</span></h3>
         <p class="wrap" id="rootFile2Desc">Менеджер рут-прав KernelSU</p>
+      </div>
+      <div class="arrow dl"></div>
+    </div>
+  </div>
+
+  <!-- NEW SC Section -->
+  <div id="sc" class="section">
+    <div class="sec-label" id="scVideoLabel">Видео-туториал</div>
+    <div class="video-card">
+      <video id="scVideo" controls playsinline preload="metadata"></video>
+      <div class="card" id="scVideoFallback" style="display:none" role="button" tabindex="0" onclick="downloadFile(FILES.scVideo)"><div class="card-info"><h3>Открыть видео в браузере</h3></div><div class="arrow"></div></div>
+      <div class="video-title" id="scVideoTitle">Установка и обзор WinChanger:</div>
+    </div>
+
+    <div class="sec-label" id="scFilesLabel">Файлы</div>
+    <div class="card" role="button" tabindex="0" onclick="downloadFile(FILES.scApp)">
+      <div class="card-info">
+        <h3>WinChanger.apk <span class="tag">Скачать</span></h3>
+        <p class="wrap" id="scFile1Desc">Бесплатный скинченджер для STANDOFF 2</p>
       </div>
       <div class="arrow dl"></div>
     </div>
@@ -207,7 +229,10 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
 const FILES = {
   rootApp:  'root-my-android.apk',
   kernelsu: 'KernelSU.apk',
-  video:    'VID_20261016_204713_559.mp4'
+  rootVideo: 'VID_20261016_204713_559.mp4',
+  // Новые файлы для СЧ
+  scApp: 'WinChanger.apk', // Замените на реальное имя файла, если оно другое
+  scVideo: '⚡Бесплатный скинченджер для STANDOFF 2 🔥 Установка и обзор WinChanger 🧠 (1).mp4'
 };
 function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return u; } }
 function downloadFile(u){
@@ -223,8 +248,10 @@ if (tg) { tg.expand(); try { tg.setHeaderColor('#05060c'); tg.setBackgroundColor
 const translations = {
   ru: {
     siteLink:'Сайт', heroTitle:'GTR WIN - HELP', heroSubtitle:'Помощь с сч/приваткой',
-    tabFaq:'Помощь', tabRoot:'Рут', tabStatus:'Статус', tabDev:'Автор',
+    tabFaq:'Помощь', tabRoot:'Рут', tabSc:'СЧ', tabStatus:'Статус', tabDev:'Автор',
     rootVideoLabel:'Туториал', rootVideoTitle:'Как получить рут-права:', rootFilesLabel:'Файлы',
+    scVideoLabel:'Туториал', scVideoTitle:'Установка и обзор:', scFilesLabel:'Файлы',
+    scFile1Desc:'Бесплатный скинченджер для STANDOFF 2',
     rootFile1Desc:'Приложение для получения рут-прав', rootFile2Desc:'Менеджер рут-прав KernelSU',
     faq1Title:'Скины не появляются', faq1Desc:'Если в СЧ применилось, но в инвентаре пусто',
     faq2Title:'Зависание на 10-100%', faq2Desc:'Проблемы с эмулятором или защитником Windows',
@@ -252,8 +279,10 @@ const translations = {
   },
   en: {
     siteLink:'Site', heroTitle:'GTR WIN - HELP', heroSubtitle:'Help with Skinchanger/Private',
-    tabFaq:'Help', tabRoot:'Root', tabStatus:'Status', tabDev:'Author',
+    tabFaq:'Help', tabRoot:'Root', tabSc:'SC', tabStatus:'Status', tabDev:'Author',
     rootVideoLabel:'Tutorial', rootVideoTitle:'How to get root access:', rootFilesLabel:'Files',
+    scVideoLabel:'Tutorial', scVideoTitle:'Installation & Review:', scFilesLabel:'Files',
+    scFile1Desc:'Free skinchanger for STANDOFF 2',
     rootFile1Desc:'App for getting root access', rootFile2Desc:'KernelSU root manager',
     faq1Title:'Skins not appearing', faq1Desc:'If applied in SC but inventory is empty',
     faq2Title:'Stuck at 10-100%', faq2Desc:'Emulator or Windows Defender issues',
@@ -278,6 +307,37 @@ const translations = {
       err1007:{title:'Error 1007',body:'You need to temporarily disable Real-time Protection in Windows Security settings.'},
       err2007:{title:'Error 2007',body:'<b>Method 1.</b> Restart the loader as administrator and check your internet.<br><br><b>Method 2.</b> Check service status in the Status tab.'}
     }
+  },
+  ua: {
+    siteLink:'Сайт', heroTitle:'GTR WIN - HELP', heroSubtitle:'Допомога зі скінченджером/приваткою',
+    tabFaq:'Допомога', tabRoot:'Рут', tabSc:'СЧ', tabStatus:'Статус', tabDev:'Автор',
+    rootVideoLabel:'Туторіал', rootVideoTitle:'Як отримати рут-права:', rootFilesLabel:'Файли',
+    scVideoLabel:'Туторіал', scVideoTitle:'Встановлення та огляд:', scFilesLabel:'Файли',
+    scFile1Desc:'Безкоштовний скінченджер для STANDOFF 2',
+    rootFile1Desc:'Додаток для отримання рут-прав', rootFile2Desc:'Менеджер рут-прав KernelSU',
+    faq1Title:'Скіни не з\'являються', faq1Desc:'Якщо в СЧ застосувалося, але в інвентарі порожньо',
+    faq2Title:'Зависання на 10-100%', faq2Desc:'Проблеми з емулятором або захисником Windows',
+    faq3Title:'Injection failed', faq3Desc:'Failed to prepare the cheat payload',
+    faq4Title:'HWID doesn’t match', faq4Desc:'Помилка прив\'язки обладнання',
+    faq5Title:'Помилка 1002', faq5Desc:'Непідтримувана версія емулятора',
+    faq6Title:'Помилка 1003', faq6Desc:'Запуск поза головним меню гри',
+    faq7Title:'Помилка 1004', faq7Desc:'Потрібно увімкнути ADB в емуляторі',
+    faq8Title:'Помилка 1006', faq8Desc:'Застаріла версія лоадера',
+    faq9Title:'Помилка 1007', faq9Desc:'Блокування антивірусом Windows Defender',
+    faq10Title:'Помилка 2007', faq10Desc:'Помилка з\'єднання або запуску',
+    statusSoon1:'Скоро', statusSoon2:'Скоро', devTitle:'Розробник сайту:', modalCloseBtn:'Зрозуміло',
+    modals:{
+      skins:{title:'Скіни не з\'являються',body:'<b>1. Зайдіть у тренування, вийдіть з нього - і всі скіни успішно з\'являться.</b>'},
+      freeze:{title:'Зависання на 10-100%',body:'<b>1 спосіб.</b> Кастомні збірки BlueStacks/MSI не підходять. Завантажте версію з помилки 1002.<br><br><b>2 спосіб.</b> Очистіть папку <code>%TEMP%</code> (Win + R) і додайте лоадер у виключення антивірусу.'},
+      injection:{title:'Injection failed',body:'<b>Спосіб 1.</b> Очистіть тимчасові файли через <code>%TEMP%</code> і перезапустіть лоадер.<br><br><b>Спосіб 2.</b> Перевстановіть підтримувану версію емулятора.'},
+      hwid:{title:'HWID doesn’t match',body:'Зайдіть в офіційний бот проєкту, знайдіть кнопку скидання HWID або напишіть у закріпленому топіку ключів.'},
+      err1002:{title:'Помилка 1002',body:'Завантажте <a class=\'link\' href=\'https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file\'>Bluestacks 5</a> або <a class=\'link\' href=\'https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file\'>MSI APP Player</a> зі старою підтримкою ADB.'},
+      err1003:{title:'Помилка 1003',body:'Ця помилка виникає, тому що ви запускаєте платку/СЧ не в головному меню гри.'},
+      err1004:{title:'Помилка 1004',body:'Увімкніть ADB в налаштуваннях емулятора:<br><b>Налаштування ➜ Додатково ➜ ADB</b>'},
+      err1006:{title:'Помилка 1006',body:'У вас встановлена стара версія лоадера. Завантажте свіжу версію з телеграм-каналу або на сайті.'},
+      err1007:{title:'Помилка 1007',body:'Потрібно тимчасово вимкнути Захист у реальному часі в Параметрах безпеки Windows.'},
+      err2007:{title:'Помилка 2007',body:'<b>Спосіб 1.</b> Перезапустіть лоадер від імені адміністратора та перевірте інтернет.<br><br><b>Спосіб 2.</b> Перевірте статус сервісів у вкладці Статус.'}
+    }
   }
 };
 
@@ -295,8 +355,9 @@ keys.forEach((k, i) => {
   faq.appendChild(c);
 });
 
-const ids = ['siteLink','heroTitle','heroSubtitle','tabFaq','tabRoot','tabStatus','tabDev',
+const ids = ['siteLink','heroTitle','heroSubtitle','tabFaq','tabRoot','tabSc','tabStatus','tabDev',
   'rootVideoLabel','rootVideoTitle','rootFilesLabel','rootFile1Desc','rootFile2Desc',
+  'scVideoLabel','scVideoTitle','scFilesLabel','scFile1Desc',
   'statusSoon1','statusSoon2','devTitle','modalCloseBtn'];
 for (let n = 1; n <= 10; n++) ids.push('faq' + n + 'Title', 'faq' + n + 'Desc');
 
@@ -305,24 +366,41 @@ let currentLang = 'ru';
 function applyLang(lang) {
   currentLang = lang;
   const t = translations[lang];
-  document.getElementById('langBtn').innerText = lang === 'ru' ? 'EN' : 'RU';
-  ids.forEach(id => { document.getElementById(id).innerText = t[id]; });
+  
+  // Обновляем кнопку переключения языка
+  const langBtn = document.getElementById('langBtn');
+  if (lang === 'ru') langBtn.innerText = 'EN';
+  else if (lang === 'en') langBtn.innerText = 'UA';
+  else if (lang === 'ua') langBtn.innerText = 'RU';
+  
+  ids.forEach(id => { 
+    const el = document.getElementById(id);
+    if (el) el.innerText = t[id]; 
+  });
+  
   document.documentElement.lang = lang;
   try { localStorage.setItem('gtr_lang', lang); } catch (e) {}
 }
 
-function toggleLang() { haptic(); applyLang(currentLang === 'ru' ? 'en' : 'ru'); }
+function toggleLang() { 
+  haptic(); 
+  if (currentLang === 'ru') applyLang('en');
+  else if (currentLang === 'en') applyLang('ua');
+  else applyLang('ru');
+}
 
 function haptic() { if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium'); }
 
 function switchTab(tabId, element, index) {
   haptic();
-  // pause the tutorial video when leaving the Root tab
-  if (tabId !== 'root') { const v = document.getElementById('rootVideo'); if (v) v.pause(); }
+  // pause all videos when switching tabs
+  document.querySelectorAll('video').forEach(v => v.pause());
+  
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
   element.classList.add('active');
+  // 5 вкладок, поэтому умножаем на 100%
   document.getElementById('pill').style.transform = 'translateX(' + (index * 100) + '%)';
 }
 
@@ -336,11 +414,17 @@ function openModal(key) {
 function closeModalBtn() { haptic(); document.getElementById('modal').classList.remove('open'); }
 function closeModal(e) { if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open'); }
 
+// Инициализация видео
 (function(){
-  const v = document.getElementById('rootVideo');
-  v.addEventListener('error', () => { document.getElementById('videoFallback').style.display = 'flex'; });
-  v.src = abs(FILES.video);
+  const rv = document.getElementById('rootVideo');
+  rv.addEventListener('error', () => { document.getElementById('rootVideoFallback').style.display = 'flex'; });
+  rv.src = abs(FILES.rootVideo);
+
+  const sv = document.getElementById('scVideo');
+  sv.addEventListener('error', () => { document.getElementById('scVideoFallback').style.display = 'flex'; });
+  sv.src = abs(FILES.scVideo);
 })();
+
 let savedLang = null;
 try { savedLang = localStorage.getItem('gtr_lang'); } catch (e) {}
 applyLang(savedLang && translations[savedLang] ? savedLang : 'ru');
