@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WinChanger Hub</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-base: #06080f;
+            --bg-gradient: radial-gradient(ellipse at 50% -10%, #1c1245 0%, #0a0d1a 45%, #06080f 100%);
+            --card-bg: rgba(18, 22, 40, 0.6);
+            --card-border: rgba(255, 46, 99, 0.12);
+            --card-hover: rgba(26, 32, 58, 0.8);
+            --accent-pink: #ff2e63;
+            --accent-glow: rgba(255, 46, 99, 0.3);
+            --text-main: #f1f5f9;
+            --text-muted: #7c8ba1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            background-image: var(--bg-gradient);
+            color: var(--text-main);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            letter-spacing: -0.01em;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding-bottom: 40px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 17px;
+            letter-spacing: -0.6px;
+        }
+
+        .logo span {
+            color: var(--accent-pink);
+            text-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .web-link {
+            background: linear-gradient(135deg, #ff2e63 0%, #ff5c8a 100%);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 11px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 18px rgba(255, 46, 99, 0.35);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+            letter-spacing: 0.01em;
+        }
+
+        .web-link:hover,
+        .web-link:active {
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(255, 46, 99, 0.55);
+        }
+
+        .hero {
+            background: linear-gradient(145deg, rgba(255, 46, 99, 0.06) 0%, rgba(18, 22, 40, 0.7) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 26px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: var(--accent-pink);
+            filter: blur(80px);
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 23px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -0.6px;
+            background: linear-gradient(135deg, #ffffff 0%, #c4cbe0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            background: rgba(12, 16, 30, 0.85);
+            padding: 4px;
+            border-radius: 15px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 6px;
+            text-align: center;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.01em;
+        }
+
+        .tab:hover {
+            color: #d0d8e8;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #ff2e63 0%, #ff5c8a 100%);
+            color: white;
+            box-shadow: 0 4px 18px rgba(255, 46, 99, 0.35);
+            transform: scale(1.02);
+        }
+
+        .section {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            animation: fadeSlide 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section.active {
+            display: flex;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 15px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #ff2e63, #ff5c8a);
+            border-radius: 0 3px 3px 0;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .card:hover::before,
+        .card:active::before {
+            opacity: 1;
+        }
+
+        .card:hover,
+        .card:active {
+            transform: translateX(4px);
+            background-color: var(--card-hover);
+            border-color: rgba(255, 46, 99, 0.3);
+            box-shadow: 0 8px 28px rgba(255, 46, 99, 0.12);
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            max-width: 78%;
+        }
+
+        .card h3 {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: -0.2px;
+        }
+
+        .card p {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .arrow-icon {
+            color: var(--accent-pink);
+            font-size: 18px;
+            font-weight: 800;
+            opacity: 0.6;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .card:hover .arrow-icon {
+            transform: translateX(4px);
+            opacity: 1;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .status-dot.red {
+            background-color: #ef4444;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(6, 8, 15, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 100;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #10152a;
+            border: 1px solid rgba(255, 46, 99, 0.25);
+            border-radius: 22px;
+            width: 100%;
+            max-width: 400px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+            animation: scaleUp 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes scaleUp {
+            from {
+                transform: scale(0.88);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--accent-pink);
+            letter-spacing: -0.3px;
+        }
+
+        .modal-body {
+            font-size: 13px;
+            color: #b8c4d9;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.04);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px;
+            border-radius: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            font-size: 13.5px;
+            letter-spacing: 0.01em;
+        }
+
+        .modal-close:hover,
+        .modal-close:active {
+            background: rgba(255, 46, 99, 0.15);
+            border-color: rgba(255, 46, 99, 0.35);
+            transform: scale(1.02);
+        }
+
+        a.link {
+            color: var(--accent-pink);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a.link:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            background: rgba(255, 46, 99, 0.1);
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #ff7a9e;
+            font-family: 'Plus Jakarta Sans', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="navbar">
+            <div class="logo">GTR <span>WIN</span></div>
+            <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="haptic()">Сайт ↗</a>
+        </div>
+
+        <div class="hero">
+            <h1>GTR WIN - HELP</h1>
+            <p>Помощь с сч/приваткой</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('faq', this)">Помощь</button>
+            <button class="tab" onclick="switchTab('status', this)">Статус</button>
+            <button class="tab" onclick="switchTab('dev', this)">Автор</button>
+        </div>
+
+        <div id="faq" class="section active">
+            <div class="card" onclick="openModal('Скины не появляются', '<b>1. Зайдите в тренировку, выйдите из нее — и все скины успешно появятся.</b>')">
+                <div class="card-info">
+                    <h3>Скины не появляются</h3>
+                    <p>Если в СЧ применилось, но в инвентаре пусто</p>
+                </div>
+                <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="card" onclick="openModal('Зависание на 10-100%', '<b>1 способ.</b> Кастомные сборки BlueStacks/MSI не подходят. Скачайте версию из ошибки 1002.<br><br><b>2 способ.</b> Очистите папку <code>%TEMP%</code> (Win + R) и добавьте лоадер в исключения антивируса.')">
+                <div class="card-info">
+                    <h3>Зависание на 10-100%</h3>
+                    <p>Проблемы с эмулятором или защитником Windows</p>
+                </div>
+                <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="card" onclick="openModal('Injection failed', '<b>Способ 1.</b> Очистите временные файлы через <code>%TEMP%</code> и перезапустите лоадер.<br><br><b>Способ 2.</b> Переустановите поддерживаемую версию эмулятора.')">
+                <div class="card-info">
+                    <h3>Injection failed</h3>
+                    <p>Failed to prepare the cheat payload</p>
+                </div>
+                <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="card" onclick="openModal('HWID doesn’t match', 'Зайдите в официальный бот проекта, найдите кнопку сброса HWID или напишите в закрепленном топике ключей.')">
+                <div class="card-info">
+                    <h3>HWID doesn’t match</h3>
+                    <p>Ошибка привязки оборудования</p>
+                </div>
+                <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="card" onclick="openModal('Ошибка 1002', 'Скачайте <a class=\'link\' href=\'https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file\'>Bluestacks 5</a> или <a class=\'link\' href=\'https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file\'>MSI APP Player</a> со старой поддержкой ADB.')">
+                <div class="card-info">
+                    <h3>Ошибка 1002</h3>
+                    <p>Неподдерживаемая версия эмулятора</p>
+                </div>
+                <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="card" onclick="openModal('Ошибка 1003', 'Данная ошибка происходит потому что вы запускаете платку/сч не в главном меню игры.')">
+                <div class="card-info">
+                    <h3>Ошибка 1003</h3>
+                    <p>Запуск вне главного меню игры</p>
+                </div>
+                <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="card" onclick="openModal('Ошибка 1004', 'Включите ADB в настройках эмулятора:<br><b>Настройки ➜ Дополнительно ➜ ADB</b>')">
+                <div class="card-info">
+                    <h3>Ошибка 1004</h3>
+                    <p>Требуется включить ADB в эмуляторе</p>
+                </div>
+                <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="card" onclick="openModal('Ошибка 1006', 'У вас установлена старая версия лоадера. Скачайте свежую версию из телеграм-канала или на сайте.')">
+                <div class="card-info">
+                    <h3>Ошибка 1006</h3>
+                    <p>Устаревшая версия лоадера</p>
+                </div>
+                <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="card" onclick="openModal('Ошибка 1007', 'Нужно временно отключить Защиту в реальном времени в Параметрах безопасности Windows.')">
+                <div class="card-info">
+                    <h3>Ошибка 1007</h3>
+                    <p>Блокировка антивирусом Windows Defender</p>
+                </div>
+                <div class="arrow-icon">›</div>
+            </div>
+
+            <div class="card" onclick="openModal('Ошибка 2007', '<b>Способ 1.</b> Перезапустите лоадер от имени администратора и проверьте интернет.<br><br><b>Способ 2.</b> Проверьте статус сервисов во вкладке Статус.')">
+                <div class="card-info">
+                    <h3>Ошибка 2007</h3>
+                    <p>Ошибка соединения или запуска</p>
+                </div>
+                <div class="arrow-icon">›</div>
+            </div>
+        </div>
+
+        <div id="status" class="section">
+            <div class="card">
+                <div class="card-info" style="max-width: 100%;">
+                    <h3 style="display: flex; align-items: center; gap: 8px;">
+                        <span class="status-dot red"></span> Win Alien Pro
+                    </h3>
+                    <p style="white-space: normal;">Скоро</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-info" style="max-width: 100%;">
+                    <h3 style="display: flex; align-items: center; gap: 8px;">
+                        <span class="status-dot red"></span> Skinchanger
+                    </h3>
+                    <p style="white-space: normal;">Скоро</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="dev" class="section">
+            <div class="card">
+                <div class="card-info" style="max-width: 100%;">
+                    <h3>Разработчик сайта</h3>
+                    <p style="white-space: normal; color: #fff; margin-top: 4px;"> <b>@morty_rick_1</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <div id="modalTitle" class="modal-title">Заголовок</div>
+            <div id="modalBody" class="modal-body">Текст...</div>
+            <button class="modal-close" onclick="closeModalBtn()">Понятно</button>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function haptic() {
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('medium');
+            }
+        }
+
+        function switchTab(tabId, element) {
+            haptic();
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+        }
+
+        function openModal(title, text) {
+            haptic();
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBody').innerHTML = text;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModalBtn() {
+            haptic();
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function closeModal(e) {
+            if (e.target.id === 'modal') {
+                document.getElementById('modal').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
