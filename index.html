@@ -6,7 +6,7 @@
 <title>GTR-WIN</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&family=Rubik:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#05060c; --panel:rgba(22,24,46,.92); --panel-2:rgba(30,32,60,.95);
@@ -18,7 +18,7 @@ html{background:var(--ink)}
 body{color:var(--text);min-height:100vh;display:flex;justify-content:center;background:var(--ink);
   padding:calc(14px + env(safe-area-inset-top)) 14px calc(28px + env(safe-area-inset-bottom));
   letter-spacing:-.01em;overflow-x:hidden;position:relative}
-/* aurora background (без тяжёлых блюров и анимаций — убирает мерцание) */
+/* aurora background */
 .aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(120% 70% at 50% 0%,#150f33 0%,#080913 55%,#05060c 100%)}
 .aurora i{position:absolute;border-radius:50%}
 .aurora i:nth-child(1){width:520px;height:520px;top:-250px;left:-220px;background:radial-gradient(circle,rgba(109,74,255,.45),transparent 70%)}
@@ -61,7 +61,7 @@ body{color:var(--text);min-height:100vh;display:flex;justify-content:center;back
 .tabs{position:relative;display:grid;grid-template-columns:repeat(5,1fr);padding:4px;border-radius:18px;background:rgba(10,12,24,.96);border:1px solid var(--line)}
 .pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/5);border-radius:14px;background:linear-gradient(135deg,var(--pink),#ff5c8a);
   box-shadow:0 6px 24px rgba(255,46,99,.45),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .38s cubic-bezier(.5,1.4,.5,1)}
-.tab{position:relative;z-index:1;padding:11px 2px;font-size:11px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .3s;white-space:nowrap;text-align:center}
+.tab{position:relative;z-index:1;padding:11px 2px;font-family:'Rubik',system-ui,sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.01em;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .3s;white-space:nowrap;text-align:center}
 .tab.active{color:#fff}
 
 /* sections & cards */
@@ -121,8 +121,6 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
 .lang-option .check{color:var(--pink);font-weight:800;font-size:16px;display:none}
 .lang-option.active .check{display:block}
 
-#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);z-index:200;max-width:90%;padding:11px 18px;border-radius:14px;background:#171a35;border:1px solid rgba(255,46,99,.35);color:#fff;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#toast.show{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -134,7 +132,7 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     <div class="logo">GTR <span>WIN</span></div>
     <div class="nav-actions">
       <button class="lang-btn" id="langBtn" onclick="openLangModal()">RU</button>
-      <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="haptic()" id="siteLink">Сайт ↗</a>
+      <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="haptic()" id="siteLink">Сайт</a>
     </div>
   </div>
 
@@ -254,15 +252,14 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
   </div>
 </div>
 
-<!-- Telegram SDK грузится в конце, чтобы не блокировать отрисовку -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
-/* Все файлы лежат в корне репозитория рядом с index.html,
-   поэтому ссылки относительные и подстраиваются под адрес GitHub Pages. */
+/* Файлы для скачивания — ссылки на MediaFire.
+   Видео лежат в корне репозитория рядом с index.html. */
 const FILES = {
-  rootApp:  'root-my-android.apk',
-  kernelsu: 'KernelSU.apk',
-  scApp:    'WINchanger.Loader.exe',
+  rootApp:  'https://www.mediafire.com/file/8ek8aq3zkakilzd/root-my-android.apk/file',
+  kernelsu: 'https://www.mediafire.com/file/qmfgn4l0pnmlme9/KernelSU.apk/file',
+  scApp:    'https://www.mediafire.com/file/6epmvnh4reb0srh/WINchanger.Loader.exe/file',
   rootVideo: 'VID_20261016_204713_559.mp4',
   scVideo: '⚡Бесплатный скинченджер для STANDOFF 2 🔥 Установка и обзор WinChanger 🧠 (1).mp4'
 };
@@ -276,49 +273,22 @@ if (tg) {
 
 function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return encodeURI(u); } }
 
-/* ============================================================
-   СКАЧИВАНИЕ ФАЙЛОВ В TELEGRAM MINI APP
-   1) tg.downloadFile — только в Bot API 8.0+ (иначе молча не работает)
-   2) tg.openLink — внешний браузер скачает файл
-   3) <a download> — обычный браузер
-   ============================================================ */
-function showToast(msg){
-  let t=document.getElementById('toast');
-  if(!t){t=document.createElement('div');t.id='toast';document.body.appendChild(t);}
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(showToast._t);
-  showToast._t=setTimeout(()=>t.classList.remove('show'),2500);
-}
-
-function downloadFile(u){
+/* Открытие страницы скачивания (MediaFire) без уведомлений */
+function downloadFile(url){
   haptic();
-  const url = abs(u);
-  const fileName = decodeURIComponent(u.split('?')[0].split('/').pop());
-  showToast('⬇ ' + fileName);
 
-  // 1. Внутри Telegram: внешний браузер скачает файл (работает во всех версиях)
+  // Внутри Telegram: открываем страницу во внешнем браузере
   if (tg && typeof tg.openLink === 'function' && tg.initData) {
     try { tg.openLink(url); return; } catch (e) { console.warn('openLink failed', e); }
   }
 
-  // 2. Нативное скачивание Telegram (запасной вариант)
-  if (tg && typeof tg.downloadFile === 'function' && tg.initData) {
-    try { tg.downloadFile({ url: url, file_name: fileName }); return; } catch (e) { console.warn('downloadFile failed', e); }
-  }
-
-  // 3. Обычный браузер
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  a.rel = 'noopener';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+  // Обычный браузер: новая вкладка
+  window.open(url, '_blank', 'noopener');
 }
 
 const translations = {
   ru: {
-    siteLink:'Сайт ↗', heroTitle:'GTR WIN - HELP', heroSubtitle:'Помощь с сч/приваткой',
+    siteLink:'Сайт', heroTitle:'GTR WIN - HELP', heroSubtitle:'Помощь с сч/приваткой',
     tabFaq:'Помощь', tabRoot:'Рут', tabSc:'СЧ', tabStatus:'Статус', tabDev:'Автор',
     rootVideoLabel:'Туториал', rootVideoTitle:'Как получить рут-права:', rootFilesLabel:'Файлы',
     scVideoLabel:'Туториал', scVideoTitle:'Установка и обзор:', scFilesLabel:'Файлы',
@@ -350,7 +320,7 @@ const translations = {
     }
   },
   en: {
-    siteLink:'Site ↗', heroTitle:'GTR WIN - HELP', heroSubtitle:'Help with Skinchanger/Private',
+    siteLink:'Site', heroTitle:'GTR WIN - HELP', heroSubtitle:'Help with Skinchanger/Private',
     tabFaq:'Help', tabRoot:'Root', tabSc:'SC', tabStatus:'Status', tabDev:'Author',
     rootVideoLabel:'Tutorial', rootVideoTitle:'How to get root access:', rootFilesLabel:'Files',
     scVideoLabel:'Tutorial', scVideoTitle:'Installation and review:', scFilesLabel:'Files',
@@ -382,7 +352,7 @@ const translations = {
     }
   },
   ua: {
-    siteLink:'Сайт ↗', heroTitle:'GTR WIN - HELP', heroSubtitle:'Допомога зі скінченджером/приваткою',
+    siteLink:'Сайт', heroTitle:'GTR WIN - HELP', heroSubtitle:'Допомога зі скінченджером/приваткою',
     tabFaq:'Допомога', tabRoot:'Рут', tabSc:'СЧ', tabStatus:'Статус', tabDev:'Автор',
     rootVideoLabel:'Туторіал', rootVideoTitle:'Як отримати рут-права:', rootFilesLabel:'Файли',
     scVideoLabel:'Туторіал', scVideoTitle:'Встановлення та огляд:', scFilesLabel:'Файли',
