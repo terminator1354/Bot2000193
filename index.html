@@ -257,12 +257,14 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
 <!-- Telegram SDK грузится в конце, чтобы не блокировать отрисовку -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
+/* Все файлы лежат в корне репозитория рядом с index.html,
+   поэтому ссылки относительные и подстраиваются под адрес GitHub Pages. */
 const FILES = {
   rootApp:  'root-my-android.apk',
   kernelsu: 'KernelSU.apk',
+  scApp:    'WINchanger.Loader.exe',
   rootVideo: 'VID_20261016_204713_559.mp4',
-  scApp: 'WINchanger.Loader.exe',
-  scVideo: 'sc-video.mp4'
+  scVideo: '⚡Бесплатный скинченджер для STANDOFF 2 🔥 Установка и обзор WinChanger 🧠 (1).mp4'
 };
 
 let tg = window.Telegram && window.Telegram.WebApp;
@@ -272,7 +274,7 @@ if (tg) {
   try { tg.setHeaderColor('#05060c'); tg.setBackgroundColor('#05060c'); } catch (e) {}
 }
 
-function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return u; } }
+function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return encodeURI(u); } }
 
 /* ============================================================
    СКАЧИВАНИЕ ФАЙЛОВ В TELEGRAM MINI APP
@@ -291,7 +293,7 @@ function showToast(msg){
 function downloadFile(u){
   haptic();
   const url = abs(u);
-  const fileName = u.split('/').pop();
+  const fileName = decodeURIComponent(u.split('?')[0].split('/').pop());
   showToast('⬇ ' + fileName);
 
   // 1. Внутри Telegram: внешний браузер скачает файл (работает во всех версиях)
