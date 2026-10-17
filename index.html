@@ -58,8 +58,8 @@ body{color:var(--text);min-height:100vh;display:flex;justify-content:center;back
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
 /* tabs */
-.tabs{position:relative;display:grid;grid-template-columns:repeat(5,1fr);padding:4px;border-radius:18px;background:rgba(10,12,24,.96);border:1px solid var(--line)}
-.pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/5);border-radius:14px;background:linear-gradient(135deg,var(--pink),#ff5c8a);
+.tabs{position:relative;display:grid;grid-template-columns:repeat(6,1fr);padding:4px;border-radius:18px;background:rgba(10,12,24,.96);border:1px solid var(--line)}
+.pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/6);border-radius:14px;background:linear-gradient(135deg,var(--pink),#ff5c8a);
   box-shadow:0 6px 24px rgba(255,46,99,.45),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .38s cubic-bezier(.5,1.4,.5,1)}
 .tab{position:relative;z-index:1;padding:11px 2px;font-family:'Rubik',system-ui,sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.01em;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .3s;white-space:nowrap;text-align:center}
 .tab.active{color:#fff}
@@ -96,6 +96,25 @@ a.card{text-decoration:none;color:inherit}
 .video-card video{display:block;width:100%;max-height:68vh;border-radius:12px;background:#000;object-fit:contain}
 .video-title{font-size:14px;font-weight:700;letter-spacing:-.02em;padding:2px 6px 4px}
 .tag{flex-shrink:0;font-size:10.5px;font-weight:800;color:#ff8fae;background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:3px 8px;border-radius:8px}
+
+/* dll card */
+.dll-card{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--r);cursor:pointer;
+  background:var(--panel);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.28);transition:transform .2s,background .25s,border-color .25s;text-decoration:none;color:inherit}
+.dll-card::before{content:'';position:absolute;left:0;top:18%;bottom:18%;width:3px;border-radius:0 4px 4px 0;background:linear-gradient(180deg,var(--pink),var(--violet));opacity:.55;transition:.25s}
+.dll-card:active{transform:scale(.985);background:var(--panel-2);border-color:rgba(255,46,99,.4)}
+.dll-card:active::before{opacity:1;top:8%;bottom:8%}
+@media (hover:hover){.dll-card:hover{background:var(--panel-2);border-color:rgba(255,46,99,.35)}.dll-card:hover::before{opacity:1;top:8%;bottom:8%}.dll-card:hover .arrow{background:var(--pink);border-color:var(--pink)}}
+.dll-img{flex-shrink:0;width:52px;height:52px;border-radius:14px;object-fit:cover;background:rgba(255,255,255,.05);border:1px solid var(--line);cursor:zoom-in;transition:.2s}
+.dll-img:active{transform:scale(.95)}
+.dll-card .card-info{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+.dll-card h3{font-size:14px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.dll-card p{font-size:12px;color:var(--muted);font-weight:500;line-height:1.4;white-space:normal}
+
+/* image preview modal */
+.img-viewer{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(4,5,10,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.img-viewer.open{display:flex;animation:fade .25s both}
+.img-viewer img{max-width:100%;max-height:85vh;border-radius:18px;box-shadow:0 0 70px rgba(255,46,99,.25),0 30px 80px rgba(0,0,0,.8);animation:sheet .35s cubic-bezier(.2,1.1,.3,1)}
+.img-viewer .close-hint{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);font-size:12px;color:var(--muted);font-weight:600;pointer-events:none}
 
 /* modal bottom sheet */
 .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(4,5,10,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
@@ -146,8 +165,9 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     <button class="tab active" onclick="switchTab('faq',this,0)" id="tabFaq">Помощь</button>
     <button class="tab" onclick="switchTab('root',this,1)" id="tabRoot">Рут</button>
     <button class="tab" onclick="switchTab('sc',this,2)" id="tabSc">СЧ</button>
-    <button class="tab" onclick="switchTab('status',this,3)" id="tabStatus">Статус</button>
-    <button class="tab" onclick="switchTab('dev',this,4)" id="tabDev">Автор</button>
+    <button class="tab" onclick="switchTab('dll',this,3)" id="tabDll">Длл</button>
+    <button class="tab" onclick="switchTab('status',this,4)" id="tabStatus">Статус</button>
+    <button class="tab" onclick="switchTab('dev',this,5)" id="tabDev">Автор</button>
   </div>
 
   <div id="faq" class="section active"></div>
@@ -201,6 +221,29 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     </a>
   </div>
 
+  <!-- DLL Section -->
+  <div id="dll" class="section">
+    <div class="sec-label" id="dllLabel">Файлы</div>
+
+    <a href="https://www.mediafire.com/file/crvu0udn6aucihe/opengl32.dll/file" target="_blank" class="dll-card" onclick="haptic()">
+      <img src="https://i.ibb.co/cKJP9PTL/image.png" alt="Dlame" class="dll-img" onclick="openImgViewer(event,'https://i.ibb.co/cKJP9PTL/image.png')">
+      <div class="card-info">
+        <h3>Dlame</h3>
+        <p>PC</p>
+      </div>
+      <div class="arrow dl"></div>
+    </a>
+
+    <a href="https://www.mediafire.com/file/ni1wl3bqeegv1cx/opengl32%25282%2529.dll/file" target="_blank" class="dll-card" onclick="haptic()">
+      <img src="https://i.ibb.co/tRV4N9t/image.png" alt="Sorryx" class="dll-img" onclick="openImgViewer(event,'https://i.ibb.co/tRV4N9t/image.png')">
+      <div class="card-info">
+        <h3>Sorryx</h3>
+        <p>PC</p>
+      </div>
+      <div class="arrow dl"></div>
+    </a>
+  </div>
+
   <div id="status" class="section">
     <div class="card static">
       <div class="card-info">
@@ -225,6 +268,12 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
       </div>
     </div>
   </div>
+</div>
+
+<!-- Image Viewer -->
+<div id="imgViewer" class="img-viewer" onclick="closeImgViewer(event)">
+  <img id="imgViewerImg" src="" alt="Preview">
+  <div class="close-hint" id="imgViewerHint">Закрыть</div>
 </div>
 
 <!-- Main FAQ Modal -->
@@ -278,7 +327,10 @@ function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return
 const translations = {
   ru: {
     siteLink:'Сайт', heroTitle:'GTR WIN - HELP', heroSubtitle:'Помощь с сч/приваткой',
-    tabFaq:'Помощь', tabRoot:'Рут', tabSc:'СЧ', tabStatus:'Статус', tabDev:'Автор',
+    tabFaq:'Помощь', tabRoot:'Рут', tabSc:'СЧ', tabDll:'Длл', tabStatus:'Статус', tabDev:'Автор',
+    dllLabel:'Файлы',
+    dllDlameDesc:'PC', dllSorryxDesc:'PC',
+    imgViewerHint:'Закрыть',
     rootVideoLabel:'Туториал', rootVideoTitle:'Как получить рут-права:', rootFilesLabel:'Файлы',
     scVideoLabel:'Туториал', scVideoTitle:'Установка и обзор:', scFilesLabel:'Файлы',
     scFile1Desc:'PC',
@@ -310,7 +362,10 @@ const translations = {
   },
   en: {
     siteLink:'Site', heroTitle:'GTR WIN - HELP', heroSubtitle:'Help with Skinchanger/Private',
-    tabFaq:'Help', tabRoot:'Root', tabSc:'SC', tabStatus:'Status', tabDev:'Author',
+    tabFaq:'Help', tabRoot:'Root', tabSc:'SC', tabDll:'DLL', tabStatus:'Status', tabDev:'Author',
+    dllLabel:'Files',
+    dllDlameDesc:'PC', dllSorryxDesc:'PC',
+    imgViewerHint:'Close',
     rootVideoLabel:'Tutorial', rootVideoTitle:'How to get root access:', rootFilesLabel:'Files',
     scVideoLabel:'Tutorial', scVideoTitle:'Installation and review:', scFilesLabel:'Files',
     scFile1Desc:'PC',
@@ -342,7 +397,10 @@ const translations = {
   },
   ua: {
     siteLink:'Сайт', heroTitle:'GTR WIN - HELP', heroSubtitle:'Допомога зі скінченджером/приваткою',
-    tabFaq:'Допомога', tabRoot:'Рут', tabSc:'СЧ', tabStatus:'Статус', tabDev:'Автор',
+    tabFaq:'Допомога', tabRoot:'Рут', tabSc:'СЧ', tabDll:'Длл', tabStatus:'Статус', tabDev:'Автор',
+    dllLabel:'Файли',
+    dllDlameDesc:'PC', dllSorryxDesc:'PC',
+    imgViewerHint:'Закрити',
     rootVideoLabel:'Туторіал', rootVideoTitle:'Як отримати рут-права:', rootFilesLabel:'Файли',
     scVideoLabel:'Туторіал', scVideoTitle:'Встановлення та огляд:', scFilesLabel:'Файли',
     scFile1Desc:'PC',
@@ -390,7 +448,8 @@ keys.forEach((k, i) => {
 
 const ids = [
   'siteLink','heroTitle','heroSubtitle',
-  'tabFaq','tabRoot','tabSc','tabStatus','tabDev',
+  'tabFaq','tabRoot','tabSc','tabDll','tabStatus','tabDev',
+  'dllLabel','dllDlameDesc','dllSorryxDesc','imgViewerHint',
   'rootVideoLabel','rootVideoTitle','rootFilesLabel','rootFile1Desc','rootFile2Desc',
   'scVideoLabel','scVideoTitle','scFilesLabel','scFile1Desc',
   'statusSoon1','statusSoon2','devTitle','modalCloseBtn',
@@ -464,6 +523,20 @@ function openModal(key) {
 }
 function closeModalBtn() { haptic(); document.getElementById('modal').classList.remove('open'); }
 function closeModal(e) { if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open'); }
+
+// Image viewer
+function openImgViewer(e, src) {
+  e.preventDefault();
+  e.stopPropagation();
+  haptic();
+  document.getElementById('imgViewerImg').src = src;
+  document.getElementById('imgViewer').classList.add('open');
+}
+function closeImgViewer(e) {
+  if (e.target.id === 'imgViewer' || e.target.tagName === 'IMG') {
+    document.getElementById('imgViewer').classList.remove('open');
+  }
+}
 
 // Инициализация видео
 (function(){
