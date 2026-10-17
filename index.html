@@ -121,6 +121,8 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
 .lang-option .check{color:var(--pink);font-weight:800;font-size:16px;display:none}
 .lang-option.active .check{display:block}
 
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);z-index:200;max-width:90%;padding:11px 18px;border-radius:14px;background:#171a35;border:1px solid rgba(255,46,99,.35);color:#fff;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#toast.show{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -278,23 +280,28 @@ function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return
    2) tg.openLink — внешний браузер скачает файл
    3) <a download> — обычный браузер
    ============================================================ */
+function showToast(msg){
+  let t=document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';document.body.appendChild(t);}
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t=setTimeout(()=>t.classList.remove('show'),2500);
+}
+
 function downloadFile(u){
   haptic();
   const url = abs(u);
   const fileName = u.split('/').pop();
+  showToast('⬇ ' + fileName);
 
-  // 1. Нативное скачивание (Telegram с Bot API 8.0+)
-  if (tg && typeof tg.downloadFile === 'function' &&
-      typeof tg.isVersionAtLeast === 'function' && tg.isVersionAtLeast('8.0')) {
-    try {
-      tg.downloadFile({ url: url, file_name: fileName });
-      return;
-    } catch (e) { console.warn('tg.downloadFile failed', e); }
+  // 1. Внутри Telegram: внешний браузер скачает файл (работает во всех версиях)
+  if (tg && typeof tg.openLink === 'function' && tg.initData) {
+    try { tg.openLink(url); return; } catch (e) { console.warn('openLink failed', e); }
   }
 
-  // 2. Старые клиенты: открыть во внешнем браузере
-  if (tg && typeof tg.openLink === 'function') {
-    try { tg.openLink(url); return; } catch (e) { console.warn('openLink failed', e); }
+  // 2. Нативное скачивание Telegram (запасной вариант)
+  if (tg && typeof tg.downloadFile === 'function' && tg.initData) {
+    try { tg.downloadFile({ url: url, file_name: fileName }); return; } catch (e) { console.warn('downloadFile failed', e); }
   }
 
   // 3. Обычный браузер
