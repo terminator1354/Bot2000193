@@ -4,26 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>GTR-WIN</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&family=Rubik:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap');
 :root{
-  --ink:#05060c; --panel:rgba(22,24,46,.92); --panel-2:rgba(30,32,60,.95);
+  --ink:#05060c; --panel:rgba(20,22,42,.55); --panel-2:rgba(30,32,60,.7);
   --line:rgba(255,255,255,.07); --pink:#ff2e63; --pink-2:#ff6b93; --violet:#6d4aff;
   --text:#f3f5fb; --muted:#8089a8; --r:18px;
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;-webkit-tap-highlight-color:transparent}
 html{background:var(--ink)}
-body{color:var(--text);min-height:100vh;display:flex;justify-content:center;background:var(--ink);
+body{color:var(--text);min-height:100vh;display:flex;justify-content:center;
   padding:calc(14px + env(safe-area-inset-top)) 14px calc(28px + env(safe-area-inset-bottom));
   letter-spacing:-.01em;overflow-x:hidden;position:relative}
 /* aurora background */
 .aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(120% 70% at 50% 0%,#150f33 0%,#080913 55%,#05060c 100%)}
-.aurora i{position:absolute;border-radius:50%}
-.aurora i:nth-child(1){width:520px;height:520px;top:-250px;left:-220px;background:radial-gradient(circle,rgba(109,74,255,.45),transparent 70%)}
-.aurora i:nth-child(2){width:480px;height:480px;top:-30px;right:-300px;background:radial-gradient(circle,rgba(255,46,99,.3),transparent 70%)}
-.aurora i:nth-child(3){width:460px;height:460px;bottom:-280px;left:-60px;background:radial-gradient(circle,rgba(42,123,255,.22),transparent 70%)}
+.aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
+.aurora i:nth-child(1){width:320px;height:320px;background:var(--violet);top:-110px;left:-90px;animation:drift 18s ease-in-out infinite alternate}
+.aurora i:nth-child(2){width:300px;height:300px;background:var(--pink);top:120px;right:-130px;opacity:.32;animation:drift 22s ease-in-out infinite alternate-reverse}
+.aurora i:nth-child(3){width:260px;height:260px;background:#2a7bff;bottom:-120px;left:10%;opacity:.2;animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(40px,60px) scale(1.15)}}
 .aurora::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:36px 36px;
   -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 70%)}
 
@@ -31,12 +31,12 @@ body{color:var(--text);min-height:100vh;display:flex;justify-content:center;back
 
 /* navbar */
 .navbar{display:flex;justify-content:space-between;align-items:center;padding:10px 10px 10px 18px;
-  background:rgba(20,22,42,.94);
+  background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.05)}
 .logo{font-family:'Unbounded',sans-serif;font-weight:800;font-size:15px;letter-spacing:.02em;display:flex;gap:6px}
 .logo span{font-family:inherit;background:linear-gradient(135deg,var(--pink),var(--pink-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(255,46,99,.55))}
 .nav-actions{display:flex;gap:8px;align-items:center}
-.lang-btn{width:42px;height:36px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);font-size:12px;font-weight:800;cursor:pointer;transition:.25s;font-family:'Unbounded',sans-serif;}
+.lang-btn{width:42px;height:36px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text);font-size:12px;font-weight:800;cursor:pointer;transition:.25s}
 .lang-btn:active{transform:scale(.94);background:rgba(255,46,99,.15)}
 .web-link{height:36px;padding:0 16px;display:flex;align-items:center;border-radius:12px;color:#fff;text-decoration:none;font-size:12px;font-weight:700;white-space:nowrap;
   background:linear-gradient(135deg,var(--pink),#ff5c8a);box-shadow:0 6px 22px rgba(255,46,99,.4),inset 0 1px 0 rgba(255,255,255,.3);transition:.25s}
@@ -55,20 +55,20 @@ body{color:var(--text);min-height:100vh;display:flex;justify-content:center;back
   background:linear-gradient(180deg,#fff 20%,#b9a9ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
 .hero p{position:relative;z-index:1;font-size:13px;color:#a9b2cf;font-weight:500;animation:rise .8s .12s cubic-bezier(.2,.8,.2,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(14px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 
 /* tabs */
-.tabs{position:relative;display:grid;grid-template-columns:repeat(5,1fr);padding:4px;border-radius:18px;background:rgba(10,12,24,.96);border:1px solid var(--line)}
-.pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/5);border-radius:14px;background:linear-gradient(135deg,var(--pink),#ff5c8a);
+.tabs{position:relative;display:grid;grid-template-columns:repeat(4,1fr);padding:4px;border-radius:18px;background:rgba(10,12,24,.75);border:1px solid var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px)/4);border-radius:14px;background:linear-gradient(135deg,var(--pink),#ff5c8a);
   box-shadow:0 6px 24px rgba(255,46,99,.45),inset 0 1px 0 rgba(255,255,255,.3);transition:transform .38s cubic-bezier(.5,1.4,.5,1)}
-.tab{position:relative;z-index:1;padding:11px 2px;font-family:'Rubik',system-ui,sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.01em;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .3s;white-space:nowrap;text-align:center}
+.tab{position:relative;z-index:1;padding:11px 4px;font-size:12px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .3s;white-space:nowrap}
 .tab.active{color:#fff}
 
 /* sections & cards */
 .section{display:none;flex-direction:column;gap:9px}
 .section.active{display:flex}
 .card{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 14px 16px 18px;border-radius:var(--r);cursor:pointer;
-  background:var(--panel);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.28);transition:transform .2s,background .25s,border-color .25s}
+  background:var(--panel);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.28);transition:transform .2s,background .25s,border-color .25s}
 .card::before{content:'';position:absolute;left:0;top:18%;bottom:18%;width:3px;border-radius:0 4px 4px 0;background:linear-gradient(180deg,var(--pink),var(--violet));opacity:.55;transition:.25s}
 .card:active{transform:scale(.985);background:var(--panel-2);border-color:rgba(255,46,99,.4)}
 .card:active::before{opacity:1;top:8%;bottom:8%}
@@ -92,7 +92,7 @@ a.card{text-decoration:none;color:inherit}
 
 /* root tab */
 .sec-label{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:6px 4px 0}
-.video-card{position:relative;overflow:hidden;border-radius:var(--r);padding:10px;background:var(--panel);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.28);display:flex;flex-direction:column;gap:10px}
+.video-card{position:relative;overflow:hidden;border-radius:var(--r);padding:10px;background:var(--panel);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.28);display:flex;flex-direction:column;gap:10px}
 .video-card video{display:block;width:100%;max-height:68vh;border-radius:12px;background:#000;object-fit:contain}
 .video-title{font-size:14px;font-weight:700;letter-spacing:-.02em;padding:2px 6px 4px}
 .tag{flex-shrink:0;font-size:10.5px;font-weight:800;color:#ff8fae;background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:3px 8px;border-radius:8px}
@@ -112,15 +112,6 @@ a.card{text-decoration:none;color:inherit}
 a.link{color:var(--pink-2);font-weight:700;text-decoration:underline;text-decoration-color:rgba(255,107,147,.4);text-underline-offset:3px;word-break:break-word}
 code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:2px 7px;border-radius:7px;font-size:12px;color:#ff8fae;font-family:ui-monospace,Menlo,monospace}
 :focus-visible{outline:2px solid var(--pink-2);outline-offset:2px}
-
-/* lang selection modal */
-.lang-list{display:flex;flex-direction:column;gap:8px}
-.lang-option{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-radius:15px;
-  background:rgba(255,255,255,.04);border:1px solid var(--line);cursor:pointer;transition:.2s;color:var(--text);font-size:14px;font-weight:600}
-.lang-option:hover,.lang-option:active{background:rgba(255,46,99,.1);border-color:rgba(255,46,99,.3);transform:scale(.98)}
-.lang-option .check{color:var(--pink);font-weight:800;font-size:16px;display:none}
-.lang-option.active .check{display:block}
-
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -131,8 +122,8 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
   <div class="navbar">
     <div class="logo">GTR <span>WIN</span></div>
     <div class="nav-actions">
-      <button class="lang-btn" id="langBtn" onclick="openLangModal()">RU</button>
-      <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="downloadFile('https://win-changer.xyz/'); return false;" id="siteLink">Сайт</a>
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+      <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="haptic()" id="siteLink">Сайт ↗</a>
     </div>
   </div>
 
@@ -145,54 +136,42 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     <div class="pill" id="pill"></div>
     <button class="tab active" onclick="switchTab('faq',this,0)" id="tabFaq">Помощь</button>
     <button class="tab" onclick="switchTab('root',this,1)" id="tabRoot">Рут</button>
-    <button class="tab" onclick="switchTab('sc',this,2)" id="tabSc">СЧ</button>
-    <button class="tab" onclick="switchTab('status',this,3)" id="tabStatus">Статус</button>
-    <button class="tab" onclick="switchTab('dev',this,4)" id="tabDev">Автор</button>
+    <button class="tab" onclick="switchTab('status',this,2)" id="tabStatus">Статус</button>
+    <button class="tab" onclick="switchTab('dev',this,3)" id="tabDev">Автор</button>
   </div>
 
   <div id="faq" class="section active"></div>
 
-  <!-- Root Section -->
   <div id="root" class="section">
     <div class="sec-label" id="rootVideoLabel">Видео-туториал</div>
     <div class="video-card">
       <video id="rootVideo" controls playsinline preload="metadata"></video>
+      <a href="VID_20261016_204713_559.mp4" target="_blank" class="card" id="videoFallback" style="display:none" onclick="haptic()">
+        <div class="card-info"><h3>Открыть видео в браузере</h3></div>
+        <div class="arrow"></div>
+      </a>
       <div class="video-title" id="rootVideoTitle">Как получить рут-права:</div>
     </div>
 
     <div class="sec-label" id="rootFilesLabel">Файлы</div>
-    <div class="card" role="button" tabindex="0" onclick="downloadFile(FILES.rootApp)">
+    
+    <!-- Гарантированная ссылка для первого файла -->
+    <a href="root-my-android.apk" target="_blank" class="card" onclick="haptic()">
       <div class="card-info">
         <h3>root-my-android.apk <span class="tag">6.4 MB</span></h3>
         <p class="wrap" id="rootFile1Desc">Приложение для получения рут-прав</p>
       </div>
       <div class="arrow dl"></div>
-    </div>
-    <div class="card" role="button" tabindex="0" onclick="downloadFile(FILES.kernelsu)">
+    </a>
+
+    <!-- Гарантированная ссылка для второго файла -->
+    <a href="KernelSU.apk" target="_blank" class="card" onclick="haptic()">
       <div class="card-info">
         <h3>KernelSU.apk <span class="tag">12.8 MB</span></h3>
         <p class="wrap" id="rootFile2Desc">Менеджер рут-прав KernelSU</p>
       </div>
       <div class="arrow dl"></div>
-    </div>
-  </div>
-
-  <!-- SC Section -->
-  <div id="sc" class="section">
-    <div class="sec-label" id="scVideoLabel">Видео-туториал</div>
-    <div class="video-card">
-      <video id="scVideo" controls playsinline preload="metadata"></video>
-      <div class="video-title" id="scVideoTitle">Установка и обзор WinChanger:</div>
-    </div>
-
-    <div class="sec-label" id="scFilesLabel">Файлы</div>
-    <div class="card" role="button" tabindex="0" onclick="downloadFile(FILES.scApp)">
-      <div class="card-info">
-        <h3>WINchanger.Loader.exe <span class="tag">15.2 MB</span></h3>
-        <p class="wrap" id="scFile1Desc">Бесплатный скинченджер для STANDOFF 2</p>
-      </div>
-      <div class="arrow dl"></div>
-    </div>
+    </a>
   </div>
 
   <div id="status" class="section">
@@ -221,7 +200,6 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
   </div>
 </div>
 
-<!-- Main FAQ Modal -->
 <div id="modal" class="modal" onclick="closeModal(event)">
   <div class="sheet">
     <div id="modalTitle" class="modal-title">Заголовок</div>
@@ -230,82 +208,26 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
   </div>
 </div>
 
-<!-- Language Selection Modal -->
-<div id="langModal" class="modal" onclick="closeLangModal(event)">
-  <div class="sheet">
-    <div class="modal-title" id="langModalTitle">Выберите язык</div>
-    <div class="lang-list">
-      <div class="lang-option" data-lang="ru" onclick="selectLang('ru')">
-        <span>Русский</span>
-        <span class="check">✓</span>
-      </div>
-      <div class="lang-option" data-lang="en" onclick="selectLang('en')">
-        <span>English</span>
-        <span class="check">✓</span>
-      </div>
-      <div class="lang-option" data-lang="ua" onclick="selectLang('ua')">
-        <span>Українська</span>
-        <span class="check">✓</span>
-      </div>
-    </div>
-    <button class="modal-close" onclick="closeLangModalBtn()" id="langModalCloseBtn">Отмена</button>
-  </div>
-</div>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
 const FILES = {
-  rootApp:  'https://www.mediafire.com/file/8ek8aq3zkakilzd/root-my-android.apk/file',
-  kernelsu: 'https://www.mediafire.com/file/qmfgn4l0pnmlme9/KernelSU.apk/file',
-  scApp:    'https://www.mediafire.com/file/6epmvnh4reb0srh/WINchanger.Loader.exe/file',
-  rootVideo: 'VID_20261016_204713_559.mp4',
-  scVideo: '⚡Бесплатный скинченджер для STANDOFF 2 🔥 Установка и обзор WinChanger 🧠 (1).mp4'
+  rootApp:  'root-my-android.apk',
+  kernelsu: 'KernelSU.apk',
+  video:    'VID_20261016_204713_559.mp4'
 };
+function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return u; } }
 
 let tg = window.Telegram && window.Telegram.WebApp;
-if (tg) {
-  try { tg.ready(); } catch (e) {}
-  try { tg.expand(); } catch (e) {}
-  try { tg.setHeaderColor('#05060c'); tg.setBackgroundColor('#05060c'); } catch (e) {}
-}
-
-function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return encodeURI(u); } }
-
-/* Исправленная функция открытия внешних ссылок и файлов */
-function downloadFile(url){
-  haptic();
-
-  // 1. Пробуем открыть через Telegram Web App API
-  if (tg && typeof tg.openLink === 'function') {
-    try {
-      tg.openLink(url);
-      return;
-    } catch (e) {
-      console.warn('tg.openLink failed', e);
-    }
-  }
-
-  // 2. Универсальный фоллбэк для обычных браузеров и ПК
-  const a = document.createElement('a');
-  a.href = url;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
+if (tg) { tg.expand(); try { tg.setHeaderColor('#05060c'); tg.setBackgroundColor('#05060c'); } catch (e) {} }
 
 const translations = {
   ru: {
-    siteLink:'Сайт', heroTitle:'GTR WIN - HELP', heroSubtitle:'Помощь с сч/приваткой',
-    tabFaq:'Помощь', tabRoot:'Рут', tabSc:'СЧ', tabStatus:'Статус', tabDev:'Автор',
+    siteLink:'Сайт ↗', heroTitle:'GTR WIN - HELP', heroSubtitle:'Помощь с сч/приваткой',
+    tabFaq:'Помощь', tabRoot:'Рут', tabStatus:'Статус', tabDev:'Автор',
     rootVideoLabel:'Туториал', rootVideoTitle:'Как получить рут-права:', rootFilesLabel:'Файлы',
-    scVideoLabel:'Туториал', scVideoTitle:'Установка и обзор:', scFilesLabel:'Файлы',
-    scFile1Desc:'PC',
     rootFile1Desc:'Приложение для получения рут-прав', rootFile2Desc:'Менеджер рут-прав KernelSU',
     faq1Title:'Скины не появляются', faq1Desc:'Если в СЧ применилось, но в инвентаре пусто',
     faq2Title:'Зависание на 10-100%', faq2Desc:'Проблемы с эмулятором или защитником Windows',
-    faq3Title:'Injection failed', faq3Desc:'Не удалось подготовить чит-пейлоад',
+    faq3Title:'Injection failed', faq3Desc:'Failed to prepare the cheat payload',
     faq4Title:'HWID doesn’t match', faq4Desc:'Ошибка привязки оборудования',
     faq5Title:'Ошибка 1002', faq5Desc:'Неподдерживаемая версия эмулятора',
     faq6Title:'Ошибка 1003', faq6Desc:'Запуск вне главного меню игры',
@@ -314,7 +236,6 @@ const translations = {
     faq9Title:'Ошибка 1007', faq9Desc:'Блокировка антивирусом Windows Defender',
     faq10Title:'Ошибка 2007', faq10Desc:'Ошибка соединения или запуска',
     statusSoon1:'Скоро', statusSoon2:'Скоро', devTitle:'Разработчик сайта:', modalCloseBtn:'Понятно',
-    langModalTitle:'Выберите язык', langModalCloseBtn:'Отмена',
     modals:{
       skins:{title:'Скины не появляются',body:'<b>1. Зайдите в тренировку, выйдите из нее - и все скины успешно появятся.</b>'},
       freeze:{title:'Зависание на 10-100%',body:'<b>1 способ.</b> Кастомные сборки BlueStacks/MSI не подходят. Скачайте версию из ошибки 1002.<br><br><b>2 способ.</b> Очистите папку <code>%TEMP%</code> (Win + R) и добавьте лоадер в исключения антивируса.'},
@@ -330,10 +251,8 @@ const translations = {
   },
   en: {
     siteLink:'Site', heroTitle:'GTR WIN - HELP', heroSubtitle:'Help with Skinchanger/Private',
-    tabFaq:'Help', tabRoot:'Root', tabSc:'SC', tabStatus:'Status', tabDev:'Author',
+    tabFaq:'Help', tabRoot:'Root', tabStatus:'Status', tabDev:'Author',
     rootVideoLabel:'Tutorial', rootVideoTitle:'How to get root access:', rootFilesLabel:'Files',
-    scVideoLabel:'Tutorial', scVideoTitle:'Installation and review:', scFilesLabel:'Files',
-    scFile1Desc:'PC',
     rootFile1Desc:'App for getting root access', rootFile2Desc:'KernelSU root manager',
     faq1Title:'Skins not appearing', faq1Desc:'If applied in SC but inventory is empty',
     faq2Title:'Stuck at 10-100%', faq2Desc:'Emulator or Windows Defender issues',
@@ -346,7 +265,6 @@ const translations = {
     faq9Title:'Error 1007', faq9Desc:'Blocked by Windows Defender',
     faq10Title:'Error 2007', faq10Desc:'Connection or launch error',
     statusSoon1:'Soon', statusSoon2:'Soon', devTitle:'Website developer:', modalCloseBtn:'Got it',
-    langModalTitle:'Select Language', langModalCloseBtn:'Cancel',
     modals:{
       skins:{title:'Skins not appearing',body:'<b>1. Enter training, then exit - all skins will appear successfully.</b>'},
       freeze:{title:'Stuck at 10-100%',body:'<b>Method 1.</b> Custom BlueStacks/MSI builds are not supported. Download the version from error 1002.<br><br><b>Method 2.</b> Clear the <code>%TEMP%</code> folder (Win + R) and add the loader to your antivirus exclusions.'},
@@ -358,38 +276,6 @@ const translations = {
       err1006:{title:'Error 1006',body:'You have an outdated loader version. Download the latest version from the Telegram channel or website.'},
       err1007:{title:'Error 1007',body:'You need to temporarily disable Real-time Protection in Windows Security settings.'},
       err2007:{title:'Error 2007',body:'<b>Method 1.</b> Restart the loader as administrator and check your internet.<br><br><b>Method 2.</b> Check service status in the Status tab.'}
-    }
-  },
-  ua: {
-    siteLink:'Сайт', heroTitle:'GTR WIN - HELP', heroSubtitle:'Допомога зі скінченджером/приваткою',
-    tabFaq:'Допомога', tabRoot:'Рут', tabSc:'СЧ', tabStatus:'Статус', tabDev:'Автор',
-    rootVideoLabel:'Туторіал', rootVideoTitle:'Як отримати рут-права:', rootFilesLabel:'Файли',
-    scVideoLabel:'Туторіал', scVideoTitle:'Встановлення та огляд:', scFilesLabel:'Файли',
-    scFile1Desc:'PC',
-    rootFile1Desc:'Додаток для отримання рут-прав', rootFile2Desc:'Менеджер рут-прав KernelSU',
-    faq1Title:'Скіни не з\'являються', faq1Desc:'Якщо в СЧ застосувалося, але в інвентарі порожньо',
-    faq2Title:'Зависання на 10-100%', faq2Desc:'Проблеми з емулятором або захисником Windows',
-    faq3Title:'Injection failed', faq3Desc:'Не вдалося підготувати чит-пейлоад',
-    faq4Title:'HWID doesn’t match', faq4Desc:'Помилка прив\'язки обладнання',
-    faq5Title:'Помилка 1002', faq5Desc:'Непідтримувана версія емулятора',
-    faq6Title:'Помилка 1003', faq6Desc:'Запуск поза головним меню гри',
-    faq7Title:'Помилка 1004', faq7Desc:'Потрібно увімкнути ADB в емуляторі',
-    faq8Title:'Помилка 1006', faq8Desc:'Застаріла версія лоадера',
-    faq9Title:'Помилка 1007', faq9Desc:'Блокування антивірусом Windows Defender',
-    faq10Title:'Помилка 2007', faq10Desc:'Помилка з\'єднання або запуску',
-    statusSoon1:'Скоро', statusSoon2:'Скоро', devTitle:'Розробник сайту:', modalCloseBtn:'Зрозуміло',
-    langModalTitle:'Оберіть мову', langModalCloseBtn:'Скасувати',
-    modals:{
-      skins:{title:'Скіни не з\'являються',body:'<b>1. Зайдіть у тренування, вийдіть з нього - і всі скіни успішно з\'являться.</b>'},
-      freeze:{title:'Зависання на 10-100%',body:'<b>1 спосіб.</b> Кастомні збірки BlueStacks/MSI не підходять. Завантажте версію з помилки 1002.<br><br><b>2 спосіб.</b> Очистіть папку <code>%TEMP%</code> (Win + R) і додайте лоадер у виключення антивірусу.'},
-      injection:{title:'Injection failed',body:'<b>Спосіб 1.</b> Очистіть тимчасові файли через <code>%TEMP%</code> і перезапустіть лоадер.<br><br><b>Спосіб 2.</b> Перевстановіть підтримувану версію емулятора.'},
-      hwid:{title:'HWID doesn’t match',body:'Зайдіть в офіційний бот проєкту, знайдіть кнопку скидання HWID або напишіть у закріпленому топіку ключів.'},
-      err1002:{title:'Помилка 1002',body:'Завантажте <a class=\'link\' href=\'https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file\'>Bluestacks 5</a> або <a class=\'link\' href=\'https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file\'>MSI APP Player</a> зі старою підтримкою ADB.'},
-      err1003:{title:'Помилка 1003',body:'Ця помилка виникає, тому що ви запускаєте платку/СЧ не в головному меню гри.'},
-      err1004:{title:'Помилка 1004',body:'Увімкніть ADB в налаштуваннях емулятора:<br><b>Налаштування ➜ Додатково ➜ ADB</b>'},
-      err1006:{title:'Помилка 1006',body:'У вас встановлена стара версія лоадера. Завантажте свіжу версію з телеграм-каналу або на сайті.'},
-      err1007:{title:'Помилка 1007',body:'Потрібно тимчасово вимкнути Захист у реальному часі в Параметрах безпеки Windows.'},
-      err2007:{title:'Помилка 2007',body:'<b>Спосіб 1.</b> Перезапустіть лоадер від імені адміністратора та перевірте інтернет.<br><br><b>Спосіб 2.</b> Перевірте статус сервісів у вкладці Статус.'}
     }
   }
 };
@@ -408,66 +294,29 @@ keys.forEach((k, i) => {
   faq.appendChild(c);
 });
 
-const ids = [
-  'siteLink','heroTitle','heroSubtitle',
-  'tabFaq','tabRoot','tabSc','tabStatus','tabDev',
+const ids = ['siteLink','heroTitle','heroSubtitle','tabFaq','tabRoot','tabStatus','tabDev',
   'rootVideoLabel','rootVideoTitle','rootFilesLabel','rootFile1Desc','rootFile2Desc',
-  'scVideoLabel','scVideoTitle','scFilesLabel','scFile1Desc',
-  'statusSoon1','statusSoon2','devTitle','modalCloseBtn',
-  'langModalTitle','langModalCloseBtn'
-];
+  'statusSoon1','statusSoon2','devTitle','modalCloseBtn'];
 for (let n = 1; n <= 10; n++) ids.push('faq' + n + 'Title', 'faq' + n + 'Desc');
 
 let currentLang = 'ru';
 
 function applyLang(lang) {
-  if (!translations[lang]) return;
   currentLang = lang;
   const t = translations[lang];
-
-  const langBtn = document.getElementById('langBtn');
-  if (lang === 'ru') langBtn.innerText = 'RU';
-  else if (lang === 'en') langBtn.innerText = 'EN';
-  else if (lang === 'ua') langBtn.innerText = 'UA';
-
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && t[id]) el.innerHTML = t[id];
-  });
-
-  document.querySelectorAll('.lang-option').forEach(opt => {
-    opt.classList.toggle('active', opt.dataset.lang === lang);
-  });
-
+  document.getElementById('langBtn').innerText = lang === 'ru' ? 'EN' : 'RU';
+  ids.forEach(id => { document.getElementById(id).innerText = t[id]; });
   document.documentElement.lang = lang;
   try { localStorage.setItem('gtr_lang', lang); } catch (e) {}
 }
 
-function openLangModal() {
-  haptic();
-  document.getElementById('langModal').classList.add('open');
-}
-function closeLangModal(e) {
-  if (e && e.target.id === 'langModal') {
-    document.getElementById('langModal').classList.remove('open');
-  }
-}
-function closeLangModalBtn() {
-  haptic();
-  document.getElementById('langModal').classList.remove('open');
-}
-function selectLang(lang) {
-  haptic();
-  applyLang(lang);
-  document.getElementById('langModal').classList.remove('open');
-}
+function toggleLang() { haptic(); applyLang(currentLang === 'ru' ? 'en' : 'ru'); }
 
-function haptic() { try { if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium'); } catch (e) {} }
+function haptic() { if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium'); }
 
 function switchTab(tabId, element, index) {
   haptic();
-  document.querySelectorAll('video').forEach(v => v.pause());
-
+  if (tabId !== 'root') { const v = document.getElementById('rootVideo'); if (v) v.pause(); }
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
@@ -485,15 +334,11 @@ function openModal(key) {
 function closeModalBtn() { haptic(); document.getElementById('modal').classList.remove('open'); }
 function closeModal(e) { if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open'); }
 
-// Инициализация видео
 (function(){
-  const rv = document.getElementById('rootVideo');
-  rv.src = abs(FILES.rootVideo);
-
-  const sv = document.getElementById('scVideo');
-  sv.src = abs(FILES.scVideo);
+  const v = document.getElementById('rootVideo');
+  v.addEventListener('error', () => { document.getElementById('videoFallback').style.display = 'flex'; });
+  v.src = abs(FILES.video);
 })();
-
 let savedLang = null;
 try { savedLang = localStorage.getItem('gtr_lang'); } catch (e) {}
 applyLang(savedLang && translations[savedLang] ? savedLang : 'ru');
