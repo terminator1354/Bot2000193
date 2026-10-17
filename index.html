@@ -132,7 +132,7 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
     <div class="logo">GTR <span>WIN</span></div>
     <div class="nav-actions">
       <button class="lang-btn" id="langBtn" onclick="openLangModal()">RU</button>
-      <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="haptic()" id="siteLink">Сайт</a>
+      <a href="https://win-changer.xyz/" target="_blank" class="web-link" onclick="downloadFile('https://win-changer.xyz/'); return false;" id="siteLink">Сайт</a>
     </div>
   </div>
 
@@ -254,8 +254,6 @@ code{background:rgba(255,46,99,.12);border:1px solid rgba(255,46,99,.2);padding:
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
-/* Файлы для скачивания — ссылки на MediaFire.
-   Видео лежат в корне репозитория рядом с index.html. */
 const FILES = {
   rootApp:  'https://www.mediafire.com/file/8ek8aq3zkakilzd/root-my-android.apk/file',
   kernelsu: 'https://www.mediafire.com/file/qmfgn4l0pnmlme9/KernelSU.apk/file',
@@ -273,17 +271,28 @@ if (tg) {
 
 function abs(u){ try { return new URL(u, location.href).href; } catch(e){ return encodeURI(u); } }
 
-/* Открытие страницы скачивания (MediaFire) без уведомлений */
+/* Исправленная функция открытия внешних ссылок и файлов */
 function downloadFile(url){
   haptic();
 
-  // Внутри Telegram: открываем страницу во внешнем браузере
-  if (tg && typeof tg.openLink === 'function' && tg.initData) {
-    try { tg.openLink(url); return; } catch (e) { console.warn('openLink failed', e); }
+  // 1. Пробуем открыть через Telegram Web App API
+  if (tg && typeof tg.openLink === 'function') {
+    try {
+      tg.openLink(url);
+      return;
+    } catch (e) {
+      console.warn('tg.openLink failed', e);
+    }
   }
 
-  // Обычный браузер: новая вкладка
-  window.open(url, '_blank', 'noopener');
+  // 2. Универсальный фоллбэк для обычных браузеров и ПК
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 const translations = {
