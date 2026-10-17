@@ -88,7 +88,7 @@ body{color:var(--tx);min-height:100vh;display:flex;justify-content:center;backgr
 .dock{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:50;width:calc(100% - 28px);max-width:412px;
  display:grid;grid-template-columns:repeat(6,1fr);padding:6px;border-radius:26px;background:rgba(16,18,29,.86);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,.6)}
 .pill{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/6);border-radius:20px;background:linear-gradient(160deg,var(--ac),var(--ac2));box-shadow:0 6px 22px rgba(255,61,110,.45);transition:transform .4s cubic-bezier(.5,1.4,.5,1)}
-.tab{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 0 8px;background:none;border:none;color:var(--mu);font-size:10.5px;font-weight:700;cursor:pointer;transition:color .3s}
+.tab{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:9px 0 8px;background:none;border:none;color:var(--mu);font-size:10.5px;font-weight:700;cursor:pointer;transition:color .3s}
 .tab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .tab.active{color:#fff}
 
@@ -191,8 +191,8 @@ code{background:rgba(255,61,110,.12);border:1px solid rgba(255,61,110,.22);paddi
   <div class="pill" id="pill"></div>
   <button class="tab active" data-i="0" data-s="faq"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.7-2.5 2-2.5 3.5M12 17h.01"/></svg><span data-t="tabFaq"></span></button>
   <button class="tab" data-i="1" data-s="root"><svg viewBox="0 0 24 24"><path d="M4 17l6-5-6-5M12 19h8"/></svg><span data-t="tabRoot"></span></button>
-  <button class="tab" data-i="2" data-s="sc"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.4 4.1 1.2 6L12 16.5 6.6 19.4l1.2-6L3.4 9.3l6-.7z"/></svg><span data-t="tabSc"></span></button>
-  <button class="tab" data-i="3" data-s="dll"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg><span data-t="tabDll"></span></button>
+  <button class="tab" data-i="2" data-s="sc"><span data-t="tabSc"></span></button>
+  <button class="tab" data-i="3" data-s="dll"><span data-t="tabDll"></span></button>
   <button class="tab" data-i="4" data-s="status"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><span data-t="tabStatus"></span></button>
   <button class="tab" data-i="5" data-s="dev"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span data-t="tabDev"></span></button>
 </nav>
@@ -289,10 +289,10 @@ const fmt=s=>isFinite(s)?Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(
 $$('.player').forEach(p=>{
   p.innerHTML='<video playsinline preload="metadata"></video><button class="big" aria-label="Play"><span>'+I.play+'</span></button>'+
    '<div class="bar"><button class="pb pp">'+I.play+'</button><span class="tm">0:00</span><input class="seek" type="range" min="0" max="1000" value="0"><span class="tm dur">0:00</span>'+
-   '<button class="pb sp">1×</button><button class="pb mu">'+I.vol+'</button><button class="pb fs">'+I.fs+'</button></div>';
+   '<button class="pb sp">1X</button><button class="pb mu">'+I.vol+'</button><button class="pb fs">'+I.fs+'</button></div>';
   const v=p.querySelector('video'),pp=p.querySelector('.pp'),sk=p.querySelector('.seek'),cu=p.querySelector('.tm'),du=p.querySelector('.dur'),sp=p.querySelector('.sp'),mu=p.querySelector('.mu');
   try{v.src=new URL(p.dataset.src,location.href).href}catch(e){v.src=encodeURI(p.dataset.src)}
-  let idle,speeds=[1,1.5,2,.5],si=0;
+  let idle,speeds=[1,1.5],si=0;
   const wake=()=>{p.classList.remove('idle');clearTimeout(idle);idle=setTimeout(()=>p.classList.add('idle'),2500)};
   const toggle=()=>{haptic();v.paused?v.play():v.pause()};
   p.querySelector('.big').onclick=toggle;pp.onclick=toggle;v.onclick=()=>{toggle();wake()};
@@ -301,7 +301,7 @@ $$('.player').forEach(p=>{
   v.onloadedmetadata=()=>du.textContent=fmt(v.duration);
   v.ontimeupdate=()=>{cu.textContent=fmt(v.currentTime);if(v.duration){const x=v.currentTime/v.duration*1000;sk.value=x;sk.style.setProperty('--p',x/10+'%')}};
   sk.oninput=()=>{if(v.duration)v.currentTime=sk.value/1000*v.duration;sk.style.setProperty('--p',sk.value/10+'%')};
-  sp.onclick=()=>{si=(si+1)%4;v.playbackRate=speeds[si];sp.textContent=speeds[si]+'×'};
+  sp.onclick=()=>{si=(si+1)%2;v.playbackRate=speeds[si];sp.textContent=(speeds[si]===1?'1X':'1,5X')};
   mu.onclick=()=>{v.muted=!v.muted;mu.innerHTML=v.muted?I.mute:I.vol};
   p.querySelector('.fs').onclick=()=>{
     if(document.fullscreenElement){document.exitFullscreen()}
