@@ -82,7 +82,7 @@ body{
 .chip-btn:hover { background: #333; }
 .chip-btn.hot{background:#cc0000;border-color:#cc0000;color:#fff;}
 .chip-btn.hot:hover { background: #aa0000; }
-#langBtn { padding: 0 10px; min-width: 56px; gap: 5px; }
+#langBtn { padding: 0 10px; min-width: 60px; gap: 6px; }
 
 /* Заголовок */
 .hero{padding:10px 0;}
@@ -199,12 +199,14 @@ video.player.vert{aspect-ratio:9/14;}
 
 /* Выбор языка */
 .lo{
-  display:flex;align-items:center;gap:10px;
+  display:flex;align-items:center;gap:12px;
   padding:12px;background:#222;border:1px solid #444;border-radius:4px;
   margin-bottom:10px;cursor:pointer;font-size:15px;font-weight:bold;
 }
 .lo:hover{background:#333;}
-.flag{font-size:18px;line-height:1;}
+.flag-icon {
+  width:22px;height:16px;border-radius:2px;object-fit:cover;border:1px solid #444;
+}
 
 code {
   background:#333;padding:2px 4px;border-radius:4px;font-family:monospace;color:#ff9999;
@@ -227,7 +229,9 @@ code {
   <header class="top">
     <div class="logo">GTR WIN</div>
     <div class="acts">
-      <button class="chip-btn" id="langBtn" onclick="langM.classList.add('open');haptic()">🇷🇺 RU</button>
+      <button class="chip-btn" id="langBtn" onclick="langM.classList.add('open');haptic()">
+        <img class="flag-icon" src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Russia.svg" alt="RU"> RU
+      </button>
       <a class="chip-btn hot" href="https://win-changer.xyz/" target="_blank" data-t="siteLink" onclick="haptic()">Сайт</a>
     </div>
   </header>
@@ -306,9 +310,15 @@ code {
 
 <div id="langM" class="modal" onclick="if(event.target===this)closeL()">
   <div class="sheet"><div class="mt" data-t="langTitle"></div>
-    <div class="lo" data-lang="ru" onclick="selectLang('ru')"><span class="flag">🇷🇺</span><span>Русский</span></div>
-    <div class="lo" data-lang="en" onclick="selectLang('en')"><span class="flag">🇺🇸</span><span>English</span></div>
-    <div class="lo" data-lang="ua" onclick="selectLang('ua')"><span class="flag">🇺🇦</span><span>Українська</span></div>
+    <div class="lo" data-lang="ru" onclick="selectLang('ru')">
+      <img class="flag-icon" src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Russia.svg" alt="RU"><span>Русский</span>
+    </div>
+    <div class="lo" data-lang="en" onclick="selectLang('en')">
+      <img class="flag-icon" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1280px-Flag_of_the_United_Kingdom_%283-5%29.svg.png" alt="EN"><span>English</span>
+    </div>
+    <div class="lo" data-lang="ua" onclick="selectLang('ua')">
+      <img class="flag-icon" src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Ukraine.svg" alt="UA"><span>Українська</span>
+    </div>
     <button class="btn ghost" onclick="closeL()" data-t="cancel" style="margin-top:10px;"></button>
   </div>
 </div>
@@ -344,7 +354,11 @@ const API_BASE = 'https://ВАШ_ДОМЕН';
 const L1002="<a class='link' href='https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file'>";
 const L1002b="<a class='link' href='https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file'>MSI APP Player</a>";
 
-const FLAGS = { ru: '🇷🇺 RU', en: '🇺🇸 EN', ua: '🇺🇦 UA' };
+const FLAGS = {
+  ru: '<img class="flag-icon" src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Russia.svg" alt="RU"> RU',
+  en: '<img class="flag-icon" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1280px-Flag_of_the_United_Kingdom_%283-5%29.svg.png" alt="EN"> EN',
+  ua: '<img class="flag-icon" src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Ukraine.svg" alt="UA"> UA'
+};
 
 const T={
 ru:{siteLink:'Сайт',heroSubtitle:'Помощь по скинченджеру и приватке',tabFaq:'Помощь',tabRoot:'Рут',tabSc:'СЧ',tabDll:'Длл',tabStatus:'Статус',tabDev:'Автор',
@@ -360,7 +374,7 @@ en:{siteLink:'Site',heroSubtitle:'Help with Skinchanger and Private',tabFaq:'Hel
 ua:{siteLink:'Сайт',heroSubtitle:'Допомога зі скінченджером і приваткою',tabFaq:'Допомога',tabRoot:'Рут',tabSc:'СЧ',tabDll:'Длл',tabStatus:'Статус',tabDev:'Автор',
  tut:'Туторіал:',files:'Файли:',close:'Закрити',soon:'Скоро',ok:'Зрозуміло',langTitle:'Мова',cancel:'Скасувати',devTitle:'Розробник:',
  rootVideoTitle:'Як отримати рут-права:',scVideoTitle:'Встановлення та огляд:',scFile1Desc:'PC',rootFile1Desc:'Додаток для отримання рут-прав',rootFile2Desc:'Менеджер рут-прав KernelSU',
- f:[['Скіни не з\'являються','Якщо в СЧ застосувалося, але в інвентарі порожньо'],['Зависання на 10-100%','Проблеми з емулятором або захисником Windows'],['Injection failed','Не вдалося підготувати чит-пейлоад'],['HWID doesn’t match','Помилка прив\'язки обладнання'],['Помилка 1002','Непідтримувана версія емулятора'],['Помилка 1003','Запуск поза головним меню гри'],['Помилка 1004','Потрібно увімкнути ADB в емуляторі'],['Помилка 1006','Застаріла версія лоадера'],['Помилка 1007','Блокування антивірусом Windows Defender'],['Помилка 2007','Помилка з\'єднання або запуску']],
+ f:[['Скіни не з\'являються','Якщо в СЧ застосувалося, але в інвентарі порожньо'],['Зависание на 10-100%','Проблеми з емулятором або захисником Windows'],['Injection failed','Не вдалося підготувати чит-пейлоад'],['HWID doesn’t match','Помилка прив\'язки обладнання'],['Помилка 1002','Непідтримувана версія емулятора'],['Помилка 1003','Запуск поза головним меню гри'],['Помилка 1004','Потрібно увімкнути ADB в емуляторі'],['Помилка 1006','Застаріла версія лоадера'],['Помилка 1007','Блокування антивірусом Windows Defender'],['Помилка 2007','Помилка з\'єднання або запуску']],
  m:['<b>1. Зайдіть у тренування, вийдіть з нього - і всі скіни успішно з\'являться.</b>','<b>1 спосіб.</b> Кастомні збірки BlueStacks/MSI не підходять. Завантажте версію з помилки 1002.<br><br><b>2 спосіб.</b> Очистіть папку <code>%TEMP%</code> (Win + R) і додайте лоадер у виключення антивірусу.','<b>Спосіб 1.</b> Очистіть тимчасові файли через <code>%TEMP%</code> і перезапустіть лоадер.<br><br><b>Спосіб 2.</b> Перевстановіть підтримувану версію емулятора.','Зайдіть в офіційний бот проєкту, знайдіть кнопку скидання HWID або напишіть у закріпленому топіку ключів.','Завантажте '+L1002+'Bluestacks 5</a> або '+L1002b+' зі старою підтримкою ADB.','Ця помилка виникає, тому що ви запускаєте платку/СЧ не в головному меню гри.','Увімкніть ADB в налаштуваннях емулятора:<br><b>Налаштування ➜ Додатково ➜ ADB</b>','У вас встановлена стара версія лоадера. Завантажте свіжу версію з телеграм-каналу або на сайті.','Потрібно тимчасово вимкнути Захист у реальному часі в Параметрах безпеки Windows.','<b>Спосіб 1.</b> Перезапустіть лоадер від імені адміністратора та перевірте інтернет.<br><br><b>Спосіб 2.</b> Перевірте статус сервісів у вкладці Статус.']}
 };
 
@@ -384,7 +398,7 @@ function applyLang(l){
     r.querySelector('h3').textContent=t.f[i][0];
     r.querySelector('p').textContent=t.f[i][1];
   });
-  $('#langBtn').textContent=FLAGS[l] || l.toUpperCase();
+  $('#langBtn').innerHTML = FLAGS[l] || l.toUpperCase();
   document.documentElement.lang=l;
   try{localStorage.setItem('gtr_lang',l)}catch(e){}
 }
