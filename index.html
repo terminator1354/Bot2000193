@@ -266,6 +266,15 @@ let tg=window.Telegram&&window.Telegram.WebApp;
 if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#0a0a0a');tg.setBackgroundColor('#0a0a0a')}catch(e){}}
 function haptic(){try{tg&&tg.HapticFeedback&&tg.HapticFeedback.impactOccurred('medium')}catch(e){}}
 
+const clickSound = new Audio('клик1.mp3');
+clickSound.preload = 'auto';
+function playClickSound() {
+  try {
+    clickSound.currentTime = 0;
+    clickSound.play().catch(e => {});
+  } catch(e) {}
+}
+
 function adjustPadding() {
   const dock = document.querySelector('.dock');
   if (dock) {
@@ -292,7 +301,7 @@ en:{siteLink:'Site',heroSubtitle:'Help with Skinchanger and Private',tabFaq:'Hel
  f:[['Skins not appearing','If applied in SC but inventory is empty'],['Stuck at 10-100%','Emulator or Windows Defender issues'],['Injection failed','Failed to prepare the cheat payload'],['HWID doesn’t match','Hardware binding error'],['Error 1002','Unsupported emulator version'],['Error 1003','Launch outside the game main menu'],['Error 1004','ADB must be enabled in the emulator'],['Error 1006','Outdated loader version'],['Error 1007','Blocked by Windows Defender'],['Error 2007','Connection or launch error']],
  m:['<b>1. Enter training, then exit - all skins will appear successfully.</b>','<b>Method 1.</b> Custom BlueStacks/MSI builds are not supported. Download the version from error 1002.<br><br><b>Method 2.</b> Clear the <code>%TEMP%</code> folder (Win + R) and add the loader to your antivirus exclusions.','<b>Method 1.</b> Clear temp files via <code>%TEMP%</code> and restart the loader.<br><br><b>Method 2.</b> Reinstall a supported emulator version.','Go to the official project bot, find the HWID reset button, or write in the pinned keys topic.','Download '+L1002+'BlueStacks 5</a> or '+L1002b+' with legacy ADB support.','This error occurs because you are launching the cheat/SC outside the game main menu.','Enable ADB in emulator settings:<br><b>Settings ➜ Advanced ➜ ADB</b>','You have an outdated loader version. Download the latest version from the Telegram channel or website.','You need to temporarily disable Real-time Protection in Windows Security settings.','<b>Method 1.</b> Restart the loader as administrator and check your internet.<br><br><b>Method 2.</b> Check service status in the Status tab.']},
 ua:{siteLink:'Сайт',heroSubtitle:'Допомога зі скінченджером і приваткою',tabFaq:'Допомога',tabRoot:'Рут',tabSc:'СЧ',tabDll:'Длл',tabStatus:'Статус',tabDev:'Автор',
- tut:'Туторіал:',files:'Файли:',close:'Закрити',soon:'Скоро',ok:'Зрозуміло',langTitle:'Мова',cancel:'Скасувати',devTitle:'Розробник:',
+ tut:'Туторіал:',files:'Файлы:',close:'Закрити',soon:'Скоро',ok:'Зрозуміло',langTitle:'Мова',cancel:'Скасувати',devTitle:'Розробник:',
  rootVideoTitle:'Як отримати рут-права:',scVideoTitle:'Встановлення та огляд:',scFile1Desc:'PC',rootFile1Desc:'Додаток для отримання рут-права',rootFile2Desc:'Менеджер рут-прав KernelSU',
  f:[['Скіни не з\'являються','Якщо в СЧ застосувалося, але в інвентарі порожньо'],['Зависання на 10-100%','Проблеми з емулятором або захисником Windows'],['Injection failed','Не вдалося підготувати чит-пейлоад'],['HWID doesn’t match','Помилка прив\'язки обладнання'],['Помилка 1002','Непідтримувана версія емулятора'],['Помилка 1003','Запуск поза головним меню гри'],['Помилка 1004','Потрібно увімкнути ADB в емуляторі'],['Помилка 1006','Застаріла версія лоадера'],['Помилка 1007','Блокування антивірусом Windows Defender'],['Помилка 2007','Помилка з\'єднання або запуску']],
  m:['<b>1. Зайдіть у тренування, вийдіть з нього - і всі скіни успішно з\'являться.</b>','<b>1 спосіб.</b> Кастомні збірки BlueStacks/MSI не підходять. Завантажте версію з помилки 1002.<br><br><b>2 спосіб.</b> Очистіть папку <code>%TEMP%</code> (Win + R) і додайте лоадер у виключення антивірусу.','<b>Спосіб 1.</b> Очистіть тимчасові файли через <code>%TEMP%</code> і перезапустіть лоадер.<br><br><b>Спосіб 2.</b> Перевстановіть підтримувану версію емулятора.','Зайдіть в офіційний бот проєкту, знайдіть кнопку скидання HWID або напишіть у закріпленому топіку ключів.','Завантажте '+L1002+'Bluestacks 5</a> або '+L1002b+' зі старою підтримкою ADB.','Ця помилка виникає, тому що ви запускаєте платку/СЧ не в головному меню гри.','Увімкніть ADB в налаштуваннях емулятора:<br><b>Налаштування ➜ Додатково ➜ ADB</b>','У вас встановлена стара версія лоадера. Завантажте свіжу версію з телеграм-каналу або на сайті.','Потрібно тимчасово вимкнути Захист у реальному часі в Параметрах безпеки Windows.','<b>Спосіб 1.</b> Перезапустіть лоадер від імені адміністратора та перевірте інтернет.<br><br><b>Спосіб 2.</b> Перевірте статус сервісів у вкладці Статус.']}
@@ -329,7 +338,9 @@ function closeM(){haptic();$('#modal').classList.remove('open')}
 function viewImg(e,src){e.preventDefault();e.stopPropagation();haptic();$('#vimg').src=src;$('#viewer').classList.add('open')}
 
 function activateTab(sectionName, tabButton) {
-  haptic(); $$('video').forEach(v=>v.pause());
+  haptic();
+  playClickSound();
+  $$('video').forEach(v=>v.pause());
   $$('.section').forEach(s=>s.classList.remove('active'));
   $$('.tab').forEach(t=>t.classList.remove('active'));
   const targetSection = document.getElementById(sectionName);
