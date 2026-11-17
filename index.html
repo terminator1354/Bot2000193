@@ -389,13 +389,46 @@ function openM(i){haptic();if(!T[cur].f[i])return;$('#mt').textContent=T[cur].f[
 function closeM(){haptic();$('#modal').classList.remove('open')}
 function viewImg(e,src){e.preventDefault();e.stopPropagation();haptic();$('#vimg').src=src;$('#viewer').classList.add('open')}
 
-$$('.tab').forEach(b=>b.onclick=()=>{
-  haptic();$$('video').forEach(v=>v.pause());
+/* Логика переключения вкладок с обновлением хэша в URL */
+function activateTab(sectionName, tabButton) {
+  haptic(); $$('video').forEach(v=>v.pause());
   $$('.section').forEach(s=>s.classList.remove('active'));
   $$('.tab').forEach(t=>t.classList.remove('active'));
-  $('#'+b.dataset.s).classList.add('active');b.classList.add('active');
+  $('#'+sectionName).classList.add('active');
+  tabButton.classList.add('active');
+  // Меняем хэш в адресной строке (например, #root)
+  if (history.replaceState) {
+      history.replaceState(null, null, '#' + sectionName);
+  } else {
+      location.hash = sectionName;
+  }
+}
+
+/* Привязка кликов к кнопкам меню */
+$$('.tab').forEach(b=>{
+  b.onclick = () => {
+    activateTab(b.dataset.s, b);
+  };
 });
 
+/* При загрузке страницы проверяем, есть ли хэш */
+window.addEventListener('load', () => {
+  const hash = window.location.hash.replace('#', '');
+  const defaultTab = document.querySelector('.tab[data-s="faq"]'); // Вкладка по умолчанию
+  
+  if (hash) {
+    const targetTab = document.querySelector(`.tab[data-s="${hash}"]`);
+    if (targetTab) {
+      activateTab(hash, targetTab);
+    } else if (defaultTab) {
+      activateTab('faq', defaultTab);
+    }
+  } else if (defaultTab) {
+    activateTab('faq', defaultTab);
+  }
+});
+
+/* API (админка) */
 async function apiPost(path, body) {
   const res = await fetch(API_BASE + path, {
     method: 'POST',
@@ -426,12 +459,7 @@ function addLogsTab() {
   btn.dataset.s = 'logs';
   btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Логи</span>';
   btn.onclick = () => {
-    haptic();
-    $$('video').forEach(v=>v.pause());
-    $$('.section').forEach(s=>s.classList.remove('active'));
-    $$('.tab').forEach(t=>t.classList.remove('active'));
-    document.getElementById('logs').classList.add('active');
-    btn.classList.add('active');
+    activateTab('logs', btn);
     loadLogs();
   };
   dock.appendChild(btn);
@@ -448,14 +476,7 @@ async function loadLogs() {
     ).join('');
   } catch(e) { box.innerHTML = '<div class="label">Ошибка сети</div>'; }
 }
-$$('.tab').forEach(b=>{
-  const orig = b.onclick;
-  b.onclick = (ev) => {
-    if (orig) orig(ev);
-    const name = b.querySelector('span')?.textContent || b.dataset.s;
-    if (b.dataset.s !== 'logs') logEvent('перешёл во вкладку: ' + name);
-  };
-});
+
 window.addEventListener('beforeunload', () => { logEvent('закрыл мини-апп'); });
 let saved=null;try{saved=localStorage.getItem('gtr_lang')}catch(e){}
 applyLang(saved&&T[saved]?saved:'ru');
