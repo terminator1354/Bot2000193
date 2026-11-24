@@ -18,8 +18,82 @@ body{
 }
 .app{width:100%;max-width:440px;display:flex;flex-direction:column;gap:14px;} 
 
-/* Верхняя панель */
+.select-screen{
+  width:100%;
+  max-width:440px;
+  min-height:80vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:14px;
+}
+.select-title{
+  font-size:22px;
+  font-weight:bold;
+  text-align:center;
+  margin-bottom:6px;
+}
+.select-card{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:16px;
+  border-radius:6px;
+  background:#151515;
+  border:1px solid #333;
+  cursor:pointer;
+  transition:background 0.2s, border-color 0.2s;
+}
+.select-card:hover{
+  background:#222;
+  border-color:#555;
+}
+.select-icon{
+  width:46px;
+  height:46px;
+  border-radius:6px;
+  object-fit:cover;
+  border:1px solid #333;
+  flex-shrink:0;
+}
+.select-info h2{
+  margin:0 0 4px 0;
+  font-size:17px;
+  color:#fff;
+}
+.select-info p{
+  margin:0;
+  font-size:13px;
+  color:#aaa;
+}
+
+.nerest-wait{
+  width:100%;
+  max-width:440px;
+  min-height:80vh;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  text-align:center;
+}
+.nerest-wait img{
+  width:72px;
+  height:72px;
+  border-radius:8px;
+  border:1px solid #333;
+  object-fit:cover;
+}
+.nerest-wait h2{
+  margin:0;
+  font-size:20px;
+  color:#fff;
+}
+
 .top{display:flex;justify-content:space-between;align-items:center;padding:5px 0;}
+.logo-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;}
+.logo-icon{width:28px;height:28px;border-radius:4px;object-fit:cover;border:1px solid #333;}
 .logo{font-weight:bold;font-size:20px;color:#ff0000;}
 .acts{display:flex;gap:8px; align-items: stretch;}
 .chip-btn{
@@ -40,16 +114,13 @@ body{
 .chip-btn.hot:hover { background: #aa0000; }
 #langBtn { padding: 0 8px; min-width: 40px; }
 
-/* Заголовок */
 .hero{padding:10px 0;}
 .hero h1{font-size:22px;font-weight:bold;margin:0 0 8px 0;}
 .hero p{color:#aaa;font-size:14px;margin:0;}
 
-/* Секции */
 .section{display:none;flex-direction:column;gap:10px}
 .section.active{display:flex}
 
-/* Заголовки */
 .label{
   font-size:16px;
   font-weight:bold;
@@ -57,7 +128,6 @@ body{
   color:#fff;
 }
 
-/* Ряды (файлы) */
 .row{
   display:flex;align-items:center;gap:12px;
   padding:12px;
@@ -76,20 +146,21 @@ body{
 
 .go svg{width:16px;height:16px;color:#aaa;}
 
-/* Картинки */
 .thumb{
   width:50px;height:50px;border-radius:4px;object-fit:cover;border:1px solid #333;
   cursor:pointer;
 }
 
-/* Точка в статусе */
 .dot{
   width:12px;height:12px;border-radius:50%;
   background:#ff0000;
   margin:0 10px 0 0;
+  flex-shrink:0;
+}
+.dot.green{
+  background:#00e676;
 }
 
-/* Плеер */
 video.player{
   width:100%;
   border-radius:4px;
@@ -99,13 +170,12 @@ video.player{
 }
 video.player.vert{aspect-ratio:9/14;}
 
-/* Нижнее меню */
 .dock{
   position:fixed;bottom:0;left:50%;transform:translateX(-50%);
   width:100%;max-width:440px;
   background:#151515;
   border-top:2px solid #333;
-  display:grid;
+  display:none;
   grid-template-columns:repeat(6,1fr);
   z-index:50;
   padding-bottom: calc(12px + env(safe-area-inset-bottom));
@@ -123,7 +193,6 @@ video.player.vert{aspect-ratio:9/14;}
 .tab.active{color:#fff;}
 .tab.active svg { stroke: #ff0000; }
 
-/* Модалки */
 .modal{
   position:fixed;top:0;left:0;right:0;bottom:0;
   background:rgba(0,0,0,0.9);
@@ -142,7 +211,6 @@ video.player.vert{aspect-ratio:9/14;}
 .mb b{color:#fff;}
 .mb a.link{color:#3b82f6;text-decoration:underline;}
 
-/* Кнопки в модалке */
 .btn{
   width:100%;padding:12px;
   background:#cc0000;
@@ -153,7 +221,6 @@ video.player.vert{aspect-ratio:9/14;}
 .btn.ghost{background:#333;border:1px solid #555;}
 .btn.ghost:hover{background:#444;}
 
-/* Выбор языка */
 .lo{
   padding:12px;background:#222;border:1px solid #444;border-radius:4px;
   margin-bottom:10px;cursor:pointer;font-size:15px;font-weight:bold;
@@ -167,11 +234,38 @@ code {
 </head>
 <body>
 
-<!-- Основной контент -->
-<div class="app" id="app-content">
+<div class="select-screen" id="select-screen">
+  <div class="select-title" data-t="chooseHelp">Выберите помощь</div>
+  <div class="select-card" onclick="choosePortal('gtr')">
+    <img class="select-icon" src="https://win-changer.xyz/icons/icon-96.png" alt="GTR WIN">
+    <div class="select-info">
+      <h2>GTR WIN</h2>
+      <p data-t="heroSubtitle">Помощь по скинченджеру и приватке</p>
+    </div>
+  </div>
+  <div class="select-card" onclick="choosePortal('nerest')">
+    <img class="select-icon" src="https://i.ibb.co/fYB1MzwK/IMG-20261124-103027-702.webp" alt="NerestPC">
+    <div class="select-info">
+      <h2>NerestPC</h2>
+      <p data-t="nerestSub">Помощь по NerestPC</p>
+    </div>
+  </div>
+</div>
+
+<div class="nerest-wait" id="nerest-screen">
+  <img src="https://i.ibb.co/fYB1MzwK/IMG-20261124-103027-702.webp" alt="NerestPC">
+  <h2 data-t="waiting">Ожидания...</h2>
+  <button class="btn ghost" style="max-width:200px;" onclick="backToSelect()" data-t="backBtn">Назад</button>
+</div>
+
+<div class="app" id="app-content" style="display:none;">
   <header class="top">
-    <div class="logo">GTR WIN</div>
+    <div class="logo-wrap" onclick="backToSelect()">
+      <img class="logo-icon" src="https://win-changer.xyz/icons/icon-96.png" alt="GTR WIN">
+      <div class="logo">GTR WIN</div>
+    </div>
     <div class="acts">
+      <button class="chip-btn" onclick="backToSelect()" data-t="backBtn">Назад</button>
       <button class="chip-btn" id="langBtn" onclick="langM.classList.add('open');haptic()">RU</button>
       <a class="chip-btn hot" href="https://win-changer.xyz/" target="_blank" data-t="siteLink" onclick="haptic()">Сайт</a>
     </div>
@@ -220,8 +314,10 @@ code {
   </div>
 
   <div id="статус" class="section status">
-    <div class="row"><span class="dot"></span><div class="info"><h3>Win Alien Pro</h3><p data-t="soon"></p></div></div>
-    <div class="row"><span class="dot"></span><div class="info"><h3>Skinchanger</h3><p data-t="soon"></p></div></div>
+    <div class="row static"><span class="dot green"></span><div class="info"><h3>NerestPC</h3><p data-t="working">Работает</p></div></div>
+    <div class="row static"><span class="dot green"></span><div class="info"><h3>NerestPC Visor</h3><p data-t="working">Работает</p></div></div>
+    <div class="row static"><span class="dot"></span><div class="info"><h3>Win Alien Pro</h3><p data-t="soon"></p></div></div>
+    <div class="row static"><span class="dot"></span><div class="info"><h3>Skinchanger</h3><p data-t="soon"></p></div></div>
   </div>
 
   <div id="разработчики" class="section">
@@ -275,9 +371,35 @@ function playClickSound() {
   } catch(e) {}
 }
 
+function choosePortal(type) {
+  haptic();
+  playClickSound();
+  $('#select-screen').style.display = 'none';
+  if (type === 'gtr') {
+    $('#nerest-screen').style.display = 'none';
+    $('#app-content').style.display = 'flex';
+    $('#dock').style.display = 'grid';
+    adjustPadding();
+  } else if (type === 'nerest') {
+    $('#app-content').style.display = 'none';
+    $('#dock').style.display = 'none';
+    $('#nerest-screen').style.display = 'flex';
+  }
+}
+
+function backToSelect() {
+  haptic();
+  playClickSound();
+  $$('video').forEach(v=>v.pause());
+  $('#app-content').style.display = 'none';
+  $('#dock').style.display = 'none';
+  $('#nerest-screen').style.display = 'none';
+  $('#select-screen').style.display = 'flex';
+}
+
 function adjustPadding() {
   const dock = document.querySelector('.dock');
-  if (dock) {
+  if (dock && dock.style.display !== 'none') {
     const dockHeight = dock.offsetHeight;
     document.body.style.paddingBottom = (dockHeight + 30) + 'px';
   }
@@ -290,21 +412,24 @@ const L1002="<a class='link' href='https://www.mediafire.com/file/eadwon1qoma8ci
 const L1002b="<a class='link' href='https://www.mediafire.com/file/0zcilfl7kw2m9uz/MSI-APP-Player.exe/file'>MSI APP Player</a>";
 
 const T={
-ru:{siteLink:'Сайт',heroSubtitle:'Помощь по скинченджеру и приватке',tabFaq:'Помощь',tabRoot:'Рут',tabSc:'СЧ',tabDll:'Длл',tabStatus:'Статус',tabDev:'Автор',
+ru:{chooseHelp:'Выберите помощь',nerestSub:'Помощь по NerestPC',waiting:'Ожидания...',backBtn:'Назад',working:'Работает',
+ siteLink:'Сайт',heroSubtitle:'Помощь по скинченджеру и приватке',tabFaq:'Помощь',tabRoot:'Рут',tabSc:'СЧ',tabDll:'Длл',tabStatus:'Статус',tabDev:'Автор',
  tut:'Туториал:',files:'Файлы:',close:'Закрыть',soon:'Скоро',ok:'Понятно',langTitle:'Язык',cancel:'Отмена',devTitle:'Разработчик:',
  rootVideoTitle:'Как получить рут-права:',scVideoTitle:'Установка и обзор:',scFile1Desc:'PC',rootFile1Desc:'Приложение для получения рут-прав',rootFile2Desc:'Менеджер рут-прав KernelSU',
  f:[['Скины не появляются','Если в СЧ применилось, но в инвентаре пусто'],['Зависание на 10-100%','Проблемы с эмулятором или защитником Windows'],['Injection failed','Не удалось подготовить чит-пейлоад'],['HWID doesn’t match','Ошибка привязки оборудования'],['Ошибка 1002','Неподдерживаемая версия эмулятора'],['Ошибка 1003','Запуск вне главного меню игры'],['Ошибка 1004','Требуется включить ADB в эмуляторе'],['Ошибка 1006','Устаревшая версия лоадера'],['Ошибка 1007','Блокировка антивирусом Windows Defender'],['Ошибка 2007','Ошибка соединения или запуска']],
  m:['<b>1. Зайдите в тренировку, выйдите из нее - и все скины успешно появятся.</b>','<b>1 способ.</b> Кастомные сборки BlueStacks/MSI не подходят. Скачайте версию из ошибки 1002.<br><br><b>2 способ.</b> Очистите папку <code>%TEMP%</code> (Win + R) и добавьте лоадер в исключения антивируса.','<b>Способ 1.</b> Очистите временные файлы через <code>%TEMP%</code> и перезапустите лоадер.<br><br><b>Способ 2.</b> Переустановите поддерживаемую версию эмулятора.','Зайдите в официальный бот проекта, найдите кнопку сброса HWID или напишите в закрепленном топике ключей.','Скачайте '+L1002+'Bluestacks 5</a> или '+L1002b+' со старой поддержкой ADB.','Данная ошибка происходит потому что вы запускаете платку/сч не в главном меню игры.','Включите ADB в настройках эмулятора:<br><b>Настройки ➜ Дополнительно ➜ ADB</b>','У вас установлена старая версия лоадера. Скачайте свежую версию из телеграм-канала или на сайте.','Нужно временно отключить Защиту в реальном времени в Параметрах безопасности Windows.','<b>Способ 1.</b> Перезапустите лоадер от имени администратора и проверьте интернет.<br><br><b>Способ 2.</b> Проверьте статус сервисов во вкладке Статус.']},
-en:{siteLink:'Site',heroSubtitle:'Help with Skinchanger and Private',tabFaq:'Help',tabRoot:'Root',tabSc:'SC',tabDll:'DLL',tabStatus:'Status',tabDev:'Author',
+en:{chooseHelp:'Choose Help',nerestSub:'Help for NerestPC',waiting:'Waiting...',backBtn:'Back',working:'Working',
+ siteLink:'Site',heroSubtitle:'Help with Skinchanger and Private',tabFaq:'Help',tabRoot:'Root',tabSc:'SC',tabDll:'DLL',tabStatus:'Status',tabDev:'Author',
  tut:'Tutorial:',files:'Files:',close:'Close',soon:'Soon',ok:'Got it',langTitle:'Language',cancel:'Cancel',devTitle:'Developer:',
  rootVideoTitle:'How to get root access:',scVideoTitle:'Installation and review:',scFile1Desc:'PC',rootFile1Desc:'App for getting root access',rootFile2Desc:'KernelSU root manager',
  f:[['Skins not appearing','If applied in SC but inventory is empty'],['Stuck at 10-100%','Emulator or Windows Defender issues'],['Injection failed','Failed to prepare the cheat payload'],['HWID doesn’t match','Hardware binding error'],['Error 1002','Unsupported emulator version'],['Error 1003','Launch outside the game main menu'],['Error 1004','ADB must be enabled in the emulator'],['Error 1006','Outdated loader version'],['Error 1007','Blocked by Windows Defender'],['Error 2007','Connection or launch error']],
  m:['<b>1. Enter training, then exit - all skins will appear successfully.</b>','<b>Method 1.</b> Custom BlueStacks/MSI builds are not supported. Download the version from error 1002.<br><br><b>Method 2.</b> Clear the <code>%TEMP%</code> folder (Win + R) and add the loader to your antivirus exclusions.','<b>Method 1.</b> Clear temp files via <code>%TEMP%</code> and restart the loader.<br><br><b>Method 2.</b> Reinstall a supported emulator version.','Go to the official project bot, find the HWID reset button, or write in the pinned keys topic.','Download '+L1002+'BlueStacks 5</a> or '+L1002b+' with legacy ADB support.','This error occurs because you are launching the cheat/SC outside the game main menu.','Enable ADB in emulator settings:<br><b>Settings ➜ Advanced ➜ ADB</b>','You have an outdated loader version. Download the latest version from the Telegram channel or website.','You need to temporarily disable Real-time Protection in Windows Security settings.','<b>Method 1.</b> Restart the loader as administrator and check your internet.<br><br><b>Method 2.</b> Check service status in the Status tab.']},
-ua:{siteLink:'Сайт',heroSubtitle:'Допомога зі скінченджером і приваткою',tabFaq:'Допомога',tabRoot:'Рут',tabSc:'СЧ',tabDll:'Длл',tabStatus:'Статус',tabDev:'Автор',
+ua:{chooseHelp:'Оберіть допомогу',nerestSub:'Допомога по NerestPC',waiting:'Очікування...',backBtn:'Назад',working:'Працює',
+ siteLink:'Сайт',heroSubtitle:'Допомога зі скінченджером і приваткою',tabFaq:'Допомога',tabRoot:'Рут',tabSc:'СЧ',tabDll:'Длл',tabStatus:'Статус',tabDev:'Автор',
  tut:'Туторіал:',files:'Файли:',close:'Закрити',soon:'Скоро',ok:'Зрозуміло',langTitle:'Мова',cancel:'Скасувати',devTitle:'Розробник:',
  rootVideoTitle:'Як отримати рут-права:',scVideoTitle:'Встановлення та огляд:',scFile1Desc:'PC',rootFile1Desc:'Додаток для отримання рут-права',rootFile2Desc:'Менеджер рут-прав KernelSU',
  f:[['Скіни не з\'являються','Якщо в СЧ застосувалося, але в інвентарі порожньо'],['Зависання на 10-100%','Проблеми з емулятором або захисником Windows'],['Injection failed','Не вдалося підготувати чит-пейлоад'],['HWID doesn’t match','Помилка прив\'язки обладнання'],['Помилка 1002','Непідтримувана версія емулятора'],['Помилка 1003','Запуск поза головним меню гри'],['Помилка 1004','Потрібно увімкнути ADB в емуляторі'],['Помилка 1006','Застаріла версія лоадера'],['Помилка 1007','Блокування антивірусом Windows Defender'],['Помилка 2007','Помилка з\'єднання або запуску']],
- m:['<b>1. Зайдіть у тренування, вийдіть з нього - і всі скіни успішно з\'являться.</b>','<b>1 спосіб.</b> Кастомні збірки BlueStacks/MSI не підходять. Завантажте версію з помилки 1002.<br><br><b>2 спосіб.</b> Очистіть папку <code>%TEMP%</code> (Win + R) і додайте лоадер у виключення антивірусу.','<b>Спосіб 1.</b> Очистіть тимчасові файли через <code>%TEMP%</code> і перезапустіть лоадер.<br><br><b>Спосіб 2.</b> Перевстановіть підтримувану версію емулятора.','Зайдіть в офіційний бот проєкту, знайдіть кнопку скидання HWID або напишіть у закріпленому топіку ключів.','Завантажте '+L1002+'Bluestacks 5</a> або '+L1002b+' зі старою підтримкою ADB.','Ця помилка виникає, тому що ви запускаєте платку/СЧ не в головному меню гри.','Увімкніть ADB в налаштуваннях емулятора:<br><b>Налаштування ➜ Додатково ➜ ADB</b>','У вас встановлена стара версія лоадера. Завантажте свіжу версію з телеграм-каналу або на сайті.','Потрібно тимчасово вимкнути Захист у реальному часі в Параметрах безпеки Windows.','<b>Спосіб 1.</b> Перезапустіть лоадер від імені адміністратора та перевірте інтернет.<br><br><b>Спосіб 2.</b> Перевірте статус сервісів у вкладці Статус.']}
+ m:['<b>1. Зайдіть у тренування, вийдіть з нього - і всі скіни успішно з\'являться.</b>','<b>1 спосіб.</b> Кастомні збірки BlueStacks/MSI не підходять. Завантажте версію з помилки 1002.<br><br><b>2 спосіб.</b> Очистіть папку <code>%TEMP%</code> (Win + R) і додайте лоадер у виключення антивірусу.','<b>Спосіб 1.</b> Очистіть тимчасові файли через <code>%TEMP%</code> і перезапустіть лоадер.<br><br><b>Спосіб 2.</b> Перевстановіть підтримувану версію емулятора.','Зайдіть в офіційний бот проєкту, знайдіть кнопку скидання HWID або напишіть у закріпленому топіку ключів.','Завантажте '+L1002+'Bluestacks 5</a> або '+L1002b+' зі старою підтримкою ADB.','Ця помилка виникає, тому що ви запускаєте платку/СЧ не в головном меню гри.','Увімкніть ADB в налаштуваннях емулятора:<br><b>Налаштування ➜ Додатково ➜ ADB</b>','У вас встановлена стара версія лоадера. Завантажте свіжу версію з телеграм-каналу або на сайті.','Потрібно тимчасово вимкнути Захист у реальному часі в Параметрах безпеки Windows.','<b>Спосіб 1.</b> Перезапустіть лоадер від імені адміністратора та перевірте інтернет.<br><br><b>Спосіб 2.</b> Перевірте статус сервісів у вкладці Статус.']}
 };
 
 const ARR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
@@ -367,9 +492,8 @@ function handleInitialHash() {
   if (hash) {
     const targetTab = document.querySelector(`.tab[data-s="${hash}"]`);
     if (targetTab) {
+      choosePortal('gtr');
       activateTab(hash, targetTab);
-    } else if (defaultTab) {
-      activateTab('помощь', defaultTab);
     }
   } else if (defaultTab) {
     activateTab('помощь', defaultTab);
