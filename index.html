@@ -15,11 +15,11 @@ body{
   color:#fff;
   font-family: Arial, Helvetica, sans-serif;
   margin:0;
-  padding: 14px 14px 160px 14px; 
+  padding: 14px 14px 160px 14px;
   display:flex;
   justify-content:center;
 }
-.app{width:100%;max-width:440px;display:flex;flex-direction:column;gap:14px;} 
+.app{width:100%;max-width:440px;display:flex;flex-direction:column;gap:14px;}
 
 .select-screen{
   width:100%;
@@ -47,75 +47,31 @@ body{
   cursor:pointer;
   transition:background 0.2s, border-color 0.2s;
 }
-.select-card:hover{
-  background:#222;
-  border-color:#555;
-}
+.select-card:hover{background:#222;border-color:#555;}
 .select-icon{
-  width:46px;
-  height:46px;
-  border-radius:6px;
-  object-fit:cover;
-  border:1px solid #333;
-  flex-shrink:0;
+  width:46px;height:46px;border-radius:6px;object-fit:cover;border:1px solid #333;flex-shrink:0;
 }
-.select-info h2{
-  margin:0 0 4px 0;
-  font-size:17px;
-  color:#fff;
-}
-.select-info p{
-  margin:0;
-  font-size:13px;
-  color:#aaa;
-}
-
-.nerest-wait{
-  width:100%;
-  max-width:440px;
-  min-height:80vh;
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:16px;
-  text-align:center;
-}
-.nerest-wait img{
-  width:72px;
-  height:72px;
-  border-radius:8px;
-  border:1px solid #333;
-  object-fit:cover;
-}
-.nerest-wait h2{
-  margin:0;
-  font-size:20px;
-  color:#fff;
-}
+.select-info h2{margin:0 0 4px 0;font-size:17px;color:#fff;}
+.select-info p{margin:0;font-size:13px;color:#aaa;}
 
 .top{display:flex;justify-content:space-between;align-items:center;padding:5px 0;}
 .logo-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;}
 .logo-icon{width:28px;height:28px;border-radius:4px;object-fit:cover;border:1px solid #333;}
-.logo{font-weight:bold;font-size:20px;color:#ff0000;}
-.acts{display:flex;gap:8px; align-items: stretch;}
+.logo{font-weight:bold;font-size:20px;}
+.logo.gtr{color:#ff0000;}
+.logo.nerest{color:#7c3aed;}
+.acts{display:flex;gap:8px;align-items:stretch;}
 .chip-btn{
-  height:36px;padding:0 12px;
-  border-radius:4px;
-  background:#222;
-  border:1px solid #444;
-  color:#fff;font-size:14px;
-  text-decoration:none;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;
-  font-family:inherit;
-  box-sizing: border-box;
-  font-weight: bold;
+  height:36px;padding:0 12px;border-radius:4px;background:#222;border:1px solid #444;
+  color:#fff;font-size:14px;text-decoration:none;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;font-family:inherit;box-sizing:border-box;font-weight:bold;
 }
-.chip-btn:hover { background: #333; }
+.chip-btn:hover{background:#333;}
 .chip-btn.hot{background:#cc0000;border-color:#cc0000;color:#fff;}
-.chip-btn.hot:hover { background: #aa0000; }
-#langBtn { padding: 0 8px; min-width: 40px; }
+.chip-btn.hot:hover{background:#aa0000;}
+.chip-btn.hot.purple{background:#7c3aed;border-color:#7c3aed;}
+.chip-btn.hot.purple:hover{background:#6d28d9;}
+#langBtn{padding:0 8px;min-width:40px;}
 
 .hero{padding:10px 0;}
 .hero h1{font-size:22px;font-weight:bold;margin:0 0 8px 0;}
@@ -124,119 +80,70 @@ body{
 .section{display:none;flex-direction:column;gap:10px}
 .section.active{display:flex}
 
-.label{
-  font-size:16px;
-  font-weight:bold;
-  padding:10px 0 0 0;
-  color:#fff;
-}
+.label{font-size:16px;font-weight:bold;padding:10px 0 0 0;color:#fff;}
 
 .row{
-  display:flex;align-items:center;gap:12px;
-  padding:12px;
-  border-radius:4px;
-  background:#151515;
-  border:1px solid #333;
-  cursor:pointer;
-  text-decoration:none;
-  color:#fff;
+  display:flex;align-items:center;gap:12px;padding:12px;border-radius:4px;
+  background:#151515;border:1px solid #333;cursor:pointer;text-decoration:none;color:#fff;
 }
 .row:hover{background:#222;}
 .row.static{cursor:default}
 .info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
 .info h3{font-size:15px;font-weight:bold;margin:0;}
 .info p{font-size:13px;color:#aaa;margin:0;line-height:1.3;}
-
 .go svg{width:16px;height:16px;color:#aaa;}
 
-.thumb{
-  width:50px;height:50px;border-radius:4px;object-fit:cover;border:1px solid #333;
-  cursor:pointer;
-}
+.thumb{width:50px;height:50px;border-radius:4px;object-fit:cover;border:1px solid #333;cursor:pointer;}
 
-.dot{
-  width:12px;height:12px;border-radius:50%;
-  background:#ff0000;
-  margin:0 10px 0 0;
-  flex-shrink:0;
-}
-.dot.green{
-  background:#00e676;
-}
+.dot{width:12px;height:12px;border-radius:50%;background:#ff0000;margin:0 10px 0 0;flex-shrink:0;}
+.dot.green{background:#00e676;}
 
-video.player{
-  width:100%;
-  border-radius:4px;
-  border:1px solid #333;
-  background:#000;
-  display:block;
-}
+video.player{width:100%;border-radius:4px;border:1px solid #333;background:#000;display:block;}
 video.player.vert{aspect-ratio:9/14;}
 
 .dock{
   position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-  width:100%;max-width:440px;
-  background:#151515;
-  border-top:2px solid #333;
-  display:none;
-  grid-template-columns:repeat(6,1fr);
-  z-index:50;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  width:100%;max-width:440px;background:#151515;border-top:2px solid #333;
+  display:none;grid-template-columns:repeat(6,1fr);z-index:50;
+  padding-bottom:calc(12px + env(safe-area-inset-bottom));
 }
 .dock.admin{grid-template-columns:repeat(7,1fr);}
+.dock.nerest-dock{grid-template-columns:repeat(3,1fr);}
 .tab{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:10px 0;
-  background:none;border:none;
-  color:#777;font-size:11px;
-  cursor:pointer;font-family:inherit;
-  font-weight:bold;
+  padding:10px 0;background:none;border:none;color:#777;font-size:11px;
+  cursor:pointer;font-family:inherit;font-weight:bold;
 }
 .tab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.5;margin-bottom:4px;}
 .tab.active{color:#fff;}
-.tab.active svg { stroke: #ff0000; }
+.tab.active svg{stroke:#ff0000;}
+.nerest-dock .tab.active svg{stroke:#7c3aed;}
 
 .modal{
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  background:rgba(0,0,0,0.9);
+  position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);
   display:none;align-items:center;justify-content:center;padding:20px;z-index:100;
 }
 .modal.open{display:flex;}
-.sheet{
-  width:100%;max-width:400px;
-  background:#151515;
-  padding:20px;
-  border-radius:4px;
-  border:2px solid #444;
-}
+.sheet{width:100%;max-width:400px;background:#151515;padding:20px;border-radius:4px;border:2px solid #444;}
 .mt{font-size:18px;font-weight:bold;margin-bottom:15px;color:#ff0000;}
 .mb{font-size:14px;line-height:1.5;color:#ccc;max-height:50vh;overflow-y:auto;margin-bottom:20px;}
 .mb b{color:#fff;}
 .mb a.link{color:#3b82f6;text-decoration:underline;}
 
-.btn{
-  width:100%;padding:12px;
-  background:#cc0000;
-  color:#fff;border:none;border-radius:4px;
-  font-size:15px;font-weight:bold;cursor:pointer;font-family:inherit;
-}
+.btn{width:100%;padding:12px;background:#cc0000;color:#fff;border:none;border-radius:4px;font-size:15px;font-weight:bold;cursor:pointer;font-family:inherit;}
 .btn:hover{background:#aa0000;}
 .btn.ghost{background:#333;border:1px solid #555;}
 .btn.ghost:hover{background:#444;}
 
-.lo{
-  padding:12px;background:#222;border:1px solid #444;border-radius:4px;
-  margin-bottom:10px;cursor:pointer;font-size:15px;font-weight:bold;
-}
+.lo{padding:12px;background:#222;border:1px solid #444;border-radius:4px;margin-bottom:10px;cursor:pointer;font-size:15px;font-weight:bold;}
 .lo:hover{background:#333;}
 
-code {
-  background:#333;padding:2px 4px;border-radius:4px;font-family:monospace;color:#ff9999;
-}
+code{background:#333;padding:2px 4px;border-radius:4px;font-family:monospace;color:#ff9999;}
 </style>
 </head>
 <body>
 
+<!-- ЭКРАН ВЫБОРА -->
 <div class="select-screen" id="select-screen">
   <div class="select-title" data-t="chooseHelp">Выберите помощь</div>
   <div class="select-card" onclick="choosePortal('gtr')">
@@ -255,17 +162,12 @@ code {
   </div>
 </div>
 
-<div class="nerest-wait" id="nerest-screen">
-  <img src="https://i.ibb.co/PG5bS3Bx/Gemini-Generated-Image-1ms8v31ms8v31ms8.jpg" alt="NerestPC">
-  <h2 data-t="waiting">Ожидания...</h2>
-  <button class="btn ghost" style="max-width:200px;" onclick="backToSelect()" data-t="backBtn">Назад</button>
-</div>
-
-<div class="app" id="app-content" style="display:none;">
+<!-- GTR WIN APP -->
+<div class="app" id="app-gtr" style="display:none;">
   <header class="top">
     <div class="logo-wrap" onclick="backToSelect()">
       <img class="logo-icon" src="https://i.ibb.co/G30khRtL/IMG-20261124-105326-795.webp" alt="GTR WIN">
-      <div class="logo">GTR WIN</div>
+      <div class="logo gtr">GTR WIN</div>
     </div>
     <div class="acts">
       <button class="chip-btn" onclick="backToSelect()" data-t="backBtn">Назад</button>
@@ -273,14 +175,9 @@ code {
       <a class="chip-btn hot" href="https://win-changer.xyz/" target="_blank" data-t="siteLink" onclick="haptic()">Сайт</a>
     </div>
   </header>
-
-  <div class="hero">
-    <h1>GTR WIN - Help</h1>
-    <p data-t="heroSubtitle"></p>
-  </div>
+  <div class="hero"><h1>GTR WIN - Help</h1><p data-t="heroSubtitle"></p></div>
 
   <div id="помощь" class="section active"></div>
-
   <div id="рут" class="section">
     <div class="label" data-t="tut"></div>
     <video class="player" controls preload="metadata" src="VID_20261016_204713_559.mp4"></video>
@@ -293,7 +190,6 @@ code {
       <div class="info"><h3>KernelSU.apk</h3><p data-t="rootFile2Desc"></p></div>
     </a>
   </div>
-
   <div id="сч" class="section">
     <div class="label" data-t="tut"></div>
     <video class="player vert" controls preload="metadata" src="⚡Бесплатный скинченджер для STANDOFF 2 🔥 Установка и обзор WinChanger 🧠 (1).mp4"></video>
@@ -303,7 +199,6 @@ code {
       <div class="info"><h3>WINchanger.Loader.exe</h3><p data-t="scFile1Desc"></p></div>
     </a>
   </div>
-
   <div id="длл" class="section">
     <div class="label" data-t="files"></div>
     <a class="row" href="https://www.mediafire.com/file/crvu0udn6aucihe/opengl32.dll/file" target="_blank" onclick="haptic()">
@@ -315,45 +210,78 @@ code {
       <div class="info"><h3>Sorryx</h3><p>PC</p></div>
     </a>
   </div>
-
-  <div id="статус" class="section status">
+  <div id="статус" class="section">
     <div class="row static"><span class="dot green"></span><div class="info"><h3>NerestPC</h3><p data-t="working">Работает</p></div></div>
-    <div class="row static"><span class="dot green"></span><div class="info"><h3>NerestPC Visor</h3><p data-t="working">Работает</p></div></div>
+    <div class="row static"><span class="dot green"></span><div class="info"><h3>Nerest Private</h3><p data-t="working">Работает</p></div></div>
     <div class="row static"><span class="dot"></span><div class="info"><h3>Win Alien Pro</h3><p data-t="soon"></p></div></div>
     <div class="row static"><span class="dot"></span><div class="info"><h3>Skinchanger</h3><p data-t="soon"></p></div></div>
   </div>
-
   <div id="разработчики" class="section">
     <div class="row static"><div class="info"><p data-t="devTitle"></p><h3 class="nick">@Morty_rick_137</h3><h3 class="nick">@SkyGodBless</h3></div></div>
   </div>
-
   <div id="logs" class="section">
     <div class="label">Логи действий</div>
     <div id="logList"></div>
   </div>
 </div>
 
-<nav class="dock" id="dock">
-  <button class="tab active" data-i="0" data-s="помощь"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.7-2.5 2-2.5 3.5M12 17h.01"/></svg><span data-t="tabFaq"></span></button>
-  <button class="tab" data-i="1" data-s="рут"><svg viewBox="0 0 24 24"><path d="M4 17l6-5-6-5M12 19h8"/></svg><span data-t="tabRoot"></span></button>
-  <button class="tab" data-i="2" data-s="сч"><span data-t="tabSc"></span></button>
-  <button class="tab" data-i="3" data-s="длл"><span data-t="tabDll"></span></button>
-  <button class="tab" data-i="4" data-s="статус"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><span data-t="tabStatus"></span></button>
-  <button class="tab" data-i="5" data-s="разработчики"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span data-t="tabDev"></span></button>
+<!-- NEREST APP -->
+<div class="app" id="app-nerest" style="display:none;">
+  <header class="top">
+    <div class="logo-wrap" onclick="backToSelect()">
+      <img class="logo-icon" src="https://i.ibb.co/PG5bS3Bx/Gemini-Generated-Image-1ms8v31ms8v31ms8.jpg" alt="NerestPC">
+      <div class="logo nerest">NerestPC</div>
+    </div>
+    <div class="acts">
+      <button class="chip-btn" onclick="backToSelect()" data-t="backBtn">Назад</button>
+      <a class="chip-btn hot purple" href="#" target="_blank" onclick="haptic()">Сайт</a>
+    </div>
+  </header>
+  <div class="hero"><h1>NerestPC - Help</h1><p style="color:#aaa;font-size:14px;">Помощь по NerestPC и Nerest Private</p></div>
+
+  <div id="nerest-free" class="section active">
+    <div class="label">NerestPC Free</div>
+    <div class="row static"><div class="info"><h3>Раздел в разработке</h3><p>Скоро здесь появится информация</p></div></div>
+  </div>
+
+  <div id="nerest-private" class="section">
+    <div class="label">Nerest Private</div>
+    <div class="row static"><div class="info"><h3>Раздел в разработке</h3><p>Скоро здесь появится информация</p></div></div>
+  </div>
+
+  <div id="nerest-status" class="section">
+    <div class="row static"><span class="dot green"></span><div class="info"><h3>NerestPC</h3><p>Работает</p></div></div>
+    <div class="row static"><span class="dot green"></span><div class="info"><h3>Nerest Private</h3><p>Работает</p></div></div>
+  </div>
+</div>
+
+<!-- ДОКИ GTR -->
+<nav class="dock" id="dock-gtr">
+  <button class="tab active" data-s="помощь" onclick="activateTab('помощь',this,'gtr')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.7-2.5 2-2.5 3.5M12 17h.01"/></svg><span data-t="tabFaq">Помощь</span></button>
+  <button class="tab" data-s="рут" onclick="activateTab('рут',this,'gtr')"><svg viewBox="0 0 24 24"><path d="M4 17l6-5-6-5M12 19h8"/></svg><span data-t="tabRoot">Рут</span></button>
+  <button class="tab" data-s="сч" onclick="activateTab('сч',this,'gtr')"><span data-t="tabSc">СЧ</span></button>
+  <button class="tab" data-s="длл" onclick="activateTab('длл',this,'gtr')"><span data-t="tabDll">Длл</span></button>
+  <button class="tab" data-s="статус" onclick="activateTab('статус',this,'gtr')"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><span data-t="tabStatus">Статус</span></button>
+  <button class="tab" data-s="разработчики" onclick="activateTab('разработчики',this,'gtr')"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span data-t="tabDev">Автор</span></button>
+</nav>
+
+<!-- ДОКИ NEREST -->
+<nav class="dock nerest-dock" id="dock-nerest">
+  <button class="tab active" data-s="nerest-free" onclick="activateTabNerest('nerest-free',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.7-2.5 2-2.5 3.5M12 17h.01"/></svg><span>Free</span></button>
+  <button class="tab" data-s="nerest-private" onclick="activateTabNerest('nerest-private',this)"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg><span>Private</span></button>
+  <button class="tab" data-s="nerest-status" onclick="activateTabNerest('nerest-status',this)"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><span>Статус</span></button>
 </nav>
 
 <div id="viewer" class="modal" onclick="this.classList.remove('open')"><img id="vimg" style="max-width:100%;max-height:80vh;border-radius:4px;border:2px solid #444;" alt=""></div>
-
 <div id="modal" class="modal" onclick="if(event.target===this)closeM()">
-  <div class="sheet"><div id="mt" class="mt"></div><div id="mb" class="mb"></div><button class="btn" onclick="closeM()" data-t="ok"></button></div>
+  <div class="sheet"><div id="mt" class="mt"></div><div id="mb" class="mb"></div><button class="btn" onclick="closeM()" data-t="ok">Понятно</button></div>
 </div>
-
 <div id="langM" class="modal" onclick="if(event.target===this)closeL()">
-  <div class="sheet"><div class="mt" data-t="langTitle"></div>
-    <div class="lo" data-lang="ru" onclick="selectLang('ru')"><span>Русский</span></div>
-    <div class="lo" data-lang="en" onclick="selectLang('en')"><span>English</span></div>
-    <div class="lo" data-lang="ua" onclick="selectLang('ua')"><span>Українська</span></div>
-    <button class="btn ghost" onclick="closeL()" data-t="cancel" style="margin-top:10px;"></button>
+  <div class="sheet"><div class="mt" data-t="langTitle">Язык</div>
+    <div class="lo" onclick="selectLang('ru')">Русский</div>
+    <div class="lo" onclick="selectLang('en')">English</div>
+    <div class="lo" onclick="selectLang('ua')">Українська</div>
+    <button class="btn ghost" onclick="closeL()" data-t="cancel" style="margin-top:10px;">Отмена</button>
   </div>
 </div>
 
@@ -367,48 +295,72 @@ function haptic(){try{tg&&tg.HapticFeedback&&tg.HapticFeedback.impactOccurred('m
 
 const clickSound = new Audio('клик1.mp3');
 clickSound.preload = 'auto';
-function playClickSound() {
-  try {
-    clickSound.currentTime = 0;
-    clickSound.play().catch(e => {});
-  } catch(e) {}
-}
+function playClickSound(){try{clickSound.currentTime=0;clickSound.play().catch(e=>{})}catch(e){}}
+
+let currentPortal = null;
 
 function choosePortal(type) {
-  haptic();
-  playClickSound();
+  haptic(); playClickSound();
+  currentPortal = type;
   $('#select-screen').style.display = 'none';
   if (type === 'gtr') {
-    $('#nerest-screen').style.display = 'none';
-    $('#app-content').style.display = 'flex';
-    $('#dock').style.display = 'grid';
+    $('#app-gtr').style.display = 'flex';
+    $('#app-nerest').style.display = 'none';
+    $('#dock-gtr').style.display = 'grid';
+    $('#dock-nerest').style.display = 'none';
     adjustPadding();
-  } else if (type === 'nerest') {
-    $('#app-content').style.display = 'none';
-    $('#dock').style.display = 'none';
-    $('#nerest-screen').style.display = 'flex';
+  } else {
+    $('#app-nerest').style.display = 'flex';
+    $('#app-gtr').style.display = 'none';
+    $('#dock-nerest').style.display = 'grid';
+    $('#dock-gtr').style.display = 'none';
+    adjustPadding();
   }
 }
 
 function backToSelect() {
-  haptic();
-  playClickSound();
+  haptic(); playClickSound();
   $$('video').forEach(v=>v.pause());
-  $('#app-content').style.display = 'none';
-  $('#dock').style.display = 'none';
-  $('#nerest-screen').style.display = 'none';
+  $('#app-gtr').style.display = 'none';
+  $('#app-nerest').style.display = 'none';
+  $('#dock-gtr').style.display = 'none';
+  $('#dock-nerest').style.display = 'none';
   $('#select-screen').style.display = 'flex';
+  currentPortal = null;
 }
 
 function adjustPadding() {
-  const dock = document.querySelector('.dock');
-  if (dock && dock.style.display !== 'none') {
-    const dockHeight = dock.offsetHeight;
-    document.body.style.paddingBottom = (dockHeight + 30) + 'px';
-  }
+  const dock = currentPortal === 'gtr' ? $('#dock-gtr') : $('#dock-nerest');
+  if (dock) document.body.style.paddingBottom = (dock.offsetHeight + 30) + 'px';
 }
 window.addEventListener('load', adjustPadding);
 window.addEventListener('resize', adjustPadding);
+
+function activateTab(sectionName, btn, portal) {
+  haptic(); playClickSound();
+  $$('video').forEach(v=>v.pause());
+  // секции GTR
+  ['помощь','рут','сч','длл','статус','разработчики','logs'].forEach(id=>{
+    const s=document.getElementById(id);
+    if(s) s.classList.remove('active');
+  });
+  $$('#dock-gtr .tab').forEach(t=>t.classList.remove('active'));
+  const target = document.getElementById(sectionName);
+  if(target) target.classList.add('active');
+  btn.classList.add('active');
+}
+
+function activateTabNerest(sectionName, btn) {
+  haptic(); playClickSound();
+  ['nerest-free','nerest-private','nerest-status'].forEach(id=>{
+    const s=document.getElementById(id);
+    if(s) s.classList.remove('active');
+  });
+  $$('#dock-nerest .tab').forEach(t=>t.classList.remove('active'));
+  const target = document.getElementById(sectionName);
+  if(target) target.classList.add('active');
+  btn.classList.add('active');
+}
 
 const API_BASE = 'https://ВАШ_ДОМЕН';
 const L1002="<a class='link' href='https://www.mediafire.com/file/eadwon1qoma8cio/BlueStacksInstaller_5_22_102_1003_native_349a4684766edb9554345c83387b3bb5.exe/file'>";
@@ -419,24 +371,23 @@ ru:{chooseHelp:'Выберите помощь',nerestSub:'Помощь по Nere
  siteLink:'Сайт',heroSubtitle:'Помощь по скинченджеру и приватке',tabFaq:'Помощь',tabRoot:'Рут',tabSc:'СЧ',tabDll:'Длл',tabStatus:'Статус',tabDev:'Автор',
  tut:'Туториал:',files:'Файлы:',close:'Закрыть',soon:'Скоро',ok:'Понятно',langTitle:'Язык',cancel:'Отмена',devTitle:'Разработчик:',
  rootVideoTitle:'Как получить рут-права:',scVideoTitle:'Установка и обзор:',scFile1Desc:'PC',rootFile1Desc:'Приложение для получения рут-прав',rootFile2Desc:'Менеджер рут-прав KernelSU',
- f:[['Скины не появляются','Если в СЧ применилось, но в инвентаре пусто'],['Зависание на 10-100%','Проблемы с эмулятором или защитником Windows'],['Injection failed','Не удалось подготовить чит-пейлоад'],['HWID doesn’t match','Ошибка привязки оборудования'],['Ошибка 1002','Неподдерживаемая версия эмулятора'],['Ошибка 1003','Запуск вне главного меню игры'],['Ошибка 1004','Требуется включить ADB в эмуляторе'],['Ошибка 1006','Устаревшая версия лоадера'],['Ошибка 1007','Блокировка антивирусом Windows Defender'],['Ошибка 2007','Ошибка соединения или запуска']],
+ f:[['Скины не появляются','Если в СЧ применилось, но в инвентаре пусто'],['Зависание на 10-100%','Проблемы с эмулятором или защитником Windows'],['Injection failed','Не удалось подготовить чит-пейлоад'],['HWID doesn't match','Ошибка привязки оборудования'],['Ошибка 1002','Неподдерживаемая версия эмулятора'],['Ошибка 1003','Запуск вне главного меню игры'],['Ошибка 1004','Требуется включить ADB в эмуляторе'],['Ошибка 1006','Устаревшая версия лоадера'],['Ошибка 1007','Блокировка антивирусом Windows Defender'],['Ошибка 2007','Ошибка соединения или запуска']],
  m:['<b>1. Зайдите в тренировку, выйдите из нее - и все скины успешно появятся.</b>','<b>1 способ.</b> Кастомные сборки BlueStacks/MSI не подходят. Скачайте версию из ошибки 1002.<br><br><b>2 способ.</b> Очистите папку <code>%TEMP%</code> (Win + R) и добавьте лоадер в исключения антивируса.','<b>Способ 1.</b> Очистите временные файлы через <code>%TEMP%</code> и перезапустите лоадер.<br><br><b>Способ 2.</b> Переустановите поддерживаемую версию эмулятора.','Зайдите в официальный бот проекта, найдите кнопку сброса HWID или напишите в закрепленном топике ключей.','Скачайте '+L1002+'Bluestacks 5</a> или '+L1002b+' со старой поддержкой ADB.','Данная ошибка происходит потому что вы запускаете платку/сч не в главном меню игры.','Включите ADB в настройках эмулятора:<br><b>Настройки ➜ Дополнительно ➜ ADB</b>','У вас установлена старая версия лоадера. Скачайте свежую версию из телеграм-канала или на сайте.','Нужно временно отключить Защиту в реальном времени в Параметрах безопасности Windows.','<b>Способ 1.</b> Перезапустите лоадер от имени администратора и проверьте интернет.<br><br><b>Способ 2.</b> Проверьте статус сервисов во вкладке Статус.']},
 en:{chooseHelp:'Choose Help',nerestSub:'Help for NerestPC',waiting:'Waiting...',backBtn:'Back',working:'Working',
  siteLink:'Site',heroSubtitle:'Help with Skinchanger and Private',tabFaq:'Help',tabRoot:'Root',tabSc:'SC',tabDll:'DLL',tabStatus:'Status',tabDev:'Author',
  tut:'Tutorial:',files:'Files:',close:'Close',soon:'Soon',ok:'Got it',langTitle:'Language',cancel:'Cancel',devTitle:'Developer:',
  rootVideoTitle:'How to get root access:',scVideoTitle:'Installation and review:',scFile1Desc:'PC',rootFile1Desc:'App for getting root access',rootFile2Desc:'KernelSU root manager',
- f:[['Skins not appearing','If applied in SC but inventory is empty'],['Stuck at 10-100%','Emulator or Windows Defender issues'],['Injection failed','Failed to prepare the cheat payload'],['HWID doesn’t match','Hardware binding error'],['Error 1002','Unsupported emulator version'],['Error 1003','Launch outside the game main menu'],['Error 1004','ADB must be enabled in the emulator'],['Error 1006','Outdated loader version'],['Error 1007','Blocked by Windows Defender'],['Error 2007','Connection or launch error']],
+ f:[['Skins not appearing','If applied in SC but inventory is empty'],['Stuck at 10-100%','Emulator or Windows Defender issues'],['Injection failed','Failed to prepare the cheat payload'],['HWID doesn\'t match','Hardware binding error'],['Error 1002','Unsupported emulator version'],['Error 1003','Launch outside the game main menu'],['Error 1004','ADB must be enabled in the emulator'],['Error 1006','Outdated loader version'],['Error 1007','Blocked by Windows Defender'],['Error 2007','Connection or launch error']],
  m:['<b>1. Enter training, then exit - all skins will appear successfully.</b>','<b>Method 1.</b> Custom BlueStacks/MSI builds are not supported. Download the version from error 1002.<br><br><b>Method 2.</b> Clear the <code>%TEMP%</code> folder (Win + R) and add the loader to your antivirus exclusions.','<b>Method 1.</b> Clear temp files via <code>%TEMP%</code> and restart the loader.<br><br><b>Method 2.</b> Reinstall a supported emulator version.','Go to the official project bot, find the HWID reset button, or write in the pinned keys topic.','Download '+L1002+'BlueStacks 5</a> or '+L1002b+' with legacy ADB support.','This error occurs because you are launching the cheat/SC outside the game main menu.','Enable ADB in emulator settings:<br><b>Settings ➜ Advanced ➜ ADB</b>','You have an outdated loader version. Download the latest version from the Telegram channel or website.','You need to temporarily disable Real-time Protection in Windows Security settings.','<b>Method 1.</b> Restart the loader as administrator and check your internet.<br><br><b>Method 2.</b> Check service status in the Status tab.']},
 ua:{chooseHelp:'Оберіть допомогу',nerestSub:'Допомога по NerestPC',waiting:'Очікування...',backBtn:'Назад',working:'Працює',
  siteLink:'Сайт',heroSubtitle:'Допомога зі скінченджером і приваткою',tabFaq:'Допомога',tabRoot:'Рут',tabSc:'СЧ',tabDll:'Длл',tabStatus:'Статус',tabDev:'Автор',
  tut:'Туторіал:',files:'Файли:',close:'Закрити',soon:'Скоро',ok:'Зрозуміло',langTitle:'Мова',cancel:'Скасувати',devTitle:'Розробник:',
  rootVideoTitle:'Як отримати рут-права:',scVideoTitle:'Встановлення та огляд:',scFile1Desc:'PC',rootFile1Desc:'Додаток для отримання рут-права',rootFile2Desc:'Менеджер рут-прав KernelSU',
- f:[['Скіни не з\'являються','Якщо в СЧ застосувалося, але в інвентарі порожньо'],['Зависання на 10-100%','Проблеми з емулятором або захисником Windows'],['Injection failed','Не вдалося підготувати чит-пейлоад'],['HWID doesn’t match','Помилка прив\'язки обладнання'],['Помилка 1002','Непідтримувана версія емулятора'],['Помилка 1003','Запуск поза головним меню гри'],['Помилка 1004','Потрібно увімкнути ADB в емуляторі'],['Помилка 1006','Застаріла версія лоадера'],['Помилка 1007','Блокування антивірусом Windows Defender'],['Помилка 2007','Помилка з\'єднання або запуску']],
+ f:[['Скіни не з\'являються','Якщо в СЧ застосувалося, але в інвентарі порожньо'],['Зависання на 10-100%','Проблеми з емулятором або захисником Windows'],['Injection failed','Не вдалося підготувати чит-пейлоад'],['HWID doesn\'t match','Помилка прив\'язки обладнання'],['Помилка 1002','Непідтримувана версія емулятора'],['Помилка 1003','Запуск поза головним меню гри'],['Помилка 1004','Потрібно увімкнути ADB в емуляторі'],['Помилка 1006','Застаріла версія лоадера'],['Помилка 1007','Блокування антивірусом Windows Defender'],['Помилка 2007','Помилка з\'єднання або запуску']],
  m:['<b>1. Зайдіть у тренування, вийдіть з нього - і всі скіни успішно з\'являться.</b>','<b>1 спосіб.</b> Кастомні збірки BlueStacks/MSI не підходять. Завантажте версію з помилки 1002.<br><br><b>2 спосіб.</b> Очистіть папку <code>%TEMP%</code> (Win + R) і додайте лоадер у виключення антивірусу.','<b>Спосіб 1.</b> Очистіть тимчасові файли через <code>%TEMP%</code> і перезапустіть лоадер.<br><br><b>Спосіб 2.</b> Перевстановіть підтримувану версію емулятора.','Зайдіть в офіційний бот проєкту, знайдіть кнопку скидання HWID або напишіть у закріпленому топіку ключів.','Завантажте '+L1002+'Bluestacks 5</a> або '+L1002b+' зі старою підтримкою ADB.','Ця помилка виникає, тому що ви запускаєте платку/СЧ не в головному меню гри.','Увімкніть ADB в налаштуваннях емулятора:<br><b>Налаштування ➜ Додатково ➜ ADB</b>','У вас встановлена стара версія лоадера. Завантажте свіжу версію з телеграм-каналу або на сайті.','Потрібно тимчасово вимкнути Захист у реальному часі в Параметрах безпеки Windows.','<b>Спосіб 1.</b> Перезапустіть лоадер від імені адміністратора та перевірте інтернет.<br><br><b>Спосіб 2.</b> Перевірте статус сервісів у вкладці Статус.']}
 };
 
 const ARR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
-
 const chips=['','','','','','','','','',''];
 const faq=$('#помощь'); let cur='ru';
 chips.forEach((c,i)=>{
@@ -465,89 +416,42 @@ function openM(i){haptic();if(!T[cur].f[i])return;$('#mt').textContent=T[cur].f[
 function closeM(){haptic();$('#modal').classList.remove('open')}
 function viewImg(e,src){e.preventDefault();e.stopPropagation();haptic();$('#vimg').src=src;$('#viewer').classList.add('open')}
 
-function activateTab(sectionName, tabButton) {
-  haptic();
-  playClickSound();
-  $$('video').forEach(v=>v.pause());
-  $$('.section').forEach(s=>s.classList.remove('active'));
-  $$('.tab').forEach(t=>t.classList.remove('active'));
-  const targetSection = document.getElementById(sectionName);
-  if (targetSection) targetSection.classList.add('active');
-  tabButton.classList.add('active');
-  if (history.replaceState) {
-      history.replaceState(null, null, '#' + encodeURIComponent(sectionName));
-  } else {
-      location.hash = encodeURIComponent(sectionName);
-  }
-}
-
-$$('.tab').forEach(b=>{
-  b.onclick = () => {
-    activateTab(b.dataset.s, b);
-  };
-});
-
-function handleInitialHash() {
-  const defaultTab = document.querySelector('.tab[data-s="помощь"]');
-  if (defaultTab) {
-    $$('.section').forEach(s=>s.classList.remove('active'));
-    $$('.tab').forEach(t=>t.classList.remove('active'));
-    $('#помощь').classList.add('active');
-    defaultTab.classList.add('active');
-  }
-}
-
-window.addEventListener('load', handleInitialHash);
-
-async function apiPost(path, body) {
-  const res = await fetch(API_BASE + path, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(body)
-  });
+async function apiPost(path,body){
+  const res=await fetch(API_BASE+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   return res.json();
 }
-function initData() { try { return (tg && tg.initData) || ''; } catch(e) { return ''; } }
-async function logEvent(action) {
-  try { if (!initData()) return; await apiPost('/api/log_event', { initData: initData(), action }); } catch(e) {}
-}
-async function checkAdmin() {
-  try {
-    if (!initData()) return;
-    const data = await apiPost('/api/me', { initData: initData() });
-    if (data.ok && data.isAdmin) addLogsTab();
+function initData(){try{return(tg&&tg.initData)||''}catch(e){return''}}
+async function logEvent(action){try{if(!initData())return;await apiPost('/api/log_event',{initData:initData(),action})}catch(e){}}
+async function checkAdmin(){
+  try{
+    if(!initData())return;
+    const data=await apiPost('/api/me',{initData:initData()});
+    if(data.ok&&data.isAdmin)addLogsTab();
     logEvent('открыл мини-апп');
-  } catch(e) { console.warn('API недоступен:', e); }
+  }catch(e){console.warn('API недоступен:',e)}
 }
-function addLogsTab() {
-  const dock = document.getElementById('dock');
-  if (!dock || dock.querySelector('[data-s="logs"]')) return;
+function addLogsTab(){
+  const dock=document.getElementById('dock-gtr');
+  if(!dock||dock.querySelector('[data-s="logs"]'))return;
   dock.classList.add('admin');
-  const btn = document.createElement('button');
-  btn.className = 'tab';
-  btn.dataset.i = '6';
-  btn.dataset.s = 'logs';
-  btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Логи</span>';
-  btn.onclick = () => {
-    activateTab('logs', btn);
-    loadLogs();
-  };
+  const btn=document.createElement('button');
+  btn.className='tab';btn.dataset.s='logs';
+  btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Логи</span>';
+  btn.onclick=()=>{activateTab('logs',btn,'gtr');loadLogs()};
   dock.appendChild(btn);
 }
-async function loadLogs() {
-  const box = document.getElementById('logList');
-  box.innerHTML = '<div class="label">Загрузка...</div>';
-  try {
-    const data = await apiPost('/api/logs', { initData: initData(), limit: 200 });
-    if (!data.ok) { box.innerHTML = '<div class="label">Ошибка доступа</div>'; return; }
-    if (!data.events.length) { box.innerHTML = '<div class="label">Логов пока нет</div>'; return; }
-    box.innerHTML = data.events.map(e =>
-      `<div class="row static"><div class="info"><h3>${e.action}</h3><p>ID ${e.user_id} · @${e.username} · ${e.time}</p></div></div>`
-    ).join('');
-  } catch(e) { box.innerHTML = '<div class="label">Ошибка сети</div>'; }
+async function loadLogs(){
+  const box=document.getElementById('logList');
+  box.innerHTML='<div class="label">Загрузка...</div>';
+  try{
+    const data=await apiPost('/api/logs',{initData:initData(),limit:200});
+    if(!data.ok){box.innerHTML='<div class="label">Ошибка доступа</div>';return}
+    if(!data.events.length){box.innerHTML='<div class="label">Логов пока нет</div>';return}
+    box.innerHTML=data.events.map(e=>`<div class="row static"><div class="info"><h3>${e.action}</h3><p>ID ${e.user_id} · @${e.username} · ${e.time}</p></div></div>`).join('');
+  }catch(e){box.innerHTML='<div class="label">Ошибка сети</div>'}
 }
 
-window.addEventListener('beforeunload', () => { logEvent('закрыл мини-апп'); });
+window.addEventListener('beforeunload',()=>{logEvent('закрыл мини-апп')});
 let saved=null;try{saved=localStorage.getItem('gtr_lang')}catch(e){}
 applyLang(saved&&T[saved]?saved:'ru');
 checkAdmin();
